@@ -11,6 +11,8 @@ public class Main {
 		cfg.width = 1480;
 		cfg.height = 1337;
 		
+		String bikini = "hot hot hot";
+		
 		new LwjglApplication(new EggPillow(), cfg);
 	}
 }
