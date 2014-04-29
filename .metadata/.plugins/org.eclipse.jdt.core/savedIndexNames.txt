@@ -1,0 +1,13 @@
+INDEX VERSION 1.126+/Users/jonas/indaprojekt/.metadata/.plugins/org.eclipse.jdt.core
+2334648035.index
+500262295.index
+2952080342.index
+2146774439.index
+3814468347.index
+1407847466.index
+2835018730.index
+98193026.index
+1149297045.index
+284841322.index
+2600835845.index
+2320161186.index
