@@ -31,3 +31,6 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/my-gdx-game-an
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
 !SUBENTRY 1 org.eclipse.core.resources 4 368 2014-04-29 17:37:08.070
 !MESSAGE Resource '/my-gdx-game-android/res' does not exist.
+
+!ENTRY com.android.ide.eclipse.adt 1 0 2014-04-29 17:58:19.130
+!MESSAGE No valid Android XML Editor Delegate found for file /my-gdx-game/src/MyGdxGame.gwt.xml [Res null, type null]
