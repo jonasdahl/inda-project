@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "€ggspelet";
 		cfg.useGL20 = false;
-		cfg.width = 480;
-		cfg.height = 320;
+		cfg.width = 384; // S4: 1920*1280
+		cfg.height = 256;
 		
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}
