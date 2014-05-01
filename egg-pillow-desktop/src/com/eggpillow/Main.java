@@ -8,10 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "egg-pillow";
 		cfg.useGL20 = false;
-		cfg.width = 1480;
-		cfg.height = 1337;
-		
-		String bikini = "hot hot hot";
+		cfg.width = 384;
+		cfg.height = 256;
 		
 		new LwjglApplication(new EggPillow(), cfg);
 	}
