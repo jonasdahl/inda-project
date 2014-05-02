@@ -9,4 +9,16 @@ public class Pillow extends Sprite{
 		super(new Texture("img/pillow.png"));
 	}
 	
+	@Override
+	public void setX(float x) {
+		// TODO Check if img out of bounds and change x
+		super.setX(x);
+	}
+	
+	@Override
+	public void setY(float y) {
+		// TODO Check if img out of bounds and change y
+		super.setY(y);
+	}
+	
 }

@@ -4,56 +4,61 @@ import inputhandler.InputHandlerGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eggpillow.Pillow;
 
 public class GameScreen implements Screen {
 	
 	InputHandlerGame inputHandler;
+	Pillow pillow;
+	SpriteBatch batch;
+	Texture background;
 	
-	public GameScreen() {
-		inputHandler = new InputHandlerGame();
-		Gdx.input.setInputProcessor(inputHandler);
-	}
-
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-		// Render eggs and pillow
+		
+		batch.begin();
+		batch.draw(background, 0, background.getHeight());
+		pillow.draw(batch);
+		//TODO Draw eggs here
+		batch.end();
 		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		batch = new SpriteBatch(); // Where we're going to paint the splash
+		pillow = new Pillow();
+		background = new Texture("img/game_backgound.png");
+		inputHandler = new InputHandlerGame(pillow);
+		Gdx.input.setInputProcessor(inputHandler);
+		
 		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
 
