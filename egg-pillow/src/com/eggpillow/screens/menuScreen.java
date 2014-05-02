@@ -1,8 +1,15 @@
 package com.eggpillow.screens;
 
 import com.badlogic.gdx.Screen;
+import com.eggpillow.EggPillow;
 
 public class menuScreen implements Screen{
+	
+	EggPillow game;
+	
+	public menuScreen(EggPillow g) {
+		game = g;
+	}
 
 	@Override
 	public void render(float delta) {
