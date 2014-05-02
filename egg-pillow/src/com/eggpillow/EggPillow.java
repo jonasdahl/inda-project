@@ -9,7 +9,7 @@ import com.eggpillow.screens.Splash;
 public class EggPillow extends Game {
 	public static final String NAME = "Egg Pillow";
 	public static final String VERSION = "0.0.1";
-	public static final float BG_R = 0.1f, BG_G = 0.5f, BG_B = 0.1f, BG_O = 1.0f;
+	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
 	
 	@Override
 	public void create() {	
