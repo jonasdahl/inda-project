@@ -15,24 +15,27 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 
 public class GameScreen implements Screen {
-	InputHandlerGame inputHandler;
-	Pillow pillow;
-	SpriteBatch batch;
-	Texture background;
-	BitmapFont font;
-	EggPillow game;
-	ArrayList<Egg> eggs;
+	private InputHandlerGame inputHandler;
+	private Pillow pillow;
+	private SpriteBatch batch;
+	private Texture background;
+	private BitmapFont font;
+	private EggPillow game;
+	private ArrayList<Egg> eggs;
+	private float totalDelta;
+	private int freedEggs;
 	
+	private static final float TIME_BETWEEN_EGGS = 2f;
 	public static String message = "";
 	
 	public GameScreen(EggPillow g) {
 		game = g;
-		eggs = new ArrayList<Egg>();
-		eggs.add(new Egg());
 	}
 	
 	@Override
 	public void render(float delta) {
+		totalDelta += delta;
+		
 		Texture.setEnforcePotImages(false);
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -48,6 +51,16 @@ public class GameScreen implements Screen {
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
+		
+		if (totalDelta > TIME_BETWEEN_EGGS) {
+			// TODO
+			if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
+				eggs.get(freedEggs).start();
+				freedEggs++;
+			}
+			totalDelta = 0;
+		}
+		
 		//TODO Draw eggs here
 		batch.end();
 	}
@@ -59,9 +72,13 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
-		pillow = new Pillow();
+		pillow = new Pillow(.25f, .95f);
+		eggs = new ArrayList<Egg>();
+		for (int i = 0; i < 100; i++) { // Add 100 eggs
+			eggs.add(new Egg(pillow));
+		}
 		background = new Texture("img/game_background.png");
-		inputHandler = new InputHandlerGame(pillow);
+		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont();
 		

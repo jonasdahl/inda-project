@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.eggpillow.screens.GameScreen;
 
 public class Pillow extends Sprite {
 	private int PILLOW_Y = 10; // If set to -1, pillow can be moved all over the map
@@ -26,7 +25,6 @@ public class Pillow extends Sprite {
 			x = limitXRight * Gdx.graphics.getWidth();
 		if (x < limitXLeft * Gdx.graphics.getWidth())
 			x = limitXLeft * Gdx.graphics.getWidth();
-		
 		super.setX(x);
 	}
 
@@ -42,6 +40,7 @@ public class Pillow extends Sprite {
 			super.setY(Gdx.graphics.getHeight() - y);
 		else
 			super.setY(PILLOW_Y);
+		super.setY(Gdx.graphics.getHeight() - y);
 	}
 
 	@Override

@@ -1,19 +1,30 @@
 package inputhandler;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
+import com.eggpillow.screens.GameScreen;
 
 public class InputHandlerGame implements InputProcessor {
 	
 	private Pillow pillow;
 	private boolean onPillow = false;
+	EggPillow game;
 	
-	public InputHandlerGame(Pillow p) {
+	public InputHandlerGame(Pillow p, EggPillow g) {
 		pillow = p;
+		game = g;
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Keys.MENU) {
+			GameScreen.message = "PAUS"; // TODO paus
+		}else if (keycode == Keys.BACK) {
+			//game.setScreen(game.MenuScreen); // TODO 
+			// add into gameScreen Gdx.input.setCatchBackKey(true); and false somewhere else
+		}
 		return false;
 	}
 
