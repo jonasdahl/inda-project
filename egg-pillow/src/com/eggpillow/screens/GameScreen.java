@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
 		pillow = new Pillow();
-		background = new Texture("img/game_backgound.png");
+		background = new Texture("img/game_background.png");
 		inputHandler = new InputHandlerGame(pillow);
 		Gdx.input.setInputProcessor(inputHandler);
 		
