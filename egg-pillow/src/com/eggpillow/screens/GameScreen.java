@@ -6,7 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 
 public class GameScreen implements Screen {
@@ -15,6 +17,14 @@ public class GameScreen implements Screen {
 	Pillow pillow;
 	SpriteBatch batch;
 	Texture background;
+	BitmapFont font;
+	EggPillow game;
+	
+	public static String message = "!";
+	
+	public GameScreen(EggPillow g) {
+		game = g;
+	}
 	
 	@Override
 	public void render(float delta) {
@@ -25,7 +35,13 @@ public class GameScreen implements Screen {
 		batch.begin();
 		batch.draw(background, 0, 0);
 		pillow.draw(batch);
+		
+		//TODO For testing prints <var>message</var> on screen
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.draw(batch, message, 25, 160);
+		
 		//TODO Draw eggs here
+		
 		batch.end();
 		
 	}
@@ -43,12 +59,14 @@ public class GameScreen implements Screen {
 		inputHandler = new InputHandlerGame(pillow);
 		Gdx.input.setInputProcessor(inputHandler);
 		
+		font = new BitmapFont();
+		
 		
 	}
 
 	@Override
 	public void hide() {
-		
+		dispose();
 	}
 
 	@Override
@@ -63,7 +81,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		batch.dispose();
+		pillow.getTexture().dispose();
 	}
 
 }

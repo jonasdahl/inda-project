@@ -35,6 +35,8 @@ public class SplashScreen implements Screen {
 		batch.begin();
 		splash.draw(batch);
 		batch.end();
+		
+		
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void hide() {
-		
+		dispose();
 	}
 
 	@Override
@@ -73,6 +75,7 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		batch.dispose();
+		splash.getTexture().dispose();
 	}	
 }

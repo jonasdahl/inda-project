@@ -19,8 +19,8 @@ public class EggPillow extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Starts the splash screen
-		// TODO setScreen(new SplashScreen(this));
-		setScreen(new GameScreen());
+		setScreen(new SplashScreen(this));
+		//setScreen(new GameScreen(this));
 	}
 
 	@Override
