@@ -19,6 +19,11 @@ public class SplashScreen implements Screen {
 	private Sprite splash;
 	private SpriteBatch batch;
 	private TweenManager tweenManager;
+	private EggPillow game;
+	
+	public SplashScreen(EggPillow g) {
+		game = g;
+	}
 	
 	@Override
 	public void render(float delta) {

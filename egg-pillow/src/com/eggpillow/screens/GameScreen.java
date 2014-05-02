@@ -4,6 +4,7 @@ import inputhandler.InputHandlerGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.Pillow;
@@ -17,9 +18,12 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+		Texture.setEnforcePotImages(false);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(background, 0, background.getHeight());
+		batch.draw(background, 0, 0);
 		pillow.draw(batch);
 		//TODO Draw eggs here
 		batch.end();
