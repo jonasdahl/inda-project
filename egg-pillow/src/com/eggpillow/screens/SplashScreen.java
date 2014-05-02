@@ -1,6 +1,8 @@
 package com.eggpillow.screens;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
@@ -21,6 +23,7 @@ public class SplashScreen implements Screen {
 	private TweenManager tweenManager;
 	private EggPillow game;
 	
+	
 	public SplashScreen(EggPillow g) {
 		game = g;
 	}
@@ -30,13 +33,12 @@ public class SplashScreen implements Screen {
 		Gdx.gl.glClearColor(EggPillow.BG_R, EggPillow.BG_G, EggPillow.BG_B, EggPillow.BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		
 		tweenManager.update(delta);
 		
 		batch.begin();
 		splash.draw(batch);
 		batch.end();
-		
-		
 	}
 
 	@Override
@@ -55,12 +57,19 @@ public class SplashScreen implements Screen {
 		
 		Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).target(1).start(tweenManager);
-		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).start(tweenManager);
+		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				dispose();
+				// TODO Start menu screen
+				//game.setScreen(game.gameScreen);	
+				game.setScreen(game.settingsScreen);
+			}
+		}).start(tweenManager);
 	}
 
 	@Override
 	public void hide() {
-		dispose();
 	}
 
 	@Override

@@ -66,7 +66,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
-		dispose();
 	}
 
 	@Override
@@ -83,6 +82,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		batch.dispose();
 		pillow.getTexture().dispose();
+		background.dispose();
 	}
 
 }

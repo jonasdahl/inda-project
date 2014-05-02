@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "egg-pillow";
+		cfg.title = EggPillow.TITLE + "v" + EggPillow.VERSION;
 		cfg.useGL20 = false;
 		cfg.width = 384;
 		cfg.height = 256;
