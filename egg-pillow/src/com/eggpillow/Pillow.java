@@ -7,25 +7,41 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.screens.GameScreen;
 
 public class Pillow extends Sprite {
-	
+	private int PILLOW_Y = 10; // If set to -1, pillow can be moved all over the map
 	private int paddingX = 0, paddingY = 0;
+	private float limitXLeft; // In percent of width
+	private float limitXRight; // In percent of width
 	
-	public Pillow() {
+	public Pillow(float limitXLeft, float limitXRight) {
 		super(new Texture("img/game_pillow.png"));
+		this.limitXLeft = limitXLeft;
+		this.limitXRight = limitXRight;
 		paddingX = Gdx.graphics.getWidth() / 10;
 		paddingY = Gdx.graphics.getHeight() / 10;
 	}
 
 	@Override
 	public void setX(float x) {
-		// TODO Check if img out of bounds and change x
+		if (x > limitXRight * Gdx.graphics.getWidth() + getWidth())
+			x = limitXRight * Gdx.graphics.getWidth();
+		if (x < limitXLeft * Gdx.graphics.getWidth())
+			x = limitXLeft * Gdx.graphics.getWidth();
+		
 		super.setX(x);
 	}
 
 	@Override
 	public void setY(float y) {
-		// TODO Check if img out of bounds and change y
-		super.setY(Gdx.graphics.getHeight() - y);
+		if (y < getHeight()) {
+			y = getHeight();
+		} else if (y > Gdx.graphics.getHeight()) {
+			y = Gdx.graphics.getHeight();
+		}
+		
+		if (PILLOW_Y == -1)
+			super.setY(Gdx.graphics.getHeight() - y);
+		else
+			super.setY(PILLOW_Y);
 	}
 
 	@Override
