@@ -33,7 +33,6 @@ public class SplashScreen implements Screen {
 		Gdx.gl.glClearColor(EggPillow.BG_R, EggPillow.BG_G, EggPillow.BG_B, EggPillow.BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		
 		tweenManager.update(delta);
 		
 		batch.begin();

@@ -12,7 +12,6 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 
 public class GameScreen implements Screen {
-	
 	InputHandlerGame inputHandler;
 	Pillow pillow;
 	SpriteBatch batch;
@@ -33,7 +32,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(background, 0, 0);
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		pillow.draw(batch);
 		
 		//TODO For testing prints <var>message</var> on screen
@@ -41,14 +40,11 @@ public class GameScreen implements Screen {
 		font.draw(batch, message, 25, 160);
 		
 		//TODO Draw eggs here
-		
 		batch.end();
-		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		
 	}
 
 	@Override
@@ -58,10 +54,7 @@ public class GameScreen implements Screen {
 		background = new Texture("img/game_background.png");
 		inputHandler = new InputHandlerGame(pillow);
 		Gdx.input.setInputProcessor(inputHandler);
-		
 		font = new BitmapFont();
-		
-		
 	}
 
 	@Override
@@ -70,7 +63,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-		
 	}
 
 	@Override
@@ -84,5 +76,4 @@ public class GameScreen implements Screen {
 		pillow.getTexture().dispose();
 		background.dispose();
 	}
-
 }
