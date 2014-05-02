@@ -30,13 +30,12 @@ public class Pillow extends Sprite {
 
 	@Override
 	public void draw(SpriteBatch batch) {
-
 		super.draw(batch);
 	}
 	
-	
 	/**
 	 * Checks if testX and testY is inside or very close to the pillow.
+	 * @return true if testX and textY is close to the pillow
 	 */
 	public boolean inside(int testX, int testY) {
 		if (testX > getX() - paddingX
@@ -46,6 +45,5 @@ public class Pillow extends Sprite {
 			return true;
 		}
 		return false;
-
 	}
 }
