@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -17,17 +18,18 @@ import com.eggpillow.EggPillow;
 
 public class SettingsScreen implements Screen {
 	
-	SpriteBatch batch;
-	Texture background;
-	EggPillow game;
-	InputHandlerMenu inputHandler;
+	private SpriteBatch batch;
+	private Texture background;
+	private EggPillow game;
+	private InputHandlerMenu inputHandler;
 	
-	Stage stage;
-	TextButton buttonMute;
-	TextButton buttonTest;
+	private Stage stage;
+	private TextButton buttonMute, buttonTest;
 	
-	BitmapFont font;
-	String message = "Hello";
+	private Table table;
+	
+	private BitmapFont font;
+	private String message = "Hello";
 	
 	public SettingsScreen(EggPillow g) {
 		game = g;
@@ -45,8 +47,10 @@ public class SettingsScreen implements Screen {
 		font.draw(batch, message, 25, 160);
 		batch.end();
 		
-		stage.draw();
+		Table.drawDebug(stage); // TODO remove
 		
+		stage.act(delta);
+		stage.draw();
 	}
 
 	@Override
@@ -60,8 +64,11 @@ public class SettingsScreen implements Screen {
 		background = new Texture("img/settings_background.png");
 		inputHandler = new InputHandlerMenu();
 		Gdx.input.setInputProcessor(inputHandler);
-		font = new BitmapFont();
-
+		
+		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
+		table = new Table();
+		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
 		stage = new Stage();
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		tbstyle.font = font;
@@ -76,11 +83,15 @@ public class SettingsScreen implements Screen {
 		
 		buttonTest.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		    	message = "unMuted";
+		    	game.setScreen(game.gameScreen); // TODO MENU
 		    }
 		});
-		stage.addActor(buttonMute);
-		stage.addActor(buttonTest);
+		
+		table.add(buttonMute);
+		table.add(buttonTest);
+		table.debug(); // TODO remove
+		stage.addActor(table);
+		
 		Gdx.input.setInputProcessor(stage);
 	}
 

@@ -9,10 +9,16 @@ import com.eggpillow.screens.GameScreen;
 import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
-// USEFULSTUFF SOM LÅTER BRA MEN JAG INTE HAR FATTAR ÄNNU
+/*
+ *  USEFULSTUFF SOM LÅTER BRA MEN JAG INTE HAR FATTAR ÄNNU
+ *  
+ *  table
+ *  textureAtlas
+ *  skin
+ *  
+ */
 
-// table
-// textureAtlas
+
 
 
 public class EggPillow extends Game {
