@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.eggpillow.screens.Splash;
+import com.eggpillow.screens.SplashScreen;
 
 public class EggPillow extends Game {
 	public static final String NAME = "Egg Pillow";
@@ -18,7 +18,7 @@ public class EggPillow extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// Starts the splash screen
-		setScreen(new Splash());
+		setScreen(new SplashScreen());
 	}
 
 	@Override

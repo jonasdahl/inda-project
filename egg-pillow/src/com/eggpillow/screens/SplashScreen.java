@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.EggPillow;
 import com.eggpillow.tween.SpriteAccessor;
 
-public class Splash implements Screen {
+public class SplashScreen implements Screen {
 	private final static float FADE_SPEED = 1.5f;
 	private final static float DELAY = 3.0f;
 	
