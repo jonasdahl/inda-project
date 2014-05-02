@@ -1,5 +1,7 @@
 package com.eggpillow.screens;
 
+import java.util.ArrayList;
+
 import inputhandler.InputHandlerGame;
 
 import com.badlogic.gdx.Gdx;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 
@@ -18,11 +21,14 @@ public class GameScreen implements Screen {
 	Texture background;
 	BitmapFont font;
 	EggPillow game;
+	ArrayList<Egg> eggs;
 	
-	public static String message = "!";
+	public static String message = "";
 	
 	public GameScreen(EggPillow g) {
 		game = g;
+		eggs = new ArrayList<Egg>();
+		eggs.add(new Egg());
 	}
 	
 	@Override
@@ -39,6 +45,9 @@ public class GameScreen implements Screen {
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, message, 25, 160);
 		
+		for (Egg egg : eggs) {
+			egg.draw(batch);
+		}
 		//TODO Draw eggs here
 		batch.end();
 	}
@@ -55,6 +64,8 @@ public class GameScreen implements Screen {
 		inputHandler = new InputHandlerGame(pillow);
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont();
+		
+		eggs.get(0).start();
 	}
 
 	@Override

@@ -110,9 +110,10 @@ public class SettingsScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		background.dispose();
-		stage.dispose();
+		// TODO Fix
+		//batch.dispose();
+		//background.dispose();
+		//stage.dispose();
 	}
 
 }
