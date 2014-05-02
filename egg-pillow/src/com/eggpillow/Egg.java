@@ -8,14 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Egg extends Sprite {
 	private boolean started;
 	private boolean stopped;
-	private float xSpeed = .3f; // Unit: procent of screen width per update
+	private float xSpeed = 2f; // Unit: procent of screen width per update
 	private float ySpeed = 0f; // Unit: procent of screen height per update
 	private Pillow pillow;
 
 	private final static float STARTING_HEIGHT = 0.57f;
 	private final static float CLIFF_END = 0.25f;
-	private final static float CLIFF_TILT = .2f;
-	private final static float ACCELERATION = 0.04f;
+	private final static float CLIFF_TILT = .15f;
+	private final static float ACCELERATION = 0.1f;
 	private final static float EGG_HEIGHT = 0.15f; // In percent of screen height
 	private final static float EGG_WIDTH = 0.075f; // In percent of screen width
 	

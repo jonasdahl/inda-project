@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Pillow extends Sprite {
-	private int PILLOW_Y = 10; // If set to -1, pillow can be moved all over the map
+	private int PILLOW_Y = 50; // If set to -1, pillow can be moved all over the map
 	private int paddingX = 0, paddingY = 0;
 	private float limitXLeft; // In percent of width
 	private float limitXRight; // In percent of width

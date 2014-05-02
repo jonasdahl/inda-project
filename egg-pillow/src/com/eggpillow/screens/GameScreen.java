@@ -1,6 +1,7 @@
 package com.eggpillow.screens;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import inputhandler.InputHandlerGame;
 
@@ -24,17 +25,19 @@ public class GameScreen implements Screen {
 	private ArrayList<Egg> eggs;
 	private float totalDelta;
 	private int freedEggs;
+	private Random rand;
 	
 	private static final float TIME_BETWEEN_EGGS = 2f;
 	public static String message = "";
 	
 	public GameScreen(EggPillow g) {
 		game = g;
+		rand = new Random();
 	}
 	
 	@Override
 	public void render(float delta) {
-		totalDelta += delta;
+		totalDelta += delta + (rand.nextFloat() - 0.5) / 2 - 0.2;
 		
 		Texture.setEnforcePotImages(false);
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -53,7 +56,7 @@ public class GameScreen implements Screen {
 		}
 		
 		if (totalDelta > TIME_BETWEEN_EGGS) {
-			// TODO
+			// TODO Better
 			if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
 				eggs.get(freedEggs).start();
 				freedEggs++;
@@ -73,6 +76,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
 		pillow = new Pillow(.3f, .95f);
+		pillow.setSize(200, 100);
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs
 			eggs.add(new Egg(pillow));
