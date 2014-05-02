@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
-		totalDelta += delta + (rand.nextFloat() - 0.5) / 2 - 0.2;
+		totalDelta += (delta + (rand.nextFloat() - 0.5) / 2) * 0.8;
 		
 		Texture.setEnforcePotImages(false);
 		Gdx.gl.glClearColor(1, 1, 1, 1);

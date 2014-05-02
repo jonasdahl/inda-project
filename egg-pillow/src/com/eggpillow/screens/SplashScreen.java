@@ -59,10 +59,11 @@ public class SplashScreen implements Screen {
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				dispose();
 				// TODO Start menu screen
 				//game.setScreen(game.gameScreen);	
+				dispose();
 				game.setScreen(game.settingsScreen);
+				// TODO Chrashes somewhere here if user taps screen on splashscreen
 			}
 		}).start(tweenManager);
 	}
