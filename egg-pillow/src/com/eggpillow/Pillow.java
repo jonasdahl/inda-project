@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.eggpillow.screens.GameScreen;
 
 public class Pillow extends Sprite {
 	
@@ -18,13 +17,21 @@ public class Pillow extends Sprite {
 
 	@Override
 	public void setX(float x) {
-		// TODO Check if img out of bounds and change x
+		if (x < 0) {
+			x = 0;
+		}else if (x > Gdx.graphics.getWidth() - getWidth()) {
+			x = Gdx.graphics.getWidth() - getWidth();
+		}
 		super.setX(x);
 	}
 
 	@Override
 	public void setY(float y) {
-		// TODO Check if img out of bounds and change y
+		if (y < getHeight()) {
+			y = getHeight();
+		}else if (y > Gdx.graphics.getHeight()) {
+			y = Gdx.graphics.getHeight();
+		}
 		super.setY(Gdx.graphics.getHeight() - y);
 	}
 
