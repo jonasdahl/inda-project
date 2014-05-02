@@ -17,12 +17,14 @@ public class Pillow extends Sprite {
 		this.limitXRight = limitXRight;
 		paddingX = Gdx.graphics.getWidth() / 10;
 		paddingY = Gdx.graphics.getHeight() / 10;
+		setX(0);
+		setY(0);
 	}
 
 	@Override
 	public void setX(float x) {
-		if (x > limitXRight * Gdx.graphics.getWidth() + getWidth())
-			x = limitXRight * Gdx.graphics.getWidth();
+		if (x > limitXRight * Gdx.graphics.getWidth() - getWidth())
+			x = limitXRight * Gdx.graphics.getWidth() - getWidth();
 		if (x < limitXLeft * Gdx.graphics.getWidth())
 			x = limitXLeft * Gdx.graphics.getWidth();
 		super.setX(x);
@@ -40,7 +42,6 @@ public class Pillow extends Sprite {
 			super.setY(Gdx.graphics.getHeight() - y);
 		else
 			super.setY(PILLOW_Y);
-		super.setY(Gdx.graphics.getHeight() - y);
 	}
 
 	@Override

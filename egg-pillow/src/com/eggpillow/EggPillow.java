@@ -20,7 +20,7 @@ import com.eggpillow.screens.SplashScreen;
 
 public class EggPillow extends Game {
 	public static final String TITLE = "Egg Pillow";
-	public static final String VERSION = "0.0.ReallyEarly";
+	public static final String VERSION = "0.0.2";
 	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
 	
 	// Screens

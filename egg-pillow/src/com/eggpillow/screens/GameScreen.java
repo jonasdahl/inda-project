@@ -72,7 +72,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
-		pillow = new Pillow(.25f, .95f);
+		pillow = new Pillow(.3f, .95f);
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs
 			eggs.add(new Egg(pillow));
