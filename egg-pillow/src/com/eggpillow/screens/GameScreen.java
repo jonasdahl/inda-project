@@ -10,6 +10,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
@@ -26,61 +27,113 @@ public class GameScreen implements Screen {
 	private float totalDelta;
 	private int freedEggs;
 	public static String message = "";
-	
+
+	private boolean gamePaused = true;
+	private boolean showInstructions;
+	private Sprite pauseSprite;
+
 	// Sprites
 	private Pillow pillow;
 	private Cliff cliff;
 	private ArrayList<Egg> eggs;
-	
+
 	// Constants
 	private static final float TIME_BETWEEN_EGGS = 2f;
-	private final static float EGG_HEIGHT = 0.15f; // In percent of screen height
+	private final static float EGG_HEIGHT = 0.15f; // In percent of screen
+													// height
 	private final static float EGG_WIDTH = 0.058f; // In percent of screen width
-	private final static float CLIFF_HEIGHT = 0.5f; // In percent of screen width
+	private final static float CLIFF_HEIGHT = 0.5f; // In percent of screen
+													// width
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 	
 	/**
 	 * Constructor for GameScreen
-	 * @param g the main Game class as a reference later on
+	 * 
+	 * @param g
+	 *            the main Game class as a reference later on
 	 */
 	public GameScreen(EggPillow g) {
 		rand = new Random();
 		game = g;
 	}
-	
+
 	@Override
 	public void render(float delta) {
 		// Make images scalable
 		Texture.setEnforcePotImages(false);
-		
+
 		batch.begin();
-		
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		pillow.draw(batch);
-		pillow.update(delta);
+
+		batch.draw(background, 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight());
 		cliff.draw(batch);
-		int deadEggs = 0;
+
+		pillow.draw(batch);
+		
+		if (!gamePaused) {
+			pillow.update(delta);
+			updateEggs(delta);
+		} 
+		
+		
 		for (Egg egg : eggs) {
 			egg.draw(batch);
+		}
+		
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.setScale(2f);
+		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f,
+				Gdx.graphics.getHeight() * 0.9f);
+		
+		if (gamePaused) {
+			if (showInstructions) {
+				drawInstructions(batch);
+				
+			} else {
+				drawPaus(batch);				
+			}
+		}
+
+		batch.end();
+	}
+	
+	/**
+	 * Draw the instructionsscreen to batch.
+	 */
+	private void drawInstructions(SpriteBatch batch) {
+	}
+	
+	/**
+	 * Draw pausscreen to batch.
+	 */
+	private void drawPaus(SpriteBatch batch) {
+		
+	}
+
+	/**
+	 * Update all eggs and check if they are dead. Start new eggs.
+	 * @param delta Time since last update (seconds)
+	 */
+	private void updateEggs(float delta) {
+		int deadEggs = 0;
+		for (Egg egg : eggs) {
+			egg.update(delta);
 			if (egg.isDead()) {
 				deadEggs++;
 			}
 		}
-		
+
 		if (deadEggs >= 3) {
 			// TODO Game over
-			
+
 			updateHighscore(freedEggs); // TODO change to succesfully saved eggs
 			dispose();
 			game.setScreen(game.menuScreen); // TODO highscore screen
 		}
 		
 		// TODO Do it BETTER!
-		message = ( 3 - deadEggs ) + "/3 lives left";
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(2f);
-		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.9f);
-		
+		message = (3 - deadEggs) + "/3 lives left";
+
 		// Start eggs that should start
 		totalDelta += delta;
 		if (totalDelta > TIME_BETWEEN_EGGS) {
@@ -90,17 +143,18 @@ public class GameScreen implements Screen {
 			}
 			totalDelta = 0;
 		}
-		
-		batch.end();
 	}
-	
+
 	/**
 	 * Update the highscore in preferences.
-	 * @param score The new score.
+	 * 
+	 * @param score
+	 *            The new score.
 	 * @return The new highscore.
 	 */
 	private int updateHighscore(int score) {
-		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
+		Preferences prefs = Gdx.app
+				.getPreferences(SettingsScreen.PREFERENCE_NAME);
 		if (score > prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE, -1)) {
 			prefs.putInteger(SettingsScreen.PREFERENCE_HIGHSCORE, score);
 			prefs.flush();
@@ -117,24 +171,27 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		
+
 		// Setup pillow
 		pillow = new Pillow(.3f, .95f, -.08f);
-		pillow.setSize(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.1f);
-		
+		pillow.setSize(Gdx.graphics.getWidth() * 0.1f,
+				Gdx.graphics.getHeight() * 0.1f);
+
 		// Setup cliff
 		cliff = new Cliff(CLIFF_HEIGHT);
-		
+
 		// Setup eggs
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs
 			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT));
 		}
-		
+
 		background = new Texture(BACKGROUND_IMAGE);
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont();
+		
+		//pauseSprite = new Sprite();
 	}
 
 	@Override
@@ -147,14 +204,26 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resume() {
-		
+
 	}
-	
+
 	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();
 		pillow.getTexture().dispose();
 		background.dispose();
+	}
+	
+	public void pauseGame() {
+		gamePaused = true;
+	}
+	
+	public void unPauseGame() {
+		gamePaused = false;
+	}
+	
+	public boolean isPaused() {
+		return gamePaused;
 	}
 }

@@ -26,7 +26,7 @@ public class EggPillow extends Game {
 	
 	// Screens
 	public Screen splashScreen;
-	public Screen gameScreen;
+	public GameScreen gameScreen;
 	public Screen settingsScreen;
 	public Screen menuScreen;
 	

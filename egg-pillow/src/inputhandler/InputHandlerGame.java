@@ -21,10 +21,9 @@ public class InputHandlerGame implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.MENU) {
-			GameScreen.message = "PAUS"; // TODO paus
+			game.gameScreen.pauseGame();
 		}else if (keycode == Keys.BACK) {
-			game.gameScreen.dispose();
-			game.setScreen(game.menuScreen); // TODO paus
+			game.gameScreen.pauseGame();
 		}
 		return false;
 	}
@@ -45,6 +44,9 @@ public class InputHandlerGame implements InputProcessor {
 			pillow.setX(screenX);
 			pillow.setY(Gdx.graphics.getHeight() - screenY);
 			onPillow = true;
+		}
+		if (game.gameScreen.isPaused() ){
+			game.gameScreen.unPauseGame();
 		}
 		return false;
 	}

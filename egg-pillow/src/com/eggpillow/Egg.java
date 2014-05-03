@@ -85,18 +85,33 @@ public class Egg extends Sprite implements Touchable {
 		}
 	}
 	
+	/**
+	 * Draw the egg to the batch if it has started.
+	 */
 	@Override
 	public void draw(SpriteBatch batch) {
-		if (!hasStarted()) {
-			return;
-		} else if (hasStopped()) {
+		if (hasStarted()) {
 			super.draw(batch);
-			return;
+		} 
+	}
+	
+	/**
+	 * Draw the egg to the batch if it has started.
+	 */
+	@Override
+	public void draw(SpriteBatch batch, float delta) {
+		super.draw(batch, delta);
+	}
+	
+	/**
+	 * Update the egg properties.
+	 * position
+	 * @param delta Time since last update (seconds)
+	 */
+	public void update(float delta) {
+		if (hasStarted() && !hasStopped()) {
+			updatePosition();
 		}
-		
-		updatePosition();
-		
-		super.draw(batch);
 	}
 	
 	/**
