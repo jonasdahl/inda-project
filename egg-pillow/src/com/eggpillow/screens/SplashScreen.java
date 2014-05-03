@@ -15,8 +15,8 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
-	private final static float FADE_SPEED = 1.5f;
-	private final static float DELAY = 3.0f;
+	private final static float FADE_SPEED = 0.2f;
+	private final static float DELAY = 0.2f;
 	
 	private Sprite splash;
 	private SpriteBatch batch;
@@ -60,8 +60,7 @@ public class SplashScreen implements Screen {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				// TODO Start menu screen
-				//game.setScreen(game.gameScreen);	
-				dispose();
+				// dispose();
 				game.setScreen(game.settingsScreen);
 				// TODO Chrashes somewhere here if user taps screen on splashscreen
 			}
