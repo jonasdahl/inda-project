@@ -1,9 +1,9 @@
 package com.eggpillow.screens;
 
+import inputhandler.InputHandlerGame;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import inputhandler.InputHandlerGame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,52 +11,75 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 
 public class GameScreen implements Screen {
 	private InputHandlerGame inputHandler;
-	private Pillow pillow;
+	private Random rand;
 	private SpriteBatch batch;
 	private Texture background;
 	private BitmapFont font;
 	private EggPillow game;
-	private ArrayList<Egg> eggs;
 	private float totalDelta;
 	private int freedEggs;
-	private Random rand;
-	
-	private static final float TIME_BETWEEN_EGGS = 2f;
 	public static String message = "";
 	
+	// Sprites
+	private Pillow pillow;
+	private Cliff cliff;
+	private ArrayList<Egg> eggs;
+	
+	// Constants
+	private static final float TIME_BETWEEN_EGGS = 2f;
+	private final static float EGG_HEIGHT = 0.15f; // In percent of screen height
+	private final static float EGG_WIDTH = 0.058f; // In percent of screen width
+	private final static float CLIFF_HEIGHT = 0.5f; // In percent of screen width
+	private final static String BACKGROUND_IMAGE = "img/game_background.png";
+	
+	/**
+	 * Constructor for GameScreen
+	 * @param g the main Game class as a reference later on
+	 */
 	public GameScreen(EggPillow g) {
-		game = g;
 		rand = new Random();
+		game = g;
 	}
 	
 	@Override
 	public void render(float delta) {
-		totalDelta += (delta + (rand.nextFloat() - 0.5) / 2) * 0.8;
-		
+		// Make images scalable
 		Texture.setEnforcePotImages(false);
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		pillow.draw(batch);
-		
-		//TODO For testing prints <var>message</var> on screen
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.draw(batch, message, 25, 160);
-		
+		cliff.draw(batch);
+		int deadEggs = 0;
 		for (Egg egg : eggs) {
 			egg.draw(batch);
+			if (egg.isDead()) {
+				deadEggs++;
+			}
 		}
 		
+		if (deadEggs >= 3) {
+			// TODO Game over
+			game.setScreen(new SettingsScreen(game));
+		}
+		
+		// TODO Do it BETTER!
+		message = ( 3 - deadEggs ) + "/3 lives left";
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.setScale(2f);
+		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.9f);
+		
+		// Start eggs that should start
+		totalDelta += delta;
 		if (totalDelta > TIME_BETWEEN_EGGS) {
-			// TODO Better
 			if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
 				eggs.get(freedEggs).start();
 				freedEggs++;
@@ -64,7 +87,6 @@ public class GameScreen implements Screen {
 			totalDelta = 0;
 		}
 		
-		//TODO Draw eggs here
 		batch.end();
 	}
 
@@ -74,19 +96,25 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		batch = new SpriteBatch(); // Where we're going to paint the splash
-		pillow = new Pillow(.3f, .95f);
-		pillow.setSize(200, 100);
+		batch = new SpriteBatch();
+		
+		// Setup pillow
+		pillow = new Pillow(.3f, .95f, -.08f);
+		pillow.setSize(Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.1f);
+		
+		// Setup cliff
+		cliff = new Cliff(CLIFF_HEIGHT);
+		
+		// Setup eggs
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs
-			eggs.add(new Egg(pillow));
+			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT));
 		}
-		background = new Texture("img/game_background.png");
+		
+		background = new Texture(BACKGROUND_IMAGE);
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont();
-		
-		eggs.get(0).start();
 	}
 
 	@Override

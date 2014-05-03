@@ -1,55 +1,59 @@
 package com.eggpillow;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Egg extends Sprite {
-	private boolean started;
-	private boolean stopped;
-	private float xSpeed = 2f; // Unit: procent of screen width per update
-	private float ySpeed = 0f; // Unit: procent of screen height per update
-	private Pillow pillow;
+public class Egg extends Sprite implements Touchable {
+	private boolean started;   // Invariant: true if egg has started moving, false otherwise
+	private boolean stopped;   // Invariant: true if egg has reached basket, false otherwise
+	private boolean dead;   // Invariant: true if egg has died
+	private float xSpeed; // Unit: procent of screen width per update
+	private float ySpeed; // Unit: procent of screen height per update
+	private ArrayList<Touchable> touchables;
 
-	private final static float STARTING_HEIGHT = 0.57f;
+	private final static float STARTING_HEIGHT = 0.5f;
 	private final static float CLIFF_END = 0.25f;
 	private final static float CLIFF_TILT = .15f;
 	private final static float ACCELERATION = 0.1f;
-	private final static float EGG_HEIGHT = 0.15f; // In percent of screen height
-	private final static float EGG_WIDTH = 0.075f; // In percent of screen width
+	private final static float X_SPEED = 2f;   // In percent of screen width
 	
-	public Egg(Pillow pillow) {
+	/**
+	 * Constructor for class Egg.
+	 * @param pillow the pillow on which this specific egg can bounce
+	 * @param height the height in percent of the screen height of this egg
+	 * @param width the height in percent of the screen width of this egg
+	 */
+	public Egg(Pillow pillow, Cliff cliff, float width, float height) {
 		super(new Texture("img/game_egg.png"));
-		super.setSize(Gdx.graphics.getWidth() * EGG_WIDTH, Gdx.graphics.getHeight() * EGG_HEIGHT);
-		this.pillow = pillow;
+		super.setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
+		touchables = new ArrayList<Touchable>();
+		touchables.add(pillow);
+		touchables.add(cliff);
+		
 		started = false;
 		stopped = false;
+		dead = false;
+		xSpeed = X_SPEED;
 		setY(Gdx.graphics.getHeight() * STARTING_HEIGHT);
 	}
-
-	@Override
-	public void setX(float x) {
-		super.setX(x);
-	}
-
-	@Override
-	public void setY(float y) {
-		super.setY(y);
-	}
-
-	@Override
-	public void draw(SpriteBatch batch) {
-		float widthOfScreen = Gdx.graphics.getWidth();
-		if (!hasStarted()) {
-			return;
-		} else if (hasStopped()) {
-			super.draw(batch);
+	
+	/**
+	 * Updates the position of this egg.
+	 */
+	public void updatePosition() {
+		if (!hasStarted() || hasStopped()) {
 			return;
 		}
 		
-		if (getX() < CLIFF_END * widthOfScreen) {
-			setY(getY() + xSpeed * CLIFF_TILT * (CLIFF_END * widthOfScreen - getX()) / (CLIFF_END * widthOfScreen));
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+		
+		if (getX() < CLIFF_END * screenWidth) {
+			setY(getY() + xSpeed * CLIFF_TILT * (CLIFF_END * screenWidth - getX()) / (CLIFF_END * screenWidth));
 			setX(getX() + xSpeed);
 		} else {
 			ySpeed -= ACCELERATION;
@@ -58,22 +62,36 @@ public class Egg extends Sprite {
 		}
 		
 		// Bounce on pillow if in range
-		if (getY() <= pillow.getY() + pillow.getHeight() 
-				&& getX() > pillow.getX() - getWidth()
-				&& getX() < pillow.getX() + pillow.getWidth()
-				&& ySpeed < 0) {
-			ySpeed *= -1;
+		for (Touchable t : touchables) {
+			if (intersects(t) && ySpeed < 0) {
+				ySpeed *= -1;
+			}
 		}
 		
-		// Dead or in basket
+		// Dead or just stopped
 		if (getY() <= 0) {
 			stopped = true;
+			if (getX() + getWidth() < Gdx.graphics.getWidth() * 0.95f) {
+				dead = true;
+			}
 		}
 		
 		// Reached right side!
-		if (getX() + getWidth() >= widthOfScreen) {
+		if (getX() + getWidth() >= screenWidth) {
 			xSpeed = 0; // But still go down
 		}
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch) {
+		if (!hasStarted()) {
+			return;
+		} else if (hasStopped()) {
+			super.draw(batch);
+			return;
+		}
+		
+		updatePosition();
 		
 		super.draw(batch);
 	}
@@ -83,6 +101,14 @@ public class Egg extends Sprite {
 	 */
 	public void start() {
 		started = true;
+	}
+	
+	/**
+	 * Checks if the egg is alive or dead.
+	 * @return true if egg is dead
+	 */
+	public boolean isDead() {
+		return dead;
 	}
 	
 	/**
@@ -99,5 +125,46 @@ public class Egg extends Sprite {
 	 */
 	public boolean hasStopped() {
 		return stopped;
+	}
+
+	@Override
+	public float getTopLimit(float x) {
+		// The eggs are ellipses
+		float width = getWidth();
+		float height = getHeight();
+		return (float) (Math.sqrt(1 - (x-width/2)*(x-width/2) / (width*width/4)) * height/2 + height/2);
+	}
+
+	@Override
+	public float getBottomLimit(float x) {
+		return getHeight() - getTopLimit(x);
+	}
+
+	@Override
+	public float getLeftLimit(float y) {
+		// x = sqrt((1 - y2/b2))*a
+		return -1.0f * (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
+	}
+
+	@Override
+	public float getRightLimit(float y) {
+		return (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
+	}
+	
+	/**
+	 * Checks if this egg intersects with t.
+	 * @param t a touchable, like a cliff or pillow, or another egg.
+	 * @return true if the two objects share some pixels (if too many, it returns false)
+	 */
+	private boolean intersects(Touchable t) {
+		// TODO Improve - kollar bara rakt uppifrån mot rakt nerifrån just nu
+		int leftBound = (int) Math.max(getX(), t.getX()) + 1;
+		int rightBound = (int) Math.min(getX() + getWidth(), t.getX() + t.getWidth()) - 1;
+		for (int i = leftBound; i <= rightBound; i++) {
+			float diff = (t.getTopLimit(i - t.getX()) + t.getY()) - (getBottomLimit(i - getX()) + getY());
+			if (diff > 0 && diff < Gdx.graphics.getHeight() * 0.1f)
+				return true;
+		}
+		return false;
 	}
 }
