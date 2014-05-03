@@ -1,7 +1,5 @@
 package com.eggpillow.screens;
 
-import inputhandler.InputHandlerMenu;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -25,7 +23,6 @@ public class MenuScreen implements Screen{
 	
 	private SpriteBatch batch;
 	private Texture background;
-	private InputHandlerMenu inputHandler;
 	
 	private Stage stage;
 	private TextButton buttonStart, buttonSettings, buttonExit;
@@ -68,8 +65,6 @@ public class MenuScreen implements Screen{
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
 		background = new Texture("img/menu_background.png");
-		inputHandler = new InputHandlerMenu();
-		Gdx.input.setInputProcessor(inputHandler);
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 		font.setScale(5.0f);

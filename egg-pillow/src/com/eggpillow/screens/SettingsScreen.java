@@ -1,7 +1,5 @@
 package com.eggpillow.screens;
 
-import inputhandler.InputHandlerMenu;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,7 +19,6 @@ public class SettingsScreen implements Screen {
 	private SpriteBatch batch;
 	private Texture background;
 	private EggPillow game;
-	private InputHandlerMenu inputHandler;
 	
 	private Stage stage;
 	private TextButton buttonMute, buttonTest;
@@ -62,8 +59,6 @@ public class SettingsScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 		background = new Texture("img/settings_background.png");
-		inputHandler = new InputHandlerMenu();
-		Gdx.input.setInputProcessor(inputHandler);
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 		font.setScale(5.0f);
