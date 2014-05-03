@@ -3,7 +3,12 @@ package com.eggpillow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.eggpillow.screens.GameScreen;
 
+/**
+ * Use draw(SpriteBatch batch, float delta) and not draw(SpriteBatch batch)
+ */
 public class Pillow extends Sprite implements Touchable {
 	private float level;
 	private boolean locked;
@@ -11,6 +16,8 @@ public class Pillow extends Sprite implements Touchable {
 	private float paddingY = 0;
 	private float limitXLeft; // In percent of width
 	private float limitXRight; // In percent of width
+	
+	private float oldX, oldY, xSpeed, ySpeed;
 
 	/**
 	 * Constructor for Pillow.
@@ -41,6 +48,20 @@ public class Pillow extends Sprite implements Touchable {
 		this.paddingY = Gdx.graphics.getHeight() / 10;
 		setX(0);
 		setY(-1 * level);
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch, float delta) {
+		super.draw(batch);
+		updateSpeed(delta);
+	}
+	
+	public void updateSpeed(float delta) {
+		xSpeed = (oldX - getX()) * delta;
+		ySpeed = (oldY - getY()) * delta;
+		oldX = getX();
+		oldY = getY();
+		GameScreen.message = "Y" + ySpeed + " X" + xSpeed;
 	}
 
 	@Override

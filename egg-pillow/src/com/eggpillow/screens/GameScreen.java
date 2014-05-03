@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
 		batch.begin();
 		
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		pillow.draw(batch);
+		pillow.draw(batch, delta);
 		cliff.draw(batch);
 		int deadEggs = 0;
 		for (Egg egg : eggs) {
@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
 		}
 		
 		// TODO Do it BETTER!
-		message = ( 3 - deadEggs ) + "/3 lives left";
+		//message = ( 3 - deadEggs ) + "/3 lives left";
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(2f);
 		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.9f);

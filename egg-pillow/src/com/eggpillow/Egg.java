@@ -39,6 +39,9 @@ public class Egg extends Sprite implements Touchable {
 		dead = false;
 		xSpeed = X_SPEED;
 		setY(Gdx.graphics.getHeight() * STARTING_HEIGHT);
+		
+		// Start outside screen and slide in
+		setX(-100);
 	}
 	
 	/**
