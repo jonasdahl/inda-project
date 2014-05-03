@@ -75,4 +75,12 @@ public class EggPillow extends Game {
 	public void resume() {
 		super.resume();
 	}
+	
+	/**
+	 * Sets the background to standard.
+	 */
+	public static void setBackground() {
+		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
 }

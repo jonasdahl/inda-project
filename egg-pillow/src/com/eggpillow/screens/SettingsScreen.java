@@ -18,9 +18,6 @@ import com.eggpillow.EggPillow;
 
 public class SettingsScreen implements Screen {
 	
-	public static final String PREFERENCE_NAME = "EggPillow preferences";
-	public static final String PREFERENCE_MUTED = "muted";
-	public static final String PREFERENCE_HIGHSCORE = "highscore";
 	
 	private SpriteBatch batch;
 	private Texture background;
@@ -36,6 +33,10 @@ public class SettingsScreen implements Screen {
 	
 	Preferences prefs;
 	
+	public static final String PREFERENCE_NAME = "EggPillow preferences";
+	public static final String PREFERENCE_MUTED = "muted";
+	public static final String PREFERENCE_HIGHSCORE = "highscore";
+	
 	public SettingsScreen(EggPillow g) {
 		game = g;
 	}
@@ -43,11 +44,11 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Texture.setEnforcePotImages(false);
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(EggPillow.BG_R, EggPillow.BG_G, EggPillow.BG_B, EggPillow.BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(background, 0, 0);
+		//batch.draw(background, 0, 0);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, message, 25, 160);
 		batch.end();

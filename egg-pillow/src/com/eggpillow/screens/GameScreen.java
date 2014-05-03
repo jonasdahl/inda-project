@@ -5,6 +5,11 @@ import inputhandler.InputHandlerGame;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -17,6 +22,8 @@ import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
+import com.eggpillow.tween.SpriteBatchAccessor;
+import com.eggpillow.tween.TableAccessor;
 
 public class GameScreen implements Screen {
 	private InputHandlerGame inputHandler;
@@ -27,6 +34,7 @@ public class GameScreen implements Screen {
 	private EggPillow game;
 	private float totalDelta;
 	private int freedEggs;
+	private TweenManager tweenManager;
 	public static String message = "";
 
 	private boolean gamePaused = true;
@@ -55,6 +63,8 @@ public class GameScreen implements Screen {
 	 */
 	public GameScreen(EggPillow g) {
 		rand = new Random();
+		tweenManager = new TweenManager();
+		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
 		game = g;
 	}
 
@@ -64,11 +74,9 @@ public class GameScreen implements Screen {
 		Texture.setEnforcePotImages(false);
 
 		batch.begin();
-
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
 		cliff.draw(batch);
-
 		pillow.draw(batch);
 
 		if (!gamePaused) {
@@ -98,7 +106,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Draw the instructionsscreen to batch.
+	 * Draw the instruction screen to batch.
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		// TODO
@@ -107,7 +115,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Draw pausscreen to batch.
+	 * Draw paus screen to batch.
 	 */
 	private void drawPaus(SpriteBatch batch) {
 		// TODO
@@ -134,7 +142,7 @@ public class GameScreen implements Screen {
 			// TODO Game over
 
 			updateHighscore(freedEggs); // TODO change to succesfully saved eggs
-			dispose();
+			// dispose(); TODO Crashes if this line is uncommented
 			game.setScreen(game.menuScreen); // TODO highscore screen
 		}
 
@@ -203,6 +211,9 @@ public class GameScreen implements Screen {
 		pixmap.fill();
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
+
+		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
+		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 	}
 
 	@Override

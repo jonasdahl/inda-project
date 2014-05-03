@@ -4,14 +4,15 @@ import aurelienribon.tweenengine.TweenAccessor;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.eggpillow.EggPillow;
 
-public class SpriteAccessor implements TweenAccessor<Sprite> {
+public class TableAccessor implements TweenAccessor<Table> {
 	// Defines the possible tween types
 	public static final int ALPHA = 1;
 	
 	@Override
-	public int getValues(Sprite target, int tweenType, float[] returnValues) {
+	public int getValues(Table target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
 		case ALPHA:
 			returnValues[0] = target.getColor().a;
@@ -23,10 +24,10 @@ public class SpriteAccessor implements TweenAccessor<Sprite> {
 	}
 
 	@Override
-	public void setValues(Sprite target, int tweenType, float[] newValues) {
+	public void setValues(Table target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 		case ALPHA:
-			target.setColor(EggPillow.BG_R, EggPillow.BG_G, EggPillow.BG_B, newValues[0]);
+			target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);
 			break;
 		default:
 			assert false;
