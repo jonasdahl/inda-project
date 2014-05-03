@@ -8,9 +8,10 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
@@ -30,7 +31,7 @@ public class GameScreen implements Screen {
 
 	private boolean gamePaused = true;
 	private boolean showInstructions;
-	private Sprite pauseSprite;
+	private Texture pTexture;
 
 	// Sprites
 	private Pillow pillow;
@@ -45,7 +46,7 @@ public class GameScreen implements Screen {
 	private final static float CLIFF_HEIGHT = 0.5f; // In percent of screen
 													// width
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
-	
+
 	/**
 	 * Constructor for GameScreen
 	 * 
@@ -69,50 +70,56 @@ public class GameScreen implements Screen {
 		cliff.draw(batch);
 
 		pillow.draw(batch);
-		
+
 		if (!gamePaused) {
 			pillow.update(delta);
 			updateEggs(delta);
-		} 
-		
-		
+		}
+
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
-		
+
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(2f);
 		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f,
 				Gdx.graphics.getHeight() * 0.9f);
-		
+
 		if (gamePaused) {
 			if (showInstructions) {
 				drawInstructions(batch);
-				
+
 			} else {
-				drawPaus(batch);				
+				drawPaus(batch);
 			}
 		}
 
 		batch.end();
 	}
-	
+
 	/**
 	 * Draw the instructionsscreen to batch.
 	 */
 	private void drawInstructions(SpriteBatch batch) {
+		// TODO
+		batch.draw(pTexture, 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight(), 0, 0, 1, 1, false, false);
 	}
-	
+
 	/**
 	 * Draw pausscreen to batch.
 	 */
 	private void drawPaus(SpriteBatch batch) {
-		
+		// TODO
+		batch.draw(pTexture, 0, 0, Gdx.graphics.getWidth(),
+				Gdx.graphics.getHeight(), 1, 1, 1, 1, false, false);
 	}
 
 	/**
 	 * Update all eggs and check if they are dead. Start new eggs.
-	 * @param delta Time since last update (seconds)
+	 * 
+	 * @param delta
+	 *            Time since last update (seconds)
 	 */
 	private void updateEggs(float delta) {
 		int deadEggs = 0;
@@ -130,7 +137,7 @@ public class GameScreen implements Screen {
 			dispose();
 			game.setScreen(game.menuScreen); // TODO highscore screen
 		}
-		
+
 		// TODO Do it BETTER!
 		message = (3 - deadEggs) + "/3 lives left";
 
@@ -190,8 +197,12 @@ public class GameScreen implements Screen {
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont();
-		
-		//pauseSprite = new Sprite();
+
+		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+		pixmap.setColor(0f, 0f, 0f, 0.5f);
+		pixmap.fill();
+		pTexture = new Texture(pixmap);
+		pixmap.dispose();
 	}
 
 	@Override
@@ -213,16 +224,20 @@ public class GameScreen implements Screen {
 		batch.dispose();
 		pillow.getTexture().dispose();
 		background.dispose();
+		pTexture.dispose();
 	}
-	
+
 	public void pauseGame() {
 		gamePaused = true;
 	}
-	
+
 	public void unPauseGame() {
+		if (showInstructions) {
+			showInstructions = false;
+		}
 		gamePaused = false;
 	}
-	
+
 	public boolean isPaused() {
 		return gamePaused;
 	}

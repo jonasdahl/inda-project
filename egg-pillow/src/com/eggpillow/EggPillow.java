@@ -13,9 +13,9 @@ import com.eggpillow.screens.SplashScreen;
 /*
  *  USEFULSTUFF SOM LÅTER BRA MEN JAG INTE HAR FATTAR ÄNNU
  *  
- *  table
  *  textureAtlas
  *  skin
+ *  TextureRegion
  *  
  */
 

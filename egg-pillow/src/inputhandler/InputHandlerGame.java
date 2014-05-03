@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
-import com.eggpillow.screens.GameScreen;
 
 public class InputHandlerGame implements InputProcessor {
 	
