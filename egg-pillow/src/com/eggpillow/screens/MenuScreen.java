@@ -1,6 +1,8 @@
 package com.eggpillow.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,6 +25,8 @@ public class MenuScreen implements Screen{
 	
 	private SpriteBatch batch;
 	private Texture background;
+	
+	private InputMultiplexer multiplexer;
 	
 	private Stage stage;
 	private TextButton buttonStart, buttonSettings, buttonExit;
@@ -70,7 +74,16 @@ public class MenuScreen implements Screen{
 		font.setScale(5.0f);
 		table = new Table();
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		stage = new Stage();
+		stage = new Stage() {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Keys.BACK) {
+					game.exit();
+				}
+				
+				return false;
+			}
+		};
 		title = new Label(EggPillow.TITLE, new LabelStyle(font, Color.BLACK));
 		
 		TextButtonStyle tbstyle = new TextButtonStyle();

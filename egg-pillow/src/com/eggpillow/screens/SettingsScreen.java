@@ -1,6 +1,8 @@
 package com.eggpillow.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +18,10 @@ import com.eggpillow.EggPillow;
 
 public class SettingsScreen implements Screen {
 	
+	public static final String PREFERENCE_NAME = "EggPillow preferences";
+	public static final String PREFERENCE_MUTED = "muted";
+	public static final String PREFERENCE_HIGHSCORE = "highscore";
+	
 	private SpriteBatch batch;
 	private Texture background;
 	private EggPillow game;
@@ -27,6 +33,8 @@ public class SettingsScreen implements Screen {
 	
 	private BitmapFont font;
 	private String message = "Hello";
+	
+	Preferences prefs;
 	
 	public SettingsScreen(EggPillow g) {
 		game = g;
@@ -65,15 +73,30 @@ public class SettingsScreen implements Screen {
 		table = new Table();
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		stage = new Stage();
+		prefs = Gdx.app.getPreferences(PREFERENCE_NAME);
+		boolean mute = prefs.getBoolean(PREFERENCE_MUTED, false);
+		message = "Highscore " + prefs.getInteger(PREFERENCE_HIGHSCORE, -1);
+		
+		stage = new Stage() {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Keys.BACK) {
+					game.setScreen(game.menuScreen);
+				}
+				return false;
+			}
+		};
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		tbstyle.font = font;
-		buttonMute = new TextButton("Mute", tbstyle);
+		buttonMute = new TextButton("Set mute = " + !mute, tbstyle);
 		buttonTest = new TextButton("Back", tbstyle);
 		
 		buttonMute.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		    	message = "Muted";
+		    	boolean muted = prefs.getBoolean(PREFERENCE_MUTED, false);
+		    	prefs.putBoolean(PREFERENCE_MUTED, !muted);
+		    	buttonMute.setText("Set mute = " + muted);
+		    	prefs.flush();
 		    }
 		});
 		
@@ -87,6 +110,7 @@ public class SettingsScreen implements Screen {
 		table.add(buttonTest);
 		table.debug(); // TODO remove
 		stage.addActor(table);
+		
 		
 		Gdx.input.setInputProcessor(stage);
 	}

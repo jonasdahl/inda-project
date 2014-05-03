@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -67,11 +68,13 @@ public class GameScreen implements Screen {
 		
 		if (deadEggs >= 3) {
 			// TODO Game over
+			
+			updateHighscore(freedEggs); // TODO change to succesfully saved eggs
 			game.setScreen(game.menuScreen);
 		}
 		
 		// TODO Do it BETTER!
-		//message = ( 3 - deadEggs ) + "/3 lives left";
+		message = ( 3 - deadEggs ) + "/3 lives left";
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(2f);
 		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.9f);
@@ -87,6 +90,17 @@ public class GameScreen implements Screen {
 		}
 		
 		batch.end();
+	}
+	
+	private int updateHighscore(int score) {
+		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
+		if (score > prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE, -1)) {
+			prefs.putInteger(SettingsScreen.PREFERENCE_HIGHSCORE, score);
+			prefs.flush();
+			// TODO U GOT A HIGHSCORE
+			return score;
+		}
+		return prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE);
 	}
 
 	@Override
