@@ -60,12 +60,13 @@ public class SettingsScreen implements Screen {
 
 	@Override
 	public void show() {
-		batch = new SpriteBatch(); // Where we're going to paint the splash
+		batch = new SpriteBatch();
 		background = new Texture("img/settings_background.png");
 		inputHandler = new InputHandlerMenu();
 		Gdx.input.setInputProcessor(inputHandler);
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
+		font.setScale(5.0f);
 		table = new Table();
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -73,7 +74,7 @@ public class SettingsScreen implements Screen {
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		tbstyle.font = font;
 		buttonMute = new TextButton("Mute", tbstyle);
-		buttonTest= new TextButton("Test", tbstyle);
+		buttonTest = new TextButton("Play", tbstyle);
 		
 		buttonMute.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
