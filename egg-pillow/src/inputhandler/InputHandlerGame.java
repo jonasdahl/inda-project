@@ -23,8 +23,7 @@ public class InputHandlerGame implements InputProcessor {
 		if (keycode == Keys.MENU) {
 			GameScreen.message = "PAUS"; // TODO paus
 		}else if (keycode == Keys.BACK) {
-			//game.setScreen(game.MenuScreen); // TODO 
-			// add into gameScreen Gdx.input.setCatchBackKey(true); and false somewhere else
+			game.setScreen(game.menuScreen); // TODO paus
 		}
 		return false;
 	}

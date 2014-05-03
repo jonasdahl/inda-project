@@ -15,8 +15,8 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
-	private final static float FADE_SPEED = 0.2f;
-	private final static float DELAY = 0.2f;
+	private final static float FADE_SPEED = 3.0f; //0.2f;
+	private final static float DELAY = 3.0f; //0.2f;
 	
 	private Sprite splash;
 	private SpriteBatch batch;
@@ -59,10 +59,9 @@ public class SplashScreen implements Screen {
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				// TODO Start menu screen
-				// dispose();
-				game.setScreen(game.settingsScreen);
-				// TODO Chrashes somewhere here if user taps screen on splashscreen
+				// TODO dispose();
+				game.setScreen(game.menuScreen);
+				// TODO Chrashes somewhere here if user taps screen on splashscreen // Johan kan inte reprodusera denna bug :(
 			}
 		}).start(tweenManager);
 	}

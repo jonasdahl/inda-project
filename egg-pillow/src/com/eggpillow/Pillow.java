@@ -3,7 +3,6 @@ package com.eggpillow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Pillow extends Sprite implements Touchable {
 	private float level;

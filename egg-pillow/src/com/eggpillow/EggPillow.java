@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.eggpillow.screens.GameScreen;
+import com.eggpillow.screens.MenuScreen;
 import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
@@ -27,7 +28,7 @@ public class EggPillow extends Game {
 	public Screen splashScreen;
 	public Screen gameScreen;
 	public Screen settingsScreen;
-	// TODO implement menuSceen
+	public Screen menuScreen;
 	
 	@Override
 	public void create() {	
@@ -39,7 +40,15 @@ public class EggPillow extends Game {
 		splashScreen = new SplashScreen(this);
 		gameScreen = new GameScreen(this);
 		settingsScreen = new SettingsScreen(this);
+		menuScreen = new MenuScreen(this);
 		setScreen(new SplashScreen(this));
+		
+		Gdx.input.setCatchBackKey(true);
+	}
+	
+	public void exit() {
+		// TODO make sure everything is okay and save files.
+		Gdx.app.exit();
 	}
 
 	@Override

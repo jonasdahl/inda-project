@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 
-public class menuScreen implements Screen{
+public class MenuScreen implements Screen{
 	
 	private EggPillow game;
 	
@@ -36,7 +36,7 @@ public class menuScreen implements Screen{
 	private BitmapFont font;
 	private String message = "Hello";
 	
-	public menuScreen(EggPillow g) {
+	public MenuScreen(EggPillow g) {
 		game = g;
 	}
 
@@ -72,6 +72,7 @@ public class menuScreen implements Screen{
 		Gdx.input.setInputProcessor(inputHandler);
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
+		font.setScale(5.0f);
 		table = new Table();
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		stage = new Stage();
@@ -95,9 +96,11 @@ public class menuScreen implements Screen{
 		});
 		buttonExit.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		    	message = "EXIT"; // TODO Exit game
+		    	game.exit();
 		    }
 		});
+		
+		table.pad(20);
 		table.add(title);
 		table.row();
 		table.add(buttonStart);

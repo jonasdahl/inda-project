@@ -74,7 +74,7 @@ public class SettingsScreen implements Screen {
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		tbstyle.font = font;
 		buttonMute = new TextButton("Mute", tbstyle);
-		buttonTest = new TextButton("Play", tbstyle);
+		buttonTest = new TextButton("Back", tbstyle);
 		
 		buttonMute.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
@@ -84,10 +84,10 @@ public class SettingsScreen implements Screen {
 		
 		buttonTest.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		    	game.setScreen(game.gameScreen); // TODO MENU
+		    	game.setScreen(game.menuScreen); // TODO MENU
 		    }
 		});
-		
+		table.pad(20);
 		table.add(buttonMute);
 		table.add(buttonTest);
 		table.debug(); // TODO remove
