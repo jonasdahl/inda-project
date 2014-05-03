@@ -45,6 +45,9 @@ public class SplashScreen implements Screen {
 		
 	}
 
+	/** 
+	 * Initialises splash screen and the splashanimation. Starts menuscreen when the animation is done.
+	 */
 	@Override
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
@@ -59,7 +62,7 @@ public class SplashScreen implements Screen {
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				// TODO dispose();
+				dispose();
 				game.setScreen(game.menuScreen);
 				// TODO Chrashes somewhere here if user taps screen on splashscreen // Johan kan inte reprodusera denna bug :(
 			}
@@ -79,7 +82,8 @@ public class SplashScreen implements Screen {
 	public void resume() {
 		
 	}
-
+	
+	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();

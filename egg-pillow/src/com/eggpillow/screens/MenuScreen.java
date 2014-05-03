@@ -2,7 +2,6 @@ package com.eggpillow.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,8 +24,6 @@ public class MenuScreen implements Screen{
 	
 	private SpriteBatch batch;
 	private Texture background;
-	
-	private InputMultiplexer multiplexer;
 	
 	private Stage stage;
 	private TextButton buttonStart, buttonSettings, buttonExit;
@@ -64,7 +61,10 @@ public class MenuScreen implements Screen{
 	public void resize(int width, int height) {
 		
 	}
-
+	
+	/** 
+	 * A mess off buttons and styles. TODO sort
+	 */
 	@Override
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
@@ -137,11 +137,13 @@ public class MenuScreen implements Screen{
 	public void resume() {
 		
 	}
-
+	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
-		// TODO fix
-		// font.dispose()
+		font.dispose();
+		stage.dispose();
+		batch.dispose();
+		background.dispose();
 	}
 
 }

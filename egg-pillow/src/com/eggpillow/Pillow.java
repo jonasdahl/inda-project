@@ -3,11 +3,12 @@ package com.eggpillow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.screens.GameScreen;
 
 /**
- * Use draw(SpriteBatch batch, float delta) and not draw(SpriteBatch batch)
+ * A nice soft pillow. Eggs may bounce away if they come to close. The Pillow will probably be green.
+ *  
+ *  Update the pillow with update(delta) and draw(batch) every frame.
  */
 public class Pillow extends Sprite implements Touchable {
 	private float level;
@@ -50,20 +51,30 @@ public class Pillow extends Sprite implements Touchable {
 		setY(-1 * level);
 	}
 	
-	@Override
-	public void draw(SpriteBatch batch, float delta) {
-		super.draw(batch);
+	/**
+	 * Update the pillows properties.
+	 * speed
+	 *  @param delta Time since last update (seconds)
+	 */
+	public void update(float delta) {
 		updateSpeed(delta);
 	}
 	
-	public void updateSpeed(float delta) {
+	/**
+	 * Update the speed of the pillow.
+	 * @param delta Time since last update seconds
+	 */
+	private void updateSpeed(float delta) {
 		xSpeed = (oldX - getX()) * delta;
 		ySpeed = (oldY - getY()) * delta;
 		oldX = getX();
 		oldY = getY();
 		GameScreen.message = "Y" + ySpeed + " X" + xSpeed;
 	}
-
+	
+	/**
+	 * Set the x position. This will put the pillow on the screen if x is out of bounds.
+	 */
 	@Override
 	public void setX(float x) {
 		if (x > limitXRight * Gdx.graphics.getWidth() - getWidth())
@@ -72,7 +83,10 @@ public class Pillow extends Sprite implements Touchable {
 			x = limitXLeft * Gdx.graphics.getWidth();
 		super.setX(x);
 	}
-
+	
+	/**
+	 * Set the y position. This will put the pillow on a accepted position if y is illegal.
+	 */
 	@Override
 	public void setY(float y) {
 		if (y < getHeight()) {

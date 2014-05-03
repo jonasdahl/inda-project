@@ -62,7 +62,10 @@ public class SettingsScreen implements Screen {
 	public void resize(int width, int height) {
 		
 	}
-
+	
+	/**
+	 * A mess of buttons and styles. TODO sort
+	 */
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
@@ -81,6 +84,7 @@ public class SettingsScreen implements Screen {
 			@Override
 			public boolean keyDown(int keycode) {
 				if (keycode == Keys.BACK) {
+					dispose();
 					game.setScreen(game.menuScreen);
 				}
 				return false;
@@ -102,7 +106,8 @@ public class SettingsScreen implements Screen {
 		
 		buttonTest.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
-		    	game.setScreen(game.menuScreen); // TODO MENU
+		    	dispose();
+		    	game.setScreen(game.menuScreen);
 		    }
 		});
 		table.pad(20);
@@ -127,13 +132,14 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void resume() {
 	}
-
+	
+	// TODOD make sure everything is disposed.
 	@Override
 	public void dispose() {
-		// TODO Fix
-		//batch.dispose();
-		//background.dispose();
-		//stage.dispose();
+		batch.dispose();
+		background.dispose();
+		stage.dispose();
+		font.dispose();
 	}
 
 }

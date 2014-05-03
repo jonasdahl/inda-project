@@ -56,7 +56,8 @@ public class GameScreen implements Screen {
 		batch.begin();
 		
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		pillow.draw(batch, delta);
+		pillow.draw(batch);
+		pillow.update(delta);
 		cliff.draw(batch);
 		int deadEggs = 0;
 		for (Egg egg : eggs) {
@@ -70,7 +71,8 @@ public class GameScreen implements Screen {
 			// TODO Game over
 			
 			updateHighscore(freedEggs); // TODO change to succesfully saved eggs
-			game.setScreen(game.menuScreen);
+			dispose();
+			game.setScreen(game.menuScreen); // TODO highscore screen
 		}
 		
 		// TODO Do it BETTER!
@@ -92,6 +94,11 @@ public class GameScreen implements Screen {
 		batch.end();
 	}
 	
+	/**
+	 * Update the highscore in preferences.
+	 * @param score The new score.
+	 * @return The new highscore.
+	 */
 	private int updateHighscore(int score) {
 		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
 		if (score > prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE, -1)) {
@@ -142,7 +149,8 @@ public class GameScreen implements Screen {
 	public void resume() {
 		
 	}
-
+	
+	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();
