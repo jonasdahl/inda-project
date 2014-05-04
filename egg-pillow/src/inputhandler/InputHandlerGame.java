@@ -21,7 +21,7 @@ public class InputHandlerGame implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.MENU) {
 			game.gameScreen.pauseGame();
-		}else if (keycode == Keys.BACK) {
+		}else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 			if (game.gameScreen.isPaused()) {
 				game.gameScreen.dispose();
 				game.setScreen(game.menuScreen);
@@ -50,6 +50,10 @@ public class InputHandlerGame implements InputProcessor {
 		}
 		if (game.gameScreen.isPaused() ){
 			game.gameScreen.unPauseGame();
+			if (game.gameScreen.gameOver()) {
+				game.gameScreen.dispose();
+				game.setScreen(game.menuScreen);
+			}
 		}
 		return false;
 	}

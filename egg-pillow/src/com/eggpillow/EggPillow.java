@@ -21,6 +21,7 @@ import com.eggpillow.screens.SplashScreen;
  *  Questions:
  *   changeListener 1/screen eller 1/knapp
  *   Jag fattar inte touchable getRight/left/top/bottomlimit vad ska göras?
+ *   Eggs. Borde tas bort och läggas till i listan när de dör / spawnar. 
  */
 
 public class EggPillow extends Game {

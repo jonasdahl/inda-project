@@ -38,6 +38,8 @@ public class GameScreen implements Screen {
 	private boolean gamePaused = true;
 	private boolean showInstructions = true;
 	private Texture pTexture;
+	private boolean gameOver = false;
+	private boolean newHighscore = false;
 
 	private TextureAtlas atlas;
 	private AtlasRegion eggRegion;
@@ -91,17 +93,20 @@ public class GameScreen implements Screen {
 			egg.draw(batch);
 		}
 
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(2f);
+		font.setColor(1.0f, 1.0f, 0f, 1.0f);
+		font.setScale(Gdx.graphics.getHeight() / 200f);
 		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f,
 				Gdx.graphics.getHeight() * 0.9f);
+		font.draw(batch, "Score: " + freedEggs, Gdx.graphics.getWidth() * 2.5f / 4, Gdx.graphics.getHeight() * 9 / 10 );
 
 		if (gamePaused) {
 			if (showInstructions) {
 				drawInstructions(batch);
-
+			} else if (gameOver) {
+				drawGameOver(batch, freedEggs, newHighscore);
 			} else {
 				drawPaus(batch);
+
 			}
 		}
 
@@ -124,11 +129,9 @@ public class GameScreen implements Screen {
 		}
 
 		if (deadEggs >= 3) {
-			// TODO Game over
-
-			updateHighscore(freedEggs); // TODO change to succesfully saved eggs
-			// dispose(); TODO Crashes if this line is uncommented
-			game.setScreen(game.menuScreen); // TODO highscore screen
+			newHighscore = updateHighscore(freedEggs); // TODO change to succesfully saved eggs
+			gameOver = true;
+			gamePaused = true;
 		}
 
 		// TODO Do it BETTER!
@@ -152,16 +155,15 @@ public class GameScreen implements Screen {
 	 *            The new score.
 	 * @return The new highscore.
 	 */
-	private int updateHighscore(int score) {
+	private boolean updateHighscore(int score) {
 		Preferences prefs = Gdx.app
 				.getPreferences(SettingsScreen.PREFERENCE_NAME);
 		if (score > prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE, -1)) {
 			prefs.putInteger(SettingsScreen.PREFERENCE_HIGHSCORE, score);
 			prefs.flush();
-			// TODO U GOT A HIGHSCORE
-			return score;
+			return true;
 		}
-		return prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE);
+		return false;
 	}
 
 	@Override
@@ -184,12 +186,14 @@ public class GameScreen implements Screen {
 		cliff = new Cliff(CLIFF_HEIGHT, atlas);
 
 		// Setup eggs
+		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
-		for (int i = 0; i < 100; i++) { // Add 100 eggs
+		for (int i = 0; i < 100; i++) { // Add 100 eggs // TODO bad
+										// implementation ends after 100eggs.
 			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT, atlas));
 		}
 
-		//background = new Texture(BACKGROUND_IMAGE);
+		// background = new Texture(BACKGROUND_IMAGE);
 		background = new Texture(BACKGROUND_IMAGE);
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
@@ -227,7 +231,6 @@ public class GameScreen implements Screen {
 
 	public void pauseGame() {
 		gamePaused = true;
-		// createPauseTexture();
 	}
 
 	public void unPauseGame() {
@@ -241,24 +244,49 @@ public class GameScreen implements Screen {
 		return gamePaused;
 	}
 
+	public boolean gameOver() {
+		return gameOver;
+	}
+
 	/**
 	 * Draw the instruction screen to batch.
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		batch.draw(pTexture, 0, 0);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(3f);
+		font.setScale(Gdx.graphics.getHeight() / 250f);
 		batch.draw(eggRegion, Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() * 3 / 4);
+				Gdx.graphics.getHeight() * 3 / 4, Gdx.graphics.getWidth()
+						* EGG_WIDTH, Gdx.graphics.getHeight() * EGG_HEIGHT);
 		batch.draw(pillowRegion, Gdx.graphics.getWidth() / 2,
 				Gdx.graphics.getHeight() / 4, Gdx.graphics.getWidth() * 0.1f,
 				Gdx.graphics.getHeight() * 0.1f);
 
 		font.draw(batch, "Here is the pillow", Gdx.graphics.getWidth() / 2
-				+ Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getHeight() / 4);
+				+ Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() / 4);
 		font.draw(batch, "Here is egg", Gdx.graphics.getWidth() / 2
-				+ Gdx.graphics.getWidth() * 0.2f,
+				+ Gdx.graphics.getWidth() * 0.15f,
 				Gdx.graphics.getHeight() * 3 / 4);
+	}
+
+	private void drawGameOver(SpriteBatch batch, int score, boolean newHS) {
+		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(),
+				(float) Gdx.graphics.getHeight(), 0, 0, 1, 1, false, false);
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		font.setScale(Gdx.graphics.getHeight() / 200f);
+		font.draw(batch, "Game over", Gdx.graphics.getWidth() / 2 * 0.6f,
+				Gdx.graphics.getHeight() / 2);
+		font.setScale(Gdx.graphics.getHeight() / 250f);
+		if (newHS) {
+			font.draw(batch, "Congratulations u got a new Highscore "
+					+ score, Gdx.graphics.getWidth() / 2 * 0.4f,
+					Gdx.graphics.getHeight() / 3);
+		} else {
+			font.draw(batch, "Your score: " + freedEggs,
+					Gdx.graphics.getWidth() / 2 * 0.6f,
+					Gdx.graphics.getHeight() / 3);
+		}
 	}
 
 	/**
@@ -266,16 +294,19 @@ public class GameScreen implements Screen {
 	 */
 	private void drawPaus(SpriteBatch batch) {
 		font.setColor(Color.BLACK);
-		font.setScale(5f);
+		font.setScale(Gdx.graphics.getHeight() / 250f);
 		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(),
 				(float) Gdx.graphics.getHeight(), 0, 0, 1, 1, false, false);
-		font.draw(batch, "Press screen to resume game",
-				Gdx.graphics.getWidth() / 2 * 0.8f,
+		font.draw(batch, "Touch the screen to resume your game",
+				Gdx.graphics.getWidth() / 2 * 0.6f,
 				Gdx.graphics.getHeight() / 2);
+		font.draw(batch, "Score: " + freedEggs,
+				Gdx.graphics.getWidth() / 2 * 0.6f,
+				Gdx.graphics.getHeight() / 2 * 0.8f);
 	}
 
 	/**
-	 * TODO Circle is off
+	 * Creates a texture with circles to show the pillow and egg.
 	 */
 	private void createInstructionTexture() {
 		Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(),
@@ -283,17 +314,16 @@ public class GameScreen implements Screen {
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
-		// TODO fix
 		pixmap.drawCircle(
-				Gdx.graphics.getWidth() / 2 + (int) eggRegion.getRegionHeight()
-						/ 2,
-				Gdx.graphics.getHeight() * 3 / 4
-						- (int) eggRegion.getRegionHeight() / 2,
-				(int) (eggRegion.getRegionWidth()));
-		// TODO fix
-		pixmap.drawCircle(Gdx.graphics.getWidth() / 2 + (int) pillow.getWidth()
-				/ 2, Gdx.graphics.getHeight() / 4 - (int) pillow.getHeight()
-				/ 2, (int) (pillow.getWidth()));
+				(int) (Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth()
+						* EGG_WIDTH / 2),
+				(int) (Gdx.graphics.getHeight() / 4 - Gdx.graphics.getHeight()
+						* EGG_HEIGHT / 2), (int) (Gdx.graphics.getWidth()
+						* EGG_WIDTH * 1.2f));
+		pixmap.drawCircle(
+				Gdx.graphics.getWidth() / 2 + (int) pillow.getWidth() / 2,
+				Gdx.graphics.getHeight() * 3 / 4 - (int) pillow.getHeight() / 2,
+				(int) (pillow.getWidth() / 2 * 1.6f));
 
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
