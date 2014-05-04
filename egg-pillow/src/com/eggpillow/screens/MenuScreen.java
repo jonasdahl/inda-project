@@ -10,15 +10,12 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -34,7 +31,6 @@ public class MenuScreen implements Screen {
 	private Texture background;
 	private Stage stage;
 	private ArrayList<TextButton> buttons;
-	private Label title;
 	private Table table;
 	private Skin skin;
 	private BitmapFont font;
@@ -115,9 +111,6 @@ public class MenuScreen implements Screen {
 			}
 		});
 		buttons.add(buttonExit);
-
-		// Add the title
-		title = new Label(EggPillow.TITLE, new LabelStyle(font, Color.BLACK));
 
 		// Actually add to table
 		// table.pad(10);

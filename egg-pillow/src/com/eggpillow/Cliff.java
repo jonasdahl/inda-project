@@ -13,7 +13,7 @@ public class Cliff extends Sprite implements Touchable {
 	 * @param height percent of height of screen where cliff top should be
 	 */
 	public Cliff(float height) {
-		super(new Texture("img/game_cliff.png"));
+		super(new Texture("gameImg/game_cliff.png"));
 		setSize(1.5f * WIDTH * Gdx.graphics.getWidth(), 1.5f * HEIGHT * Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());

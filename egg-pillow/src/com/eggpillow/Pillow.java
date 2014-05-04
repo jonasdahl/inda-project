@@ -15,8 +15,11 @@ public class Pillow extends Sprite implements Touchable {
 	private boolean locked;
 	private float paddingX = 0;
 	private float paddingY = 0;
-	private float limitXLeft; // In percent of width
-	private float limitXRight; // In percent of width
+	private float limitXLeft; // In percent of screen width
+	private float limitXRight; // In percent of sreen width
+	
+	private final static float WIDTH = .1f;
+	private final static float HEIGHT = .1f;
 	
 	private float oldX, oldY, xSpeed, ySpeed;
 
@@ -36,7 +39,8 @@ public class Pillow extends Sprite implements Touchable {
 	 * 			  the height (in percent of screen height)
 	 */
 	public Pillow(float limitXLeft, float limitXRight, float yLevel) {
-		super(new Texture("img/game_pillow.png"));
+		super(new Texture("gameImg/game_pillow.png"));
+		setSize(Gdx.graphics.getWidth() * WIDTH, Gdx.graphics.getHeight() * HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
 		} else {

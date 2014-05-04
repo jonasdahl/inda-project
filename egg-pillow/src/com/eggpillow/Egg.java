@@ -28,7 +28,7 @@ public class Egg extends Sprite implements Touchable {
 	 * @param width the height in percent of the screen width of this egg
 	 */
 	public Egg(Pillow pillow, Cliff cliff, float width, float height) {
-		super(new Texture("img/game_egg.png"));
+		super(new Texture("gameImg/game_egg.png"));
 		super.setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
 		touchables = new ArrayList<Touchable>();
 		touchables.add(pillow);
@@ -53,7 +53,7 @@ public class Egg extends Sprite implements Touchable {
 		}
 		
 		float screenWidth = Gdx.graphics.getWidth();
-		float screenHeight = Gdx.graphics.getHeight();
+		//float screenHeight = Gdx.graphics.getHeight();
 		
 		if (getX() < CLIFF_END * screenWidth) {
 			setY(getY() + xSpeed * CLIFF_TILT * (CLIFF_END * screenWidth - getX()) / (CLIFF_END * screenWidth));
@@ -100,7 +100,9 @@ public class Egg extends Sprite implements Touchable {
 	 */
 	@Override
 	public void draw(SpriteBatch batch, float delta) {
-		super.draw(batch, delta);
+		if (hasStarted()) {
+			super.draw(batch, delta);
+		}
 	}
 	
 	/**

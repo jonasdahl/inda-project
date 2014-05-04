@@ -7,18 +7,15 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.eggpillow.EggPillow;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
-	private final static float FADE_SPEED = 3.0f; 
-	private final static float DELAY = 3.0f; 
+	private final static float FADE_SPEED = 1.5f; 
+	private final static float DELAY = 1.5f; 
 
 	private Sprite splash;
 	private SpriteBatch batch;

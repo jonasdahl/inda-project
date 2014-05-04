@@ -1,0 +1,26 @@
+
+EggPillow.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game_cliff
+  rotate: false
+  xy: 1, 1
+  size: 837, 958
+  orig: 837, 958
+  offset: 0, 0
+  index: -1
+game_egg
+  rotate: false
+  xy: 840, 767
+  size: 140, 192
+  orig: 140, 192
+  offset: 0, 0
+  index: -1
+game_pillow
+  rotate: false
+  xy: 840, 709
+  size: 100, 56
+  orig: 100, 56
+  offset: 0, 0
+  index: -1

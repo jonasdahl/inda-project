@@ -3,7 +3,6 @@ package com.eggpillow.tween;
 import aurelienribon.tweenengine.TweenAccessor;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.eggpillow.EggPillow;
 
 public class SpriteAccessor implements TweenAccessor<Sprite> {
