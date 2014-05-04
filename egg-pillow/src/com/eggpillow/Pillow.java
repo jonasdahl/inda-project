@@ -3,7 +3,6 @@ package com.eggpillow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.eggpillow.screens.GameScreen;
 
 /**
  * A nice soft pillow. Eggs may bounce away if they come to close. The Pillow will probably be green.
@@ -13,8 +12,8 @@ import com.eggpillow.screens.GameScreen;
 public class Pillow extends Sprite implements Touchable {
 	private float level;
 	private boolean locked;
-	private float paddingX = 0;
-	private float paddingY = 0;
+	private float paddingX;
+	private float paddingY;
 	private float limitXLeft; // In percent of screen width
 	private float limitXRight; // In percent of sreen width
 	
@@ -73,7 +72,6 @@ public class Pillow extends Sprite implements Touchable {
 		ySpeed = (oldY - getY()) * delta;
 		oldX = getX();
 		oldY = getY();
-		GameScreen.message = "Y" + ySpeed + " X" + xSpeed;
 	}
 	
 	/**
@@ -147,13 +145,11 @@ public class Pillow extends Sprite implements Touchable {
 
 	@Override
 	public float getXSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return xSpeed * Gdx.graphics.getWidth();
 	}
 
 	@Override
 	public float getYSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		return ySpeed * Gdx.graphics.getHeight();
 	}
 }

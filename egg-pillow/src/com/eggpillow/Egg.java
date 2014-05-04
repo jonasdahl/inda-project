@@ -19,8 +19,8 @@ public class Egg extends Sprite implements Touchable {
 	private final static float STARTING_HEIGHT = 0.5f;
 	private final static float CLIFF_END = 0.25f;
 	private final static float CLIFF_TILT = .15f;
-	private final static float ACCELERATION = 0.01f;
-	private final static float X_SPEED = 0.2f;   // In percent of screen width TODO
+	private final static float ACCELERATION = 0.01f; //TODO balance speeds
+	private final static float X_SPEED = 0.2f;   // In percent of screen width
 	
 	/**
 	 * Constructor for class Egg.
@@ -45,7 +45,7 @@ public class Egg extends Sprite implements Touchable {
 		setY(Gdx.graphics.getHeight() * STARTING_HEIGHT);
 		
 		// Start outside screen and slide in
-		setX(-100);
+		setX(-getWidth());
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class Egg extends Sprite implements Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : touchables) {
 			if (intersects(t) && ySpeed < 0) {
-				ySpeed *= -1;
+				ySpeed *= -1 + t.getYSpeed()/100; // yes I can hit the balls
 			}
 		}
 		

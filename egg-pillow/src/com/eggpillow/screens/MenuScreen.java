@@ -69,6 +69,7 @@ public class MenuScreen implements Screen {
 				return false;
 			}
 		};
+		table.drawDebug(stage); // TODO remove
 		stage.addActor(table);
 		
 		// Font is fun!
@@ -119,6 +120,8 @@ public class MenuScreen implements Screen {
 			table.row().pad(10);
 			table.add(button);
 		}
+		
+		table.debug(); // TODO remove
 	}
 
 	@Override

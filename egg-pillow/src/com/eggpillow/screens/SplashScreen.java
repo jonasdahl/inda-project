@@ -14,8 +14,8 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
-	private final static float FADE_SPEED = 1.5f; 
-	private final static float DELAY = 1.5f; 
+	private final static float FADE_SPEED = 1.0f; 
+	private final static float DELAY = 1.0f; 
 
 	private Sprite splash;
 	private SpriteBatch batch;

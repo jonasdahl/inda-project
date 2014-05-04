@@ -1,5 +1,7 @@
 package com.eggpillow.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Preferences;
@@ -24,7 +26,10 @@ public class SettingsScreen implements Screen {
 	private EggPillow game;
 	
 	private Stage stage;
-	private TextButton buttonMute, buttonTest;
+	private ArrayList<TextButton> buttons;
+	private final int INDEX_MUTE = 0;
+	private final int INDEX_DONE = 1;
+	private final int INDEX_FUN = 2;
 	
 	private Table table;
 	
@@ -50,7 +55,7 @@ public class SettingsScreen implements Screen {
 		batch.begin();
 		//batch.draw(background, 0, 0);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.draw(batch, message, 25, 160);
+		font.draw(batch, message, Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 5);
 		batch.end();
 		
 		Table.drawDebug(stage); // TODO remove
@@ -73,7 +78,7 @@ public class SettingsScreen implements Screen {
 		background = new Texture("img/settings_background.png");
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
-		font.setScale(5.0f);
+		font.setScale(Gdx.graphics.getHeight() / 500f);
 		table = new Table();
 		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
@@ -91,29 +96,37 @@ public class SettingsScreen implements Screen {
 				return false;
 			}
 		};
+		buttons = new ArrayList<TextButton>();
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		tbstyle.font = font;
-		buttonMute = new TextButton("Set mute = " + !mute, tbstyle);
-		buttonTest = new TextButton("Back", tbstyle);
+		TextButton buttonMute = new TextButton("Set mute = " + !mute, tbstyle);
+		TextButton buttonDone = new TextButton("Done", tbstyle);
+		TextButton buttonFun = new TextButton("Fun", tbstyle);
 		
 		buttonMute.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
 		    	boolean muted = prefs.getBoolean(PREFERENCE_MUTED, false);
 		    	prefs.putBoolean(PREFERENCE_MUTED, !muted);
-		    	buttonMute.setText("Set mute = " + muted);
+		    	buttons.get(INDEX_MUTE).setText("Set mute = " + muted);
 		    	prefs.flush();
 		    }
 		});
 		
-		buttonTest.addListener(new ChangeListener() {
+		buttonDone.addListener(new ChangeListener() {
 		    public void changed (ChangeEvent event, Actor actor) {
 		    	dispose();
 		    	game.setScreen(game.menuScreen);
 		    }
 		});
-		table.pad(20);
-		table.add(buttonMute);
-		table.add(buttonTest);
+		
+		
+		buttons.add(buttonMute);
+		buttons.add(buttonDone);
+		
+		for (TextButton t : buttons) {
+			table.row().pad(5);
+			table.add(t);
+		}
 		table.debug(); // TODO remove
 		stage.addActor(table);
 		
