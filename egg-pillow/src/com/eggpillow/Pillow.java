@@ -1,8 +1,8 @@
 package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.eggpillow.screens.GameScreen;
 
 /**
@@ -18,8 +18,8 @@ public class Pillow extends Sprite implements Touchable {
 	private float limitXLeft; // In percent of screen width
 	private float limitXRight; // In percent of sreen width
 	
-	private final static float WIDTH = .1f;
-	private final static float HEIGHT = .1f;
+	private final static float WIDTH = .1f; // In percent of screen width
+	private final static float HEIGHT = .1f; // In percent of screen height
 	
 	private float oldX, oldY, xSpeed, ySpeed;
 
@@ -38,8 +38,8 @@ public class Pillow extends Sprite implements Touchable {
 	 * @param height
 	 * 			  the height (in percent of screen height)
 	 */
-	public Pillow(float limitXLeft, float limitXRight, float yLevel) {
-		super(new Texture("gameImg/game_pillow.png"));
+	public Pillow(float limitXLeft, float limitXRight, float yLevel, TextureAtlas atlas) {
+		super(atlas.findRegion("game_pillow"));
 		setSize(Gdx.graphics.getWidth() * WIDTH, Gdx.graphics.getHeight() * HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
@@ -143,5 +143,17 @@ public class Pillow extends Sprite implements Touchable {
 	public float getRightLimit(float y) {
 		// TODO Fix limits of pillow
 		return this.getWidth();
+	}
+
+	@Override
+	public float getXSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getYSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

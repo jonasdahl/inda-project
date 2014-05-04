@@ -45,4 +45,10 @@ public interface Touchable {
 	float getHeight();
 	float getX();
 	float getY();
+	
+	//Speed
+	/** percent of screen width / sec */
+	float getXSpeed();
+	/** percent of screen height / sec */
+	float getYSpeed();
 }

@@ -3,23 +3,24 @@ package com.eggpillow;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Egg extends Sprite implements Touchable {
 	private boolean started;   // Invariant: true if egg has started moving, false otherwise
 	private boolean stopped;   // Invariant: true if egg has reached basket, false otherwise
 	private boolean dead;   // Invariant: true if egg has died
-	private float xSpeed; // Unit: procent of screen width per update
-	private float ySpeed; // Unit: procent of screen height per update
+	private float xSpeed; // Unit: procent of screen width per second
+	private float ySpeed; // Unit: procent of screen height per second
+	private float acceleration;
 	private ArrayList<Touchable> touchables;
 
 	private final static float STARTING_HEIGHT = 0.5f;
 	private final static float CLIFF_END = 0.25f;
 	private final static float CLIFF_TILT = .15f;
-	private final static float ACCELERATION = 0.1f;
-	private final static float X_SPEED = 2f;   // In percent of screen width
+	private final static float ACCELERATION = 0.01f;
+	private final static float X_SPEED = 0.2f;   // In percent of screen width TODO
 	
 	/**
 	 * Constructor for class Egg.
@@ -27,17 +28,20 @@ public class Egg extends Sprite implements Touchable {
 	 * @param height the height in percent of the screen height of this egg
 	 * @param width the height in percent of the screen width of this egg
 	 */
-	public Egg(Pillow pillow, Cliff cliff, float width, float height) {
-		super(new Texture("gameImg/game_egg.png"));
+	public Egg(Pillow pillow, Cliff cliff, float width, float height, TextureAtlas atlas) {
+		super(atlas.findRegion("game_egg"));
 		super.setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
 		touchables = new ArrayList<Touchable>();
 		touchables.add(pillow);
 		touchables.add(cliff);
 		
+		// TODO har alla ägg en arrayList med pillow/cliff och ett texture?
+		
 		started = false;
 		stopped = false;
 		dead = false;
-		xSpeed = X_SPEED;
+		xSpeed = X_SPEED * Gdx.graphics.getWidth();
+		acceleration = ACCELERATION * Gdx.graphics.getHeight();
 		setY(Gdx.graphics.getHeight() * STARTING_HEIGHT);
 		
 		// Start outside screen and slide in
@@ -47,21 +51,21 @@ public class Egg extends Sprite implements Touchable {
 	/**
 	 * Updates the position of this egg.
 	 */
-	public void updatePosition() {
+	public void updatePosition(float delta) {
 		if (!hasStarted() || hasStopped()) {
 			return;
 		}
 		
 		float screenWidth = Gdx.graphics.getWidth();
-		//float screenHeight = Gdx.graphics.getHeight();
+		/* TODO use or remove*/ float screenHeight = Gdx.graphics.getHeight();
 		
 		if (getX() < CLIFF_END * screenWidth) {
-			setY(getY() + xSpeed * CLIFF_TILT * (CLIFF_END * screenWidth - getX()) / (CLIFF_END * screenWidth));
-			setX(getX() + xSpeed);
+			setY(getY() + xSpeed * delta /*TODD xSpeed?*/* CLIFF_TILT * (CLIFF_END * screenWidth - getX()) / (CLIFF_END * screenWidth));
+			setX(getX() + xSpeed * delta);
 		} else {
-			ySpeed -= ACCELERATION;
-			setY(getY() + ySpeed);
-			setX(getX() + xSpeed);
+			ySpeed -= acceleration;
+			setY(getY() + ySpeed * delta);
+			setX(getX() + xSpeed * delta);
 		}
 		
 		// Bounce on pillow if in range
@@ -112,7 +116,7 @@ public class Egg extends Sprite implements Touchable {
 	 */
 	public void update(float delta) {
 		if (hasStarted() && !hasStopped()) {
-			updatePosition();
+			updatePosition(delta);
 		}
 	}
 	
@@ -186,5 +190,15 @@ public class Egg extends Sprite implements Touchable {
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	public float getXSpeed() {
+		return xSpeed;
+	}
+
+	@Override
+	public float getYSpeed() {
+		return ySpeed;
 	}
 }

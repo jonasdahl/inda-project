@@ -42,7 +42,6 @@ public class GameScreen implements Screen {
 	private TextureAtlas atlas;
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
-	//private AtlasRegion cliffRegion;
 
 	// Sprites
 	private Pillow pillow;
@@ -54,10 +53,10 @@ public class GameScreen implements Screen {
 	/** In percent of screen height */
 	private final static float EGG_HEIGHT = 0.15f;
 	/** In percent of screen width */
-	private final static float EGG_WIDTH = 0.058f; 
+	private final static float EGG_WIDTH = 0.058f;
 	/** In percent of screen width */
 	private final static float CLIFF_HEIGHT = 0.5f;
-	
+
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 
 	/**
@@ -173,24 +172,24 @@ public class GameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 
-		// TESTING
+		// TODO textureAtlas or texture
 		atlas = new TextureAtlas(Gdx.files.internal("gameImg/EggPillow.pack"));
 		eggRegion = atlas.findRegion("game_egg");
 		pillowRegion = atlas.findRegion("game_pillow");
-		// /testing
 
 		// Setup pillow
-		pillow = new Pillow(.3f, .95f, -.08f);
-		
+		pillow = new Pillow(.3f, .95f, -.08f, atlas);
+
 		// Setup cliff
-		cliff = new Cliff(CLIFF_HEIGHT);
+		cliff = new Cliff(CLIFF_HEIGHT, atlas);
 
 		// Setup eggs
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs
-			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT));
+			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT, atlas));
 		}
 
+		//background = new Texture(BACKGROUND_IMAGE);
 		background = new Texture(BACKGROUND_IMAGE);
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
@@ -249,9 +248,11 @@ public class GameScreen implements Screen {
 		batch.draw(pTexture, 0, 0);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(3f);
-		batch.draw(eggRegion, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 3 / 4);
-		batch.draw(pillowRegion, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4,
-				Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.1f);
+		batch.draw(eggRegion, Gdx.graphics.getWidth() / 2,
+				Gdx.graphics.getHeight() * 3 / 4);
+		batch.draw(pillowRegion, Gdx.graphics.getWidth() / 2,
+				Gdx.graphics.getHeight() / 4, Gdx.graphics.getWidth() * 0.1f,
+				Gdx.graphics.getHeight() * 0.1f);
 
 		font.draw(batch, "Here is the pillow", Gdx.graphics.getWidth() / 2
 				+ Gdx.graphics.getWidth() * 0.2f, Gdx.graphics.getHeight() / 4);
@@ -266,12 +267,15 @@ public class GameScreen implements Screen {
 	private void drawPaus(SpriteBatch batch) {
 		font.setColor(Color.BLACK);
 		font.setScale(5f);
-		batch.draw(pTexture, 0f, 0f, (float)Gdx.graphics.getWidth(), (float)Gdx.graphics.getHeight(), 0, 0, 1, 1, false, false);
-		font.draw(batch, "Press screen to resume game", Gdx.graphics.getWidth() / 2 * 0.8f, Gdx.graphics.getHeight() / 2);
+		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(),
+				(float) Gdx.graphics.getHeight(), 0, 0, 1, 1, false, false);
+		font.draw(batch, "Press screen to resume game",
+				Gdx.graphics.getWidth() / 2 * 0.8f,
+				Gdx.graphics.getHeight() / 2);
 	}
-	
+
 	/**
-	 * Circle is off 
+	 * TODO Circle is off
 	 */
 	private void createInstructionTexture() {
 		Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(),
@@ -280,10 +284,17 @@ public class GameScreen implements Screen {
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
 		// TODO fix
-		pixmap.drawCircle(Gdx.graphics.getWidth() / 2 + (int)eggRegion.getRegionHeight()/2, Gdx.graphics.getHeight() * 3 / 4 - (int)eggRegion.getRegionHeight() / 2, (int)(eggRegion.getRegionWidth()));
+		pixmap.drawCircle(
+				Gdx.graphics.getWidth() / 2 + (int) eggRegion.getRegionHeight()
+						/ 2,
+				Gdx.graphics.getHeight() * 3 / 4
+						- (int) eggRegion.getRegionHeight() / 2,
+				(int) (eggRegion.getRegionWidth()));
 		// TODO fix
-		pixmap.drawCircle(Gdx.graphics.getWidth() / 2 + (int)pillow.getWidth()/2, Gdx.graphics.getHeight() / 4 - (int)pillow.getHeight() / 2, (int)(pillow.getWidth()));
-		
+		pixmap.drawCircle(Gdx.graphics.getWidth() / 2 + (int) pillow.getWidth()
+				/ 2, Gdx.graphics.getHeight() / 4 - (int) pillow.getHeight()
+				/ 2, (int) (pillow.getWidth()));
+
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
 	}
