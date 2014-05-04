@@ -69,7 +69,8 @@ public class MenuScreen implements Screen {
 				return false;
 			}
 		};
-		table.drawDebug(stage); // TODO remove
+		
+		Table.drawDebug(stage); // TODO remove
 		stage.addActor(table);
 		
 		// Font is fun!

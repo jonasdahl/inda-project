@@ -17,6 +17,10 @@ import com.eggpillow.screens.SplashScreen;
  *  skin
  *  TextureRegion
  *  
+ *  
+ *  Questions:
+ *   changeListener 1/screen eller 1/knapp
+ *   Jag fattar inte touchable getRight/left/top/bottomlimit vad ska göras?
  */
 
 public class EggPillow extends Game {

@@ -71,7 +71,7 @@ public class Egg extends Sprite implements Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : touchables) {
 			if (intersects(t) && ySpeed < 0) {
-				ySpeed *= -1 + t.getYSpeed()/100; // yes I can hit the balls
+				ySpeed *= -1 + t.getYSpeed()/100; // yes I can hit the balls /Johan //TODO make fun/special-mode only
 			}
 		}
 		

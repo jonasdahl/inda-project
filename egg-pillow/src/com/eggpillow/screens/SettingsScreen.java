@@ -41,6 +41,7 @@ public class SettingsScreen implements Screen {
 	public static final String PREFERENCE_NAME = "EggPillow preferences";
 	public static final String PREFERENCE_MUTED = "muted";
 	public static final String PREFERENCE_HIGHSCORE = "highscore";
+	public static final String PREFERENCE_FUNMODE = "funmode";
 	
 	public SettingsScreen(EggPillow g) {
 		game = g;
@@ -119,9 +120,17 @@ public class SettingsScreen implements Screen {
 		    }
 		});
 		
+		buttonFun.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				boolean modeState = prefs.getBoolean(PREFERENCE_FUNMODE, false);
+				prefs.putBoolean(PREFERENCE_FUNMODE, !modeState);
+				prefs.flush();
+			}
+		});
 		
-		buttons.add(buttonMute);
-		buttons.add(buttonDone);
+		buttons.add(INDEX_MUTE, buttonMute);
+		buttons.add(INDEX_DONE, buttonDone);
+		buttons.add(INDEX_FUN, buttonFun);
 		
 		for (TextButton t : buttons) {
 			table.row().pad(5);
