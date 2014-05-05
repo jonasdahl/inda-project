@@ -11,6 +11,7 @@ public class Cliff extends Sprite implements Touchable {
 	private final static float HEIGHT = .5f;
 	/** If cliff width and height is 1, then the image size is this... */
 	private final static float PADDING = 1.5f;
+	private final static String ATLAS_REGION = "game_cliff";
 
 	/**
 	 * Constructor for Cliff.
@@ -19,7 +20,7 @@ public class Cliff extends Sprite implements Touchable {
 	 *            percent of height of screen where cliff top should be
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
-		super(atlas.findRegion("game_cliff"));
+		super(atlas.findRegion(ATLAS_REGION));
 		setSize(PADDING * WIDTH * Gdx.graphics.getWidth(), PADDING * HEIGHT
 				* Gdx.graphics.getHeight());
 		setX(0);

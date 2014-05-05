@@ -21,6 +21,8 @@ public class Pillow extends Sprite implements Touchable {
 	private final static float HEIGHT = .1f; // In percent of screen height
 	
 	private float oldX, oldY, xSpeed, ySpeed;
+	
+	private final static String ATLAS_REGION = "game_pillow";
 
 	/**
 	 * Constructor for Pillow.
@@ -38,7 +40,7 @@ public class Pillow extends Sprite implements Touchable {
 	 * 			  the height (in percent of screen height)
 	 */
 	public Pillow(float limitXLeft, float limitXRight, float yLevel, TextureAtlas atlas) {
-		super(atlas.findRegion("game_pillow"));
+		super(atlas.findRegion(ATLAS_REGION));
 		setSize(Gdx.graphics.getWidth() * WIDTH, Gdx.graphics.getHeight() * HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
