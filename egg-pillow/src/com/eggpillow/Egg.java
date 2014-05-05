@@ -65,12 +65,19 @@ public class Egg extends Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
 			if (intersects(t).yDir == BOTTOM) {
+				float softness = t.getSoftness();
+				if (softness > 1)
+					softness = 1;
+				else if (softness < 0)
+					softness = 0;
+				
 				if (ySpeed < 0) {
 					System.out.println(t.getYSpeed());
 					ySpeed = ySpeed * -1 + t.getYSpeed();
 				} else {
 					ySpeed = ySpeed + t.getYSpeed();
 				}
+				ySpeed *= 1 - softness;
 
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
 				// yes I can hit the balls /Johan //TODO make fun/special-mode

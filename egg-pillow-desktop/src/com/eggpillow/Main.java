@@ -8,8 +8,8 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = EggPillow.TITLE + "v" + EggPillow.VERSION;
 		cfg.useGL20 = false;
-		cfg.width = 384;
-		cfg.height = 256;
+		cfg.width = 768;
+		cfg.height = 512;
 		
 		new LwjglApplication(new EggPillow(), cfg);
 	}

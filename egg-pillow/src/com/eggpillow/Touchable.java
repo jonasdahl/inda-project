@@ -9,6 +9,7 @@ public abstract class Touchable extends Sprite {
 	public static final int BOTTOM = 1;
 	public static final int LEFT = 1;
 	public static final int RIGHT = -1;
+	public float softness = 0; // Between 0 och 1
 
 	protected float xSpeed, ySpeed;
 	
@@ -120,5 +121,9 @@ public abstract class Touchable extends Sprite {
 			yDir = y;
 		}
 
+	}
+	
+	public float getSoftness() {
+		return softness;
 	}
 }

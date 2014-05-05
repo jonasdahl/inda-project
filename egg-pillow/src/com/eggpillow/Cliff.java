@@ -19,6 +19,7 @@ public class Cliff extends Touchable {
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
+		softness = 1;
 		setSize(WIDTH * Gdx.graphics.getWidth(), HEIGHT * Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());
