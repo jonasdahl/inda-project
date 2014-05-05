@@ -1,22 +1,17 @@
 package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.eggpillow.screens.GameScreen;
 
-public class Egg extends Sprite implements Touchable {
+public class Egg extends Touchable {
 	private boolean started; // Invariant: true if egg has started moving, false
 								// otherwise
 	private boolean stopped; // Invariant: true if egg has reached basket, false
 								// otherwise
 	private boolean dead; // Invariant: true if egg has died
 	private float acceleration;
-	/** Percent of screen width per second */
-	private float xSpeed;
-	/** Percent of screen height per second */
-	private float ySpeed;
 	private GameScreen game;
 
 	private final static float STARTING_HEIGHT = 0.5f; // In percent of screen
@@ -39,8 +34,7 @@ public class Egg extends Sprite implements Touchable {
 	 */
 	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight()
-				* height);
+		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
 
 		// TODO har alla ‰gg en arrayList med pillow/cliff och ett texture?
 
@@ -65,11 +59,9 @@ public class Egg extends Sprite implements Touchable {
 		}
 
 		float screenWidth = Gdx.graphics.getWidth();
-		/* TODO use or remove */float screenHeight = Gdx.graphics.getHeight();
 
 		if (getX() < CLIFF_END * screenWidth) {
-			setY(getY() + xSpeed * delta /* TODD xSpeed? */* CLIFF_TILT
-					* (CLIFF_END * screenWidth - getX())
+			setY(getY() + xSpeed * delta /* TODD xSpeed? */* CLIFF_TILT * (CLIFF_END * screenWidth - getX())
 					/ (CLIFF_END * screenWidth));
 			setX(getX() + xSpeed * delta);
 		} else {
@@ -80,22 +72,14 @@ public class Egg extends Sprite implements Touchable {
 
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
-			if (intersects(t) && ySpeed < 0) {
-				ySpeed = ySpeed * -1 - t.getYSpeed();
-				//float tempYSpeed =ySpeed *  -1 + t.getYSpeed() / 100;
-				//R‰kna ut hur hˆgt vi kommer
-//				float x = tempYSpeed / acceleration;
-//				hojd = (tempYSpeed - acceleration^x) 
-//				hojd =
-//				hojd = ySpeed - acceleration
-//				hojd = ySpeed - acceleration + ySpeed -  2 * acceleration
-//				
-//				hojd = x * ySpeed - acceleration
-				//(tempYSpeed - x * acceleration) = 0
-				// Minska hˆjd med skillnaden vi flyttar upp egg
-				
-				// R‰kna ut ny speed fˆr att komma till nya hˆjden
-				
+			if (intersects(t).yDir == BOTTOM) {
+				if (ySpeed < 0) {
+					System.out.println(t.getYSpeed());
+					ySpeed = ySpeed * -1 + t.getYSpeed();
+				} else {
+					ySpeed = ySpeed + t.getYSpeed();
+				}
+
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
 				// yes I can hit the balls /Johan //TODO make fun/special-mode
 				// only
@@ -187,9 +171,7 @@ public class Egg extends Sprite implements Touchable {
 		// The eggs are ellipses
 		float width = getWidth();
 		float height = getHeight();
-		return (float) (Math.sqrt(1 - (x - width / 2) * (x - width / 2)
-				/ (width * width / 4))
-				* height / 2 + height / 2);
+		return (float) (Math.sqrt(1 - (x - width / 2) * (x - width / 2) / (width * width / 4)) * height / 2 + height / 2);
 	}
 
 	@Override
@@ -199,48 +181,37 @@ public class Egg extends Sprite implements Touchable {
 
 	@Override
 	public float getLeftLimit(float y) {
+		// TODO
 		// x = sqrt((1 - y2/b2))*a
-		return -1.0f
-				* (float) (Math.sqrt(1 - y * y
-						/ (getHeight() * getHeight() / 4))
-						* getWidth() / 2);
+		return -1.0f * (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
 	}
 
 	@Override
 	public float getRightLimit(float y) {
-		return (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4))
-				* getWidth() / 2);
+		// TODO
+		return (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
 	}
 
-	/**
-	 * Checks if this egg intersects with t.
-	 * 
-	 * @param t
-	 *            a touchable, like a cliff or pillow, or another egg.
-	 * @return true if the two objects share some pixels (if too many, it
-	 *         returns false)
-	 */
-	private boolean intersects(Touchable t) {
-		// TODO Improve - kollar bara rakt uppifrån mot rakt nerifrån just nu
-		int leftBound = (int) Math.max(getX(), t.getX()) + 1;
-		int rightBound = (int) Math.min(getX() + getWidth(),
-				t.getX() + t.getWidth()) - 1;
-		for (int i = leftBound; i <= rightBound; i += 10) {
-			float diff = (t.getTopLimit(i - t.getX()) + t.getY())
-					- (getBottomLimit(i - getX()) + getY());
-			if (diff > 0)
-				return true;
-		}
-		return false;
-	}
+	// /**
+	// * Checks if this egg intersects with t.
+	// *
+	// * @param t
+	// * a touchable, like a cliff or pillow, or another egg.
+	// * @return true if the two objects share some pixels (if too many, it
+	// * returns false)
+	// */
+	// private boolean intersects(Touchable t) {
+	// // TODO Improve - kollar bara rakt uppifrån mot rakt nerifrån just nu
+	// int leftBound = (int) Math.max(getX(), t.getX()) + 1;
+	// int rightBound = (int) Math.min(getX() + getWidth(),
+	// t.getX() + t.getWidth()) - 1;
+	// for (int i = leftBound; i <= rightBound; i += 10) {
+	// float diff = (t.getTopLimit(i - t.getX()) + t.getY())
+	// - (getBottomLimit(i - getX()) + getY());
+	// if (diff > 0)
+	// return true;
+	// }
+	// return false;
+	// }
 
-	@Override
-	public float getXSpeed() {
-		return xSpeed;
-	}
-
-	@Override
-	public float getYSpeed() {
-		return ySpeed;
-	}
 }

@@ -1,13 +1,12 @@
 package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Basket extends Sprite implements Touchable {
+public class Basket extends Touchable {
 	private final static float WIDTH = 0.05f;
 	private final static float HEIGHT = 0.05f;
-	private final static String ATLAS_REGION = "game_egg";
+	private final static String ATLAS_REGION = "game_basket";
 
 	public Basket(float eggWidth, float eggHeight, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));

@@ -1,16 +1,14 @@
 package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Cliff extends Sprite implements Touchable {
+public class Cliff extends Touchable {
 	/** Width in percent of screen width. */
 	private final static float WIDTH = .3f;
 	/** Height in percent of screen height. */
 	private final static float HEIGHT = .5f;
 	/** If cliff width and height is 1, then the image size is this... */
-	private final static float PADDING = 1.5f;
 	private final static String ATLAS_REGION = "game_cliff";
 
 	/**
@@ -21,7 +19,7 @@ public class Cliff extends Sprite implements Touchable {
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(PADDING * WIDTH * Gdx.graphics.getWidth(), PADDING * HEIGHT
+		setSize(WIDTH * Gdx.graphics.getWidth(), HEIGHT
 				* Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());
@@ -30,8 +28,8 @@ public class Cliff extends Sprite implements Touchable {
 	@Override
 	public float getTopLimit(float x) {
 		// TODO Complete method
-		if (x < getWidth() / 2)
-			return this.getHeight() - 20;
+		if (x < getWidth())
+			return getHeight();
 		return 0;
 	}
 
