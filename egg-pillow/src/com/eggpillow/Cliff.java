@@ -9,7 +9,6 @@ public class Cliff extends Touchable {
 	/** Height in percent of screen height. */
 	private final static float HEIGHT = .5f;
 	/** If cliff width and height is 1, then the image size is this... */
-	private final static float PADDING = 1.5f;
 	private final static String ATLAS_REGION = "game_cliff";
 
 	/**
@@ -20,7 +19,7 @@ public class Cliff extends Touchable {
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(PADDING * WIDTH * Gdx.graphics.getWidth(), PADDING * HEIGHT
+		setSize(WIDTH * Gdx.graphics.getWidth(), HEIGHT
 				* Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());
@@ -29,8 +28,8 @@ public class Cliff extends Touchable {
 	@Override
 	public float getTopLimit(float x) {
 		// TODO Complete method
-		if (x < getWidth() / PADDING)
-			return getHeight() / PADDING;
+		if (x < getWidth())
+			return getHeight();
 		return 0;
 	}
 
