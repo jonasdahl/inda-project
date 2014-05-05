@@ -5,22 +5,36 @@ filter: Nearest,Nearest
 repeat: none
 game_cliff
   rotate: false
-  xy: 1, 59
-  size: 837, 958
-  orig: 837, 958
+  xy: 1, 1
+  size: 298, 1098
+  orig: 298, 1098
   offset: 0, 0
   index: -1
-game_egg
+game_basket
   rotate: false
-  xy: 840, 825
-  size: 140, 192
-  orig: 140, 192
+  xy: 301, 550
+  size: 337, 549
+  orig: 337, 549
   offset: 0, 0
   index: -1
 game_pillow
   rotate: false
-  xy: 1, 1
-  size: 100, 56
-  orig: 100, 56
+  xy: 301, 413
+  size: 315, 135
+  orig: 315, 135
+  offset: 0, 0
+  index: -1
+game_pillow_hit
+  rotate: false
+  xy: 301, 276
+  size: 315, 135
+  orig: 315, 135
+  offset: 0, 0
+  index: -1
+game_egg
+  rotate: false
+  xy: 301, 82
+  size: 140, 192
+  orig: 140, 192
   offset: 0, 0
   index: -1

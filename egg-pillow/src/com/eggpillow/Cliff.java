@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Cliff extends Touchable {
 	/** Width in percent of screen width. */
-	private final static float WIDTH = .3f;
+	private final static float WIDTH = .1f;
 	/** Height in percent of screen height. */
 	private final static float HEIGHT = .5f;
 	/** If cliff width and height is 1, then the image size is this... */
@@ -19,18 +19,14 @@ public class Cliff extends Touchable {
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(WIDTH * Gdx.graphics.getWidth(), HEIGHT
-				* Gdx.graphics.getHeight());
+		setSize(WIDTH * Gdx.graphics.getWidth(), HEIGHT * Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());
 	}
 
 	@Override
 	public float getTopLimit(float x) {
-		// TODO Complete method
-		if (x < getWidth())
-			return getHeight();
-		return 0;
+		return getHeight();
 	}
 
 	@Override
@@ -40,7 +36,7 @@ public class Cliff extends Touchable {
 
 	@Override
 	public float getLeftLimit(float y) {
-		return 0;
+		return -500; // TODO fix
 	}
 
 	@Override

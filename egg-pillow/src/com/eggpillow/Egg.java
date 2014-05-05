@@ -14,12 +14,10 @@ public class Egg extends Touchable {
 	private float acceleration;
 	private GameScreen game;
 
-	private final static float STARTING_HEIGHT = 0.5f; // In percent of screen
+	private final static float STARTING_HEIGHT = 0.52f; // In percent of screen
 														// height
-	private final static float CLIFF_END = 0.25f;
-	private final static float CLIFF_TILT = .15f;
 	private final static float ACCELERATION = 0.01f; // TODO balance speeds
-	private final static float X_SPEED = 0.2f; // In percent of screen width
+	private final static float X_SPEED = 0.4f; // In percent of screen width
 	private final static String ATLAS_REGION = "game_egg";
 
 	/**
@@ -60,15 +58,9 @@ public class Egg extends Touchable {
 
 		float screenWidth = Gdx.graphics.getWidth();
 
-		if (getX() < CLIFF_END * screenWidth) {
-			setY(getY() + xSpeed * delta /* TODD xSpeed? */* CLIFF_TILT * (CLIFF_END * screenWidth - getX())
-					/ (CLIFF_END * screenWidth));
-			setX(getX() + xSpeed * delta);
-		} else {
-			ySpeed -= acceleration;
-			setY(getY() + ySpeed * delta);
-			setX(getX() + xSpeed * delta);
-		}
+		ySpeed -= acceleration;
+		setY(getY() + ySpeed * delta);
+		setX(getX() + xSpeed * delta);
 
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {

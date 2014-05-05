@@ -1,8 +1,5 @@
 package com.eggpillow;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -141,8 +138,7 @@ public class Pillow extends Touchable {
 
 	@Override
 	public float getTopLimit(float x) {
-		// TODO Fix limits of pillow
-		return this.getHeight();
+		return this.getHeight() / 2;
 	}
 
 	@Override
