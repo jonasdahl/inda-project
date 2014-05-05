@@ -298,7 +298,7 @@ public class GameScreen implements Screen {
 	/**
 	 * Draw paus screen to batch.
 	 */
-	private void drawPaus(SpriteBatch batch) {
+	private void drawPaus(SpriteBatch batch) { // TODO change name
 		font.setColor(Color.BLACK);
 		font.setScale(Gdx.graphics.getHeight() / 250f);
 		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(),
