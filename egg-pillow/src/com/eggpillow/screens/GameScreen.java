@@ -21,6 +21,7 @@ import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
+import com.eggpillow.Touchable;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
@@ -33,6 +34,7 @@ public class GameScreen implements Screen {
 	private float totalDelta;
 	private int freedEggs;
 	private TweenManager tweenManager;
+	private ArrayList<Touchable> touchables;
 	public static String message = "";
 
 	private boolean gamePaused = true;
@@ -184,13 +186,17 @@ public class GameScreen implements Screen {
 
 		// Setup cliff
 		cliff = new Cliff(CLIFF_HEIGHT, atlas);
+		
+		touchables = new ArrayList<Touchable>();
+		touchables.add(pillow);
+		touchables.add(cliff);
 
 		// Setup eggs
 		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
 		for (int i = 0; i < 100; i++) { // Add 100 eggs // TODO bad
 										// implementation ends after 100eggs.
-			eggs.add(new Egg(pillow, cliff, EGG_WIDTH, EGG_HEIGHT, atlas));
+			eggs.add(new Egg(this, EGG_WIDTH, EGG_HEIGHT, atlas));
 		}
 
 		// background = new Texture(BACKGROUND_IMAGE);
@@ -327,5 +333,13 @@ public class GameScreen implements Screen {
 
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
+	}
+	
+	/**
+	 * Gets all touchables except off eggs.
+	 * @return get all other touchables than eggs (like cliff and pillow)
+	 */
+	public ArrayList<Touchable> getTouchables() {
+		return touchables;
 	}
 }

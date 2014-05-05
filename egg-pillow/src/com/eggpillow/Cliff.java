@@ -5,24 +5,32 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Cliff extends Sprite implements Touchable {
+	/** Width in percent of screen width. */
 	private final static float WIDTH = .3f;
+	/** Height in percent of screen height. */
 	private final static float HEIGHT = .5f;
-	
+	/** If cliff width and height is 1, then the image size is this... */
+	private final static float PADDING = 1.5f;
+
 	/**
 	 * Constructor for Cliff.
-	 * @param height percent of height of screen where cliff top should be
+	 * 
+	 * @param height
+	 *            percent of height of screen where cliff top should be
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
 		super(atlas.findRegion("game_cliff"));
-		setSize(1.5f * WIDTH * Gdx.graphics.getWidth(), 1.5f * HEIGHT * Gdx.graphics.getHeight());
+		setSize(PADDING * WIDTH * Gdx.graphics.getWidth(), PADDING * HEIGHT
+				* Gdx.graphics.getHeight());
 		setX(0);
 		setY((height - HEIGHT) * Gdx.graphics.getHeight());
 	}
 
 	@Override
 	public float getTopLimit(float x) {
+		// TODO Complete method
 		if (x < getWidth() / 2)
-			return this.getHeight();
+			return this.getHeight() - 20;
 		return 0;
 	}
 
@@ -38,7 +46,7 @@ public class Cliff extends Sprite implements Touchable {
 
 	@Override
 	public float getRightLimit(float y) {
-		return this.getWidth();
+		return this.getWidth(); // TODO Complete method
 	}
 
 	@Override
