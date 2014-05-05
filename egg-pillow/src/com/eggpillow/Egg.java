@@ -37,10 +37,10 @@ public class Egg extends Sprite implements Touchable {
 	 * @param width
 	 *            the height in percent of the screen width of this egg
 	 */
-	public Egg(GameScreen game, float width, float height,
-			TextureAtlas atlas) {
+	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
+		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight()
+				* height);
 
 		// TODO har alla ägg en arrayList med pillow/cliff och ett texture?
 
@@ -81,10 +81,24 @@ public class Egg extends Sprite implements Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
 			if (intersects(t) && ySpeed < 0) {
-				ySpeed *= -1 + t.getYSpeed() / 100; // yes I can hit the balls
-													// /Johan //TODO make
-													// fun/special-mode only
+				ySpeed = ySpeed * -1 - t.getYSpeed();
+				//float tempYSpeed =ySpeed *  -1 + t.getYSpeed() / 100;
+				//Räkna ut hur högt vi kommer
+//				float x = tempYSpeed / acceleration;
+//				hojd = (tempYSpeed - acceleration^x) 
+//				hojd =
+//				hojd = ySpeed - acceleration
+//				hojd = ySpeed - acceleration + ySpeed -  2 * acceleration
+//				
+//				hojd = x * ySpeed - acceleration
+				//(tempYSpeed - x * acceleration) = 0
+				// Minska höjd med skillnaden vi flyttar upp egg
+				
+				// Räkna ut ny speed för att komma till nya höjden
+				
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
+				// yes I can hit the balls /Johan //TODO make fun/special-mode
+				// only
 			}
 		}
 
@@ -211,7 +225,7 @@ public class Egg extends Sprite implements Touchable {
 		int leftBound = (int) Math.max(getX(), t.getX()) + 1;
 		int rightBound = (int) Math.min(getX() + getWidth(),
 				t.getX() + t.getWidth()) - 1;
-		for (int i = leftBound; i <= rightBound; i+=10) {
+		for (int i = leftBound; i <= rightBound; i += 10) {
 			float diff = (t.getTopLimit(i - t.getX()) + t.getY())
 					- (getBottomLimit(i - getX()) + getY());
 			if (diff > 0)

@@ -4,16 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Basket extends Sprite implements Touchable{
-	private final static float WIDTH = 0.5f;
-	private final static float HEIGHT = 0.5f;
+public class Basket extends Sprite implements Touchable {
+	private final static float WIDTH = 0.05f;
+	private final static float HEIGHT = 0.05f;
 	private final static String ATLAS_REGION = "game_egg";
-	
-	public Basket(TextureAtlas atlas) {
+
+	public Basket(float eggWidth, float eggHeight, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(Gdx.graphics.getWidth() * WIDTH, Gdx.graphics.getHeight() * HEIGHT);
+		setSize(Gdx.graphics.getWidth() * (WIDTH + eggWidth), Gdx.graphics.getHeight()
+				* (HEIGHT + eggHeight));
+		setX(Gdx.graphics.getWidth() - getWidth());
+		setY(0);
 	}
-	
+
 	@Override
 	public float getTopLimit(float x) {
 		return getHeight();

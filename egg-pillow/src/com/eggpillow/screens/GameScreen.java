@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.eggpillow.Basket;
 import com.eggpillow.Cliff;
 import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen {
 	private Pillow pillow;
 	private Cliff cliff;
 	private ArrayList<Egg> eggs;
+	private Basket basket;
 
 	// Constants
 	private static final float TIME_BETWEEN_EGGS = 2f;
@@ -94,6 +96,7 @@ public class GameScreen implements Screen {
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
+		basket.draw(batch);
 
 		font.setColor(1.0f, 1.0f, 0f, 1.0f);
 		font.setScale(Gdx.graphics.getHeight() / 200f);
@@ -186,11 +189,13 @@ public class GameScreen implements Screen {
 
 		// Setup cliff
 		cliff = new Cliff(CLIFF_HEIGHT, atlas);
+		basket = new Basket(EGG_WIDTH, EGG_HEIGHT, atlas);
 		
 		touchables = new ArrayList<Touchable>();
 		touchables.add(pillow);
 		touchables.add(cliff);
-
+		touchables.add(basket);
+		
 		// Setup eggs
 		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
