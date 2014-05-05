@@ -184,14 +184,14 @@ public class GameScreen implements Screen {
 		eggRegion = atlas.findRegion("game_egg");
 		pillowRegion = atlas.findRegion("game_pillow");
 
+		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(.3f, .95f, -.08f, atlas);
+		pillow = new Pillow(touchables, -.08f, atlas);
 
 		// Setup cliff
 		cliff = new Cliff(CLIFF_HEIGHT, atlas);
 		basket = new Basket(EGG_WIDTH, EGG_HEIGHT, atlas);
 		
-		touchables = new ArrayList<Touchable>();
 		touchables.add(pillow);
 		touchables.add(cliff);
 		touchables.add(basket);
