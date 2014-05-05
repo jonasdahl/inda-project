@@ -16,6 +16,9 @@ import com.eggpillow.screens.SplashScreen;
  *   Jag fattar inte touchable getRight/left/top/bottomlimit vad ska göras?
  *   Eggs. Borde tas bort och läggas till i listan när de dör / spawnar. 
  *   MAXspeed på pillow? om man nu drar för fort drar man igenom ägget.
+ *   
+ *   DRAW: lifeindicator
+ *   		fix crashedEgg to png
  */
 
 public class EggPillow extends Game {

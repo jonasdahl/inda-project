@@ -3,6 +3,7 @@ package com.eggpillow;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.screens.GameScreen;
 
 public class Egg extends Touchable {
@@ -19,7 +20,10 @@ public class Egg extends Touchable {
 	private final static float ACCELERATION = 0.01f; // TODO balance speeds
 	private final static float X_SPEED = 0.4f; // In percent of screen width
 	private final static String ATLAS_REGION = "game_egg";
+	private final static String ATLAS_REGION_CRASHED = "game_egg_crashed";
 
+	private AtlasRegion crashRegion;
+	
 	/**
 	 * Constructor for class Egg.
 	 * 
@@ -33,7 +37,7 @@ public class Egg extends Touchable {
 	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
 		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
-
+		// TODO crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
 		// TODO har alla ägg en arrayList med pillow/cliff och ett texture?
 
 		this.game = game;
@@ -113,6 +117,9 @@ public class Egg extends Touchable {
 		if (getY() <= 0) {
 			stopped = true;
 			if (getX() + getWidth() < Gdx.graphics.getWidth() * 0.95f) {
+				if (!dead) {
+					// TODO setRegion(crashRegion);
+				}
 				dead = true;
 			}
 		}
