@@ -91,8 +91,8 @@ public class Pillow extends Sprite implements Touchable {
 	 */
 	@Override
 	public void setY(float y) {
-		if (y < getHeight()) {
-			y = getHeight();
+		if (y < 0) {
+			y = 0;
 		} else if (y > Gdx.graphics.getHeight()) {
 			y = Gdx.graphics.getHeight();
 		}
