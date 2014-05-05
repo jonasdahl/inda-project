@@ -1,7 +1,9 @@
 package com.eggpillow;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
@@ -9,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
  *  
  *  Update the pillow with update(delta) and draw(batch) every frame.
  */
-public class Pillow extends Sprite implements Touchable {
+public class Pillow extends Touchable {
 	private float level;
 	private boolean locked;
 	private float paddingX;
@@ -20,7 +22,8 @@ public class Pillow extends Sprite implements Touchable {
 	private final static float WIDTH = .1f; // In percent of screen width
 	private final static float HEIGHT = .1f; // In percent of screen height
 	
-	private float oldX, oldY, xSpeed, ySpeed;
+	private float[] oldX, oldY;
+	private int nextOld = 0;
 	
 	private final static String ATLAS_REGION = "game_pillow";
 
@@ -54,6 +57,8 @@ public class Pillow extends Sprite implements Touchable {
 		this.paddingY = Gdx.graphics.getHeight() / 10;
 		setX(0);
 		setY(-1 * level);
+		oldX = new float[3];
+		oldY = new float[3];
 	}
 	
 	/**
@@ -70,10 +75,23 @@ public class Pillow extends Sprite implements Touchable {
 	 * @param delta Time since last update seconds
 	 */
 	private void updateSpeed(float delta) {
-		xSpeed = (oldX - getX()) * delta;
-		ySpeed = (oldY - getY()) * delta;
-		oldX = getX();
-		oldY = getY();
+		xSpeed = (getX() - medel(oldX)) * delta * Gdx.graphics.getWidth();
+		ySpeed = (getY() - medel(oldY)) * delta * Gdx.graphics.getHeight();
+		
+		oldX[nextOld] = getX();
+		oldY[nextOld] = getY();
+		nextOld++;
+		if (nextOld == 3) {
+			nextOld = 0;
+		}
+	}
+	
+	private float medel(float[] v) {
+		float x = 0;
+		for (float f : v) {
+			x+= f;
+		}
+		return x / v.length;
 	}
 	
 	/**
@@ -143,15 +161,5 @@ public class Pillow extends Sprite implements Touchable {
 	public float getRightLimit(float y) {
 		// TODO Fix limits of pillow
 		return this.getWidth();
-	}
-
-	@Override
-	public float getXSpeed() {
-		return xSpeed * Gdx.graphics.getWidth();
-	}
-
-	@Override
-	public float getYSpeed() {
-		return ySpeed * Gdx.graphics.getHeight();
 	}
 }

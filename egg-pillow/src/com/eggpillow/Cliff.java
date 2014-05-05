@@ -1,10 +1,9 @@
 package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Cliff extends Sprite implements Touchable {
+public class Cliff extends Touchable {
 	/** Width in percent of screen width. */
 	private final static float WIDTH = .3f;
 	/** Height in percent of screen height. */
@@ -30,8 +29,8 @@ public class Cliff extends Sprite implements Touchable {
 	@Override
 	public float getTopLimit(float x) {
 		// TODO Complete method
-		if (x < getWidth() / 2)
-			return this.getHeight() - 20;
+		if (x < getWidth() / PADDING)
+			return getHeight() / PADDING;
 		return 0;
 	}
 
