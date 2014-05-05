@@ -64,25 +64,49 @@ public class Egg extends Touchable {
 
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
-			if (intersects(t).yDir == BOTTOM) {
+			ReturnClass intersect = intersects(t);
+			if (intersect.yDir == BOTTOM) {
 				float softness = t.getSoftness();
 				if (softness > 1)
 					softness = 1;
 				else if (softness < 0)
 					softness = 0;
-				
+
 				if (ySpeed < 0) {
-					System.out.println(t.getYSpeed());
-					ySpeed = ySpeed * -1 + t.getYSpeed();
-				} else {
-					ySpeed = ySpeed + t.getYSpeed();
+					ySpeed *= -1;
 				}
+				ySpeed += t.getYSpeed();
 				ySpeed *= 1 - softness;
 
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
-				// yes I can hit the balls /Johan //TODO make fun/special-mode
+				//TODO make fun/special-mode
 				// only
+			} else if (intersect.yDir == TOP) {
+				if (ySpeed > 0) {
+					ySpeed *= -1;
+				}
+				ySpeed += t.getYSpeed();
+				setY(t.getY() - getHeight() + ySpeed * delta);
 			}
+			//TODO left-right collision
+			// if (intersect.xDir == LEFT) {
+			// System.out.println("LEFT");
+			// if (xSpeed > 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// System.out.println(xSpeed);
+			// setX(t.getX() - getWidth() + xSpeed * delta);
+			// }
+			// if (intersect.xDir == RIGHT) {
+			// System.out.println("RIGHT");
+			// if (xSpeed < 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// xSpeed *= 1 - t.getSoftness();
+			// setX(t.getX() + xSpeed * delta);
+			// }
 		}
 
 		// Dead or just stopped

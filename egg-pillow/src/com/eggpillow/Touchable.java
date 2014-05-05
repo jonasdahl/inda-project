@@ -79,31 +79,32 @@ public abstract class Touchable extends Sprite {
 		float botBound = Math.max(getY(), t.getY());
 		float topBound = Math.min(getY() + getHeight(), t.getY() + t.getHeight());
 		float diffY = (topBound - botBound) / 10;
-		for (float i = 0; i < topBound - botBound; i += diffY) {
-			if (getXSpeed() >= 0) {
-				if (getRightLimit(i) + getX() < t.getLeftLimit(i) + t.getX()) {
-					//xDir = RIGHT;
+		for (float i = 0; i < (topBound - botBound); i += diffY) {
+			if (getXSpeed() - t.getXSpeed() >= 0) {
+				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
+					xDir = LEFT;
 				}
 			} else {
 				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
-					//xDir = LEFT;
+					xDir = RIGHT;
 				}
 			}
 		}
 		float leftBound = Math.max(getX(), t.getX());
 		float rightBound = Math.min(getX() + getWidth(), t.getX() + t.getWidth());
 		float diffX = (rightBound - leftBound) / 10;
-		for (float j = 0; j < rightBound - leftBound; j += diffX) {
-			if (getYSpeed() > 0) {
-				if (getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()) {
+		for (float j = 0; j < (rightBound - leftBound); j += diffX) {
+			if (getYSpeed() - t.getYSpeed() >= 0) {
+				if (getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY() && getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()) {
 					yDir = TOP;
 				}
 			} else {
-				if (getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()) {
+				if (getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY() && getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()) {
 					yDir = BOTTOM;
 				}
 			}
 		}
+		
 		if (xDir != 0 || yDir != 0) {
 			return new ReturnClass(t, xDir, yDir);
 		}

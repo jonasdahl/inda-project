@@ -62,7 +62,7 @@ public class GameScreen implements Screen {
 	private final static float EGG_WIDTH = 0.058f;
 	/** In percent of screen width */
 	private final static float CLIFF_HEIGHT = 0.5f;
-
+	private final static int LIVES = 3;
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 
 	/**
@@ -133,14 +133,14 @@ public class GameScreen implements Screen {
 			}
 		}
 
-		if (deadEggs >= 3) {
+		if (deadEggs >= LIVES) {
 			newHighscore = updateHighscore(freedEggs); // TODO change to succesfully saved eggs
 			gameOver = true;
 			gamePaused = true;
 		}
 
 		// TODO Do it BETTER!
-		message = (3 - deadEggs) + "/3 lives left";
+		message = (LIVES - deadEggs) + "/3 lives left";
 
 		// Start eggs that should start
 		totalDelta += delta;
@@ -193,8 +193,8 @@ public class GameScreen implements Screen {
 		basket = new Basket(EGG_WIDTH, EGG_HEIGHT, atlas);
 		
 		touchables.add(pillow);
-		touchables.add(cliff);
-		touchables.add(basket);
+		//touchables.add(cliff);
+		//touchables.add(basket);
 		
 		// Setup eggs
 		freedEggs = 0;

@@ -11,17 +11,11 @@ import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
 /*
- *  USEFULSTUFF SOM LÅTER BRA MEN JAG INTE HAR FATTAR ÄNNU
- *  
- *  textureAtlas
- *  skin
- *  TextureRegion
- *  
- *  
  *  Questions:
  *   changeListener 1/screen eller 1/knapp
  *   Jag fattar inte touchable getRight/left/top/bottomlimit vad ska göras?
  *   Eggs. Borde tas bort och läggas till i listan när de dör / spawnar. 
+ *   MAXspeed på pillow? om man nu drar för fort drar man igenom ägget.
  */
 
 public class EggPillow extends Game {

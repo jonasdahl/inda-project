@@ -76,8 +76,11 @@ public class Pillow extends Touchable {
 	 *            Time since last update seconds
 	 */
 	private void updateSpeed(float delta) {
+		// TODO delay or fluctuate
 		xSpeed = (getX() - medel(oldX)) * delta * Gdx.graphics.getWidth();
 		ySpeed = (getY() - medel(oldY)) * delta * Gdx.graphics.getHeight();
+		//xSpeed = (getX() - oldX[ nextOld]) * delta * Gdx.graphics.getWidth();
+		//ySpeed = (getY() - oldY[nextOld]) * delta * Gdx.graphics.getHeight();
 
 		oldX[nextOld] = getX();
 		oldY[nextOld] = getY();
@@ -154,19 +157,16 @@ public class Pillow extends Touchable {
 
 	@Override
 	public float getBottomLimit(float x) {
-		// TODO Fix limits of pillow
 		return 0;
 	}
 
 	@Override
 	public float getLeftLimit(float y) {
-		// TODO Fix limits of pillow
 		return 0;
 	}
 
 	@Override
 	public float getRightLimit(float y) {
-		// TODO Fix limits of pillow
 		return this.getWidth();
 	}
 }
