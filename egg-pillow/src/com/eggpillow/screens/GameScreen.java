@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
 	/** In percent of screen width */
 	private final static float CLIFF_HEIGHT = 0.5f;
 
-	private final static int LIVES = 3;
+	private final static int LIVES = 40;
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 
 	/**

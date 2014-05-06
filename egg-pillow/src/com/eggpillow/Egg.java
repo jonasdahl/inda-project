@@ -88,26 +88,23 @@ public class Egg extends Touchable {
 				ySpeed *= 1 - softnessY;
 				setY(t.getY() - getHeight() + ySpeed * delta);
 			}
-			float softnessX = t.softnessX;
-			// TODO left-right collision
-			if (intersect.xDir == LEFT) {
-				System.out.println("LEFT");
-				if (xSpeed > 0) {
-					xSpeed *= -1;
-				}
-				xSpeed += t.getXSpeed();
-				System.out.println(xSpeed);
-				setX(t.getX() - getWidth() + xSpeed * delta);
-			}
-			if (intersect.xDir == RIGHT) {
-				System.out.println("RIGHT");
-				if (xSpeed < 0) {
-					xSpeed *= -1;
-				}
-				xSpeed += t.getXSpeed();
-				xSpeed *= 1 - softnessX;
-				setX(t.getX() + xSpeed * delta);
-			}
+			// TODO implement correctly
+			// float softnessX = t.softnessX;
+			// if (intersect.xDir == LEFT) {
+			// if (xSpeed < 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// setX(t.getX() + t.getWidth() + xSpeed * delta);
+			// }
+			// if (intersect.xDir == RIGHT) {
+			// if (xSpeed > 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// //xSpeed *= 1 - softnessX;
+			// setX(t.getX() - getWidth() + xSpeed * delta);
+			// }
 		}
 
 		// Dead or just stopped
@@ -123,7 +120,12 @@ public class Egg extends Touchable {
 
 		// Reached right side!
 		if (getX() + getWidth() >= screenWidth) {
+			setX(screenWidth - getWidth());
 			xSpeed = 0; // But still go down
+		}
+		if (getX() < 0) {
+			setX(0);
+			xSpeed *= -1;
 		}
 	}
 
@@ -208,15 +210,14 @@ public class Egg extends Touchable {
 
 	@Override
 	public float getLeftLimit(float y) {
-		// TODO
-		// x = sqrt((1 - y2/b2))*a
-		return -1.0f * (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
+		return getWidth() - getRightLimit(y);
 	}
 
 	@Override
 	public float getRightLimit(float y) {
-		// TODO
-		return (float) (Math.sqrt(1 - y * y / (getHeight() * getHeight() / 4)) * getWidth() / 2);
+		float width = getWidth();
+		float height = getHeight();
+		return (float) (Math.sqrt(1 - (y - height / 2) * (y - height/2) / (height * height / 4)) * width / 2 + width / 2 );
 	}
 
 	// /**

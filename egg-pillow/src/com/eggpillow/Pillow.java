@@ -56,6 +56,8 @@ public class Pillow extends Touchable {
 		setY(-1 * level);
 		oldX = new float[3];
 		oldY = new float[3];
+		softnessX = 0.5f;
+		softnessY = 0.5f;
 	}
 
 	/**

@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public abstract class Touchable extends Sprite {
 
-	public static final int TOP = -1;
-	public static final int BOTTOM = 1;
-	public static final int LEFT = 1;
-	public static final int RIGHT = -1;
+	public static final int TOP = -100;
+	public static final int BOTTOM = 100;
+	public static final int LEFT = 100;
+	public static final int RIGHT = -100;
 	protected float softnessX = 0; // Between 0 and 1
 	protected float softnessY = 0; // Between 0 and 1
 
@@ -76,18 +76,21 @@ public abstract class Touchable extends Sprite {
 	 * @return ReturnClass if intersect with t = null if no intersect.
 	 */
 	public ReturnClass intersects(Touchable t) {
+		// TODO this is a mess. Need to think through how to do it
 		int xDir = 0, yDir = 0;
 		float botBound = Math.max(getY(), t.getY());
 		float topBound = Math.min(getY() + getHeight(), t.getY() + t.getHeight());
 		float diffY = (topBound - botBound) / 10;
 		for (float i = 0; i < (topBound - botBound); i += diffY) {
 			if (getXSpeed() - t.getXSpeed() >= 0) {
-				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX() && getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
-					xDir = LEFT;
+				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()
+						&& getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
+					xDir = RIGHT;
 				}
 			} else {
-				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX() && getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
-					xDir = RIGHT;
+				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()
+						&& getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
+					xDir = LEFT;
 				}
 			}
 		}
@@ -107,8 +110,7 @@ public abstract class Touchable extends Sprite {
 				}
 			}
 		}
-
-		if (xDir != 0 || yDir != 0) {
+		if (xDir == LEFT || xDir == RIGHT || yDir == TOP || yDir == BOTTOM) {
 			return new ReturnClass(t, xDir, yDir);
 		}
 		return new ReturnClass(null, 0, 0);
@@ -125,6 +127,14 @@ public abstract class Touchable extends Sprite {
 			yDir = y;
 		}
 
+	}
+	
+	public float centerX() {
+		return getX() + getWidth() / 2;
+	}
+	
+	public float centerY() {
+		return getY() + getHeight() / 2;
 	}
 
 	public float getYSoftness() {
