@@ -1,10 +1,10 @@
 package inputhandler;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
+import com.eggpillow.V;
 
 public class InputHandlerGame implements InputProcessor {
 	
@@ -45,7 +45,7 @@ public class InputHandlerGame implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (pillow.inside(screenX, screenY)) {
 			pillow.setX(screenX);
-			pillow.setY(Gdx.graphics.getHeight() - screenY);
+			pillow.setY(V.HEIGHT - screenY);
 			onPillow = true;
 		}
 		if (game.gameScreen.isPaused() ){
@@ -68,7 +68,7 @@ public class InputHandlerGame implements InputProcessor {
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		if (onPillow || pillow.inside(screenX, screenY)) {
 			pillow.setX(screenX);
-			pillow.setY(Gdx.graphics.getHeight() - screenY);
+			pillow.setY(V.HEIGHT - screenY);
 		}
 		return false;
 	}

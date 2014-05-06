@@ -43,7 +43,7 @@ public class Pillow extends Touchable {
 	 */
 	public Pillow(ArrayList<Touchable> thouchables, float yLevel, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(Gdx.graphics.getWidth() * WIDTH, Gdx.graphics.getHeight() * HEIGHT);
+		setSize(V.WIDTH * WIDTH, V.HEIGHT * HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
 		} else {
@@ -51,8 +51,8 @@ public class Pillow extends Touchable {
 			level = yLevel;
 		}
 		this.touchables = thouchables;
-		this.paddingX = Gdx.graphics.getWidth() / 10;
-		this.paddingY = Gdx.graphics.getHeight() / 10;
+		this.paddingX = V.WIDTH / 10;
+		this.paddingY = V.HEIGHT / 10;
 		setX(0);
 		setY(-1 * level);
 		oldX = new float[3];
@@ -77,10 +77,10 @@ public class Pillow extends Touchable {
 	 */
 	private void updateSpeed(float delta) {
 		// TODO delay or fluctuate
-		xSpeed = (getX() - medel(oldX)) * delta * Gdx.graphics.getWidth();
-		ySpeed = (getY() - medel(oldY)) * delta * Gdx.graphics.getHeight();
-		//xSpeed = (getX() - oldX[ nextOld]) * delta * Gdx.graphics.getWidth();
-		//ySpeed = (getY() - oldY[nextOld]) * delta * Gdx.graphics.getHeight();
+		xSpeed = (getX() - medel(oldX)) * delta * V.WIDTH;
+		ySpeed = (getY() - medel(oldY)) * delta * V.HEIGHT;
+		//xSpeed = (getX() - oldX[ nextOld]) * delta * V.WIDTH;
+		//ySpeed = (getY() - oldY[nextOld]) * delta * V.HEIGHT;
 
 		oldX[nextOld] = getX();
 		oldY[nextOld] = getY();
@@ -111,8 +111,8 @@ public class Pillow extends Touchable {
 	 */
 	@Override
 	public void setX(float x) {
-		if (x > Gdx.graphics.getWidth() - getWidth())
-			x = Gdx.graphics.getWidth() - getWidth();
+		if (x > V.WIDTH - getWidth())
+			x = V.WIDTH - getWidth();
 		if (x < 0)
 			x = 0;
 		super.setX(x);
@@ -126,14 +126,14 @@ public class Pillow extends Touchable {
 	public void setY(float y) {
 		if (y < 0) {
 			y = 0;
-		} else if (y > Gdx.graphics.getHeight() - getHeight()) {
-			y = Gdx.graphics.getHeight() - getHeight();
+		} else if (y > V.HEIGHT - getHeight()) {
+			y = V.HEIGHT - getHeight();
 		}
 
 		if (!locked)
 			super.setY(y);
 		else
-			super.setY(Gdx.graphics.getHeight() * level);
+			super.setY(V.HEIGHT * level);
 	}
 
 	/**
@@ -143,8 +143,8 @@ public class Pillow extends Touchable {
 	 */
 	public boolean inside(int testX, int testY) {
 		if (testX > getX() - paddingX && testX < getWidth() + getX() + paddingX
-				&& testY < Gdx.graphics.getHeight() - getY() + paddingY
-				&& testY > Gdx.graphics.getHeight() - getY() - getHeight() - paddingY) {
+				&& testY < V.HEIGHT - getY() + paddingY
+				&& testY > V.HEIGHT - getY() - getHeight() - paddingY) {
 			return true;
 		}
 		return false;

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
+import com.eggpillow.V;
 
 public class SettingsScreen implements Screen {
 	
@@ -28,8 +29,8 @@ public class SettingsScreen implements Screen {
 	private Stage stage;
 	private ArrayList<TextButton> buttons;
 	private final int INDEX_MUTE = 0;
-	private final int INDEX_DONE = 1;
-	private final int INDEX_FUN = 2;
+	private final int INDEX_DONE = 2;
+	private final int INDEX_FUN = 1;
 	
 	private Table table;
 	
@@ -56,7 +57,7 @@ public class SettingsScreen implements Screen {
 		batch.begin();
 		//batch.draw(background, 0, 0);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.draw(batch, message, Gdx.graphics.getWidth() / 20, Gdx.graphics.getHeight() / 5);
+		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 5);
 		batch.end();
 		
 		Table.drawDebug(stage); // TODO remove
@@ -79,9 +80,9 @@ public class SettingsScreen implements Screen {
 		background = new Texture("img/settings_background.png");
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
-		font.setScale(Gdx.graphics.getHeight() / 500f);
+		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 		table = new Table();
-		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		
 		prefs = Gdx.app.getPreferences(PREFERENCE_NAME);
 		boolean mute = prefs.getBoolean(PREFERENCE_MUTED, false);
@@ -129,8 +130,8 @@ public class SettingsScreen implements Screen {
 		});
 		
 		buttons.add(INDEX_MUTE, buttonMute);
-		buttons.add(INDEX_DONE, buttonDone);
 		buttons.add(INDEX_FUN, buttonFun);
+		buttons.add(INDEX_DONE, buttonDone);
 		
 		for (TextButton t : buttons) {
 			table.row().pad(5);

@@ -10,10 +10,11 @@ public class Basket extends Touchable {
 
 	public Basket(float eggWidth, float eggHeight, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		softness = 1;
-		setSize(Gdx.graphics.getWidth() * (WIDTH + eggWidth), Gdx.graphics.getHeight()
+		softnessY = 1;
+		softnessX = 0;
+		setSize(V.WIDTH * (WIDTH + eggWidth), V.HEIGHT
 				* (HEIGHT + eggHeight));
-		setX(Gdx.graphics.getWidth() - getWidth());
+		setX(V.WIDTH - getWidth());
 		setY(0);
 	}
 

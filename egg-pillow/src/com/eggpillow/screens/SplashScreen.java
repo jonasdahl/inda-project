@@ -5,12 +5,12 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.EggPillow;
+import com.eggpillow.V;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
@@ -53,7 +53,7 @@ public class SplashScreen implements Screen {
 		Texture texture = new Texture("img/splash.png"); // The texture of the
 															// splash
 		splash = new Sprite(texture); // The splash is wrapped in a Sprite
-		splash.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		splash.setSize(V.WIDTH, V.HEIGHT);
 
 		Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).target(1)

@@ -1,6 +1,5 @@
 package com.eggpillow;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -23,7 +22,7 @@ public class Egg extends Touchable {
 	private final static String ATLAS_REGION_CRASHED = "game_egg_crashed";
 
 	private AtlasRegion crashRegion;
-	
+
 	/**
 	 * Constructor for class Egg.
 	 * 
@@ -36,7 +35,7 @@ public class Egg extends Touchable {
 	 */
 	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
-		setSize(Gdx.graphics.getWidth() * width, Gdx.graphics.getHeight() * height);
+		setSize(V.WIDTH * width, V.HEIGHT * height);
 		// TODO crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
 		// TODO har alla ägg en arrayList med pillow/cliff och ett texture?
 
@@ -44,9 +43,9 @@ public class Egg extends Touchable {
 		started = false;
 		stopped = false;
 		dead = false;
-		xSpeed = X_SPEED * Gdx.graphics.getWidth();
-		acceleration = ACCELERATION * Gdx.graphics.getHeight();
-		setY(Gdx.graphics.getHeight() * STARTING_HEIGHT);
+		xSpeed = X_SPEED * V.WIDTH;
+		acceleration = ACCELERATION * V.HEIGHT;
+		setY(V.HEIGHT * STARTING_HEIGHT);
 
 		// Start outside screen and slide in
 		setX(-getWidth());
@@ -60,7 +59,7 @@ public class Egg extends Touchable {
 			return;
 		}
 
-		float screenWidth = Gdx.graphics.getWidth();
+		float screenWidth = V.WIDTH;
 
 		ySpeed -= acceleration;
 		setY(getY() + ySpeed * delta);
@@ -69,54 +68,52 @@ public class Egg extends Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
 			ReturnClass intersect = intersects(t);
+			float softnessY = t.getYSoftness();
 			if (intersect.yDir == BOTTOM) {
-				float softness = t.getSoftness();
-				if (softness > 1)
-					softness = 1;
-				else if (softness < 0)
-					softness = 0;
 
 				if (ySpeed < 0) {
 					ySpeed *= -1;
 				}
 				ySpeed += t.getYSpeed();
-				ySpeed *= 1 - softness;
+				ySpeed *= 1 - softnessY;
 
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
-				//TODO make fun/special-mode
+				// TODO make fun/special-mode
 				// only
 			} else if (intersect.yDir == TOP) {
 				if (ySpeed > 0) {
 					ySpeed *= -1;
 				}
 				ySpeed += t.getYSpeed();
+				ySpeed *= 1 - softnessY;
 				setY(t.getY() - getHeight() + ySpeed * delta);
 			}
-			//TODO left-right collision
-			// if (intersect.xDir == LEFT) {
-			// System.out.println("LEFT");
-			// if (xSpeed > 0) {
-			// xSpeed *= -1;
-			// }
-			// xSpeed += t.getXSpeed();
-			// System.out.println(xSpeed);
-			// setX(t.getX() - getWidth() + xSpeed * delta);
-			// }
-			// if (intersect.xDir == RIGHT) {
-			// System.out.println("RIGHT");
-			// if (xSpeed < 0) {
-			// xSpeed *= -1;
-			// }
-			// xSpeed += t.getXSpeed();
-			// xSpeed *= 1 - t.getSoftness();
-			// setX(t.getX() + xSpeed * delta);
-			// }
+			float softnessX = t.softnessX;
+			// TODO left-right collision
+//			if (intersect.xDir == LEFT) {
+//				System.out.println("LEFT");
+//				if (xSpeed > 0) {
+//					xSpeed *= -1;
+//				}
+//				xSpeed += t.getXSpeed();
+//				System.out.println(xSpeed);
+//				setX(t.getX() - getWidth() + xSpeed * delta);
+//			}
+//			if (intersect.xDir == RIGHT) {
+//				System.out.println("RIGHT");
+//				if (xSpeed < 0) {
+//					xSpeed *= -1;
+//				}
+//				xSpeed += t.getXSpeed();
+//				xSpeed *= 1 - softnessX;
+//				setX(t.getX() + xSpeed * delta);
+//			}
 		}
 
 		// Dead or just stopped
 		if (getY() <= 0) {
 			stopped = true;
-			if (getX() + getWidth() < Gdx.graphics.getWidth() * 0.95f) {
+			if (getX() + getWidth() < V.WIDTH * 0.95f) {
 				if (!dead) {
 					// TODO setRegion(crashRegion);
 				}

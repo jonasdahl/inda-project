@@ -23,6 +23,7 @@ import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Pillow;
 import com.eggpillow.Touchable;
+import com.eggpillow.V;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
@@ -84,7 +85,7 @@ public class GameScreen implements Screen {
 		Texture.setEnforcePotImages(false);
 
 		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 		cliff.draw(batch);
 		pillow.draw(batch);
 
@@ -99,9 +100,9 @@ public class GameScreen implements Screen {
 		basket.draw(batch);
 
 		font.setColor(1.0f, 1.0f, 0f, 1.0f);
-		font.setScale(Gdx.graphics.getHeight() / 200f);
-		font.draw(batch, message, Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.9f);
-		font.draw(batch, "Score: " + freedEggs, Gdx.graphics.getWidth() * 2.5f / 4, Gdx.graphics.getHeight() * 9 / 10);
+		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
+		font.draw(batch, message, V.WIDTH * 0.1f, V.HEIGHT * 0.9f);
+		font.draw(batch, "Score: " + freedEggs, V.WIDTH * 2.5f / 4, V.HEIGHT * 9 / 10);
 
 		if (gamePaused) {
 			if (showInstructions) {
@@ -208,7 +209,7 @@ public class GameScreen implements Screen {
 		background = new Texture(BACKGROUND_IMAGE);
 		inputHandler = new InputHandlerGame(pillow, game);
 		Gdx.input.setInputProcessor(inputHandler);
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 
 		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
@@ -263,33 +264,33 @@ public class GameScreen implements Screen {
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		batch.draw(pTexture, 0, 0);
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(Gdx.graphics.getHeight() / 250f);
-		batch.draw(eggRegion, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() * 3 / 4, Gdx.graphics.getWidth()
-				* EGG_WIDTH, Gdx.graphics.getHeight() * EGG_HEIGHT);
-		batch.draw(pillowRegion, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 4,
-				Gdx.graphics.getWidth() * 0.1f, Gdx.graphics.getHeight() * 0.1f);
+		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH
+				* EGG_WIDTH, V.HEIGHT * EGG_HEIGHT);
+		batch.draw(pillowRegion, V.WIDTH / 2, V.HEIGHT / 4,
+				V.WIDTH * 0.1f, V.HEIGHT * 0.1f);
 
-		font.draw(batch, "Here is the pillow", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() * 0.15f,
-				Gdx.graphics.getHeight() / 4);
-		font.draw(batch, "Here is egg", Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() * 0.15f,
-				Gdx.graphics.getHeight() * 3 / 4);
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.setScale(V.HEIGHT / V.FONT_BIG);
+		font.draw(batch, "Here is the pillow", V.WIDTH / 2 + V.WIDTH * 0.15f,
+				V.HEIGHT / 4);
+		font.draw(batch, "Here is egg", V.WIDTH / 2 + V.WIDTH * 0.15f,
+				V.HEIGHT * 3 / 4);
 	}
 
 	private void drawGameOver(SpriteBatch batch, int score, boolean newHS) {
-		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight(), 0, 0, 1, 1,
+		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1,
 				false, false);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		font.setScale(Gdx.graphics.getHeight() / 200f);
-		font.draw(batch, "Game over", Gdx.graphics.getWidth() / 2 * 0.6f, Gdx.graphics.getHeight() / 2);
-		font.setScale(Gdx.graphics.getHeight() / 250f);
+		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
+		font.draw(batch, "Game over", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
+		font.setScale(V.HEIGHT / V.FONT_SMALL);
 		if (newHS) {
-			font.draw(batch, "Congratulations u got a new Highscore " + score, Gdx.graphics.getWidth() / 2 * 0.4f,
-					Gdx.graphics.getHeight() / 3);
+			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f,
+					V.HEIGHT / 3);
 		} else {
-			font.draw(batch, "Your score: " + freedEggs, Gdx.graphics.getWidth() / 2 * 0.6f,
-					Gdx.graphics.getHeight() / 3);
+			font.draw(batch, "Your score: " + freedEggs, V.WIDTH / 2 * 0.6f,
+					V.HEIGHT / 3);
 		}
 	}
 
@@ -298,26 +299,26 @@ public class GameScreen implements Screen {
 	 */
 	private void drawPaus(SpriteBatch batch) { // TODO change name
 		font.setColor(Color.BLACK);
-		font.setScale(Gdx.graphics.getHeight() / 250f);
-		batch.draw(pTexture, 0f, 0f, (float) Gdx.graphics.getWidth(), (float) Gdx.graphics.getHeight(), 0, 0, 1, 1,
+		font.setScale(V.HEIGHT / V.FONT_BIG);
+		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1,
 				false, false);
-		font.draw(batch, "Touch the screen to resume your game", Gdx.graphics.getWidth() / 2 * 0.6f,
-				Gdx.graphics.getHeight() / 2);
-		font.draw(batch, "Score: " + freedEggs, Gdx.graphics.getWidth() / 2 * 0.6f, Gdx.graphics.getHeight() / 2 * 0.8f);
+		font.draw(batch, "Touch the screen to resume your game", V.WIDTH / 2 * 0.6f,
+				V.HEIGHT / 2);
+		font.draw(batch, "Score: " + freedEggs, V.WIDTH / 2 * 0.6f, V.HEIGHT / 2 * 0.8f);
 	}
 
 	/**
 	 * Creates a texture with circles to show the pillow and egg.
 	 */
 	private void createInstructionTexture() {
-		Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
+		Pixmap pixmap = new Pixmap(V.WIDTH, V.HEIGHT, Pixmap.Format.RGBA8888);
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
-		pixmap.drawCircle((int) (Gdx.graphics.getWidth() / 2 + Gdx.graphics.getWidth() * EGG_WIDTH / 2),
-				(int) (Gdx.graphics.getHeight() / 4 - Gdx.graphics.getHeight() * EGG_HEIGHT / 2),
-				(int) (Gdx.graphics.getWidth() * EGG_WIDTH * 1.2f));
-		pixmap.drawCircle(Gdx.graphics.getWidth() / 2 + (int) pillow.getWidth() / 2, Gdx.graphics.getHeight() * 3 / 4
+		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * EGG_WIDTH / 2),
+				(int) (V.HEIGHT / 4 - V.HEIGHT * EGG_HEIGHT / 2),
+				(int) (V.WIDTH * EGG_WIDTH * 1.2f));
+		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4
 				- (int) pillow.getHeight() / 2, (int) (pillow.getWidth() / 2 * 1.6f));
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();

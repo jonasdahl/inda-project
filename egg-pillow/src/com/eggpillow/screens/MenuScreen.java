@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
+import com.eggpillow.V;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
@@ -59,7 +60,7 @@ public class MenuScreen implements Screen {
 		
 		// Create a table with the menu
 		table = new Table();
-		table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		stage = new Stage() {
 			@Override
 			public boolean keyDown(int keycode) {
@@ -75,7 +76,7 @@ public class MenuScreen implements Screen {
 		
 		// Font is fun!
 		font = new BitmapFont(Gdx.files.internal(FONT), false);
-		font.setScale(Gdx.graphics.getHeight() / 500f);
+		font.setScale(V.HEIGHT / 500f);
 
 		// Start styling buttons
 		skin = new Skin();
@@ -132,8 +133,8 @@ public class MenuScreen implements Screen {
 		EggPillow.setBackground();
 
 		batch.begin();
-		batch.draw(background, 0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
+		batch.draw(background, 0, 0, V.WIDTH,
+				V.HEIGHT);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		batch.end();
 		stage.act(delta);

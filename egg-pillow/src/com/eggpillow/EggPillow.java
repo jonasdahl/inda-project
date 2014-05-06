@@ -46,6 +46,9 @@ public class EggPillow extends Game {
 		setScreen(new SplashScreen(this));
 		
 		Gdx.input.setCatchBackKey(true);
+		
+		V.HEIGHT = V.HEIGHT;
+		V.WIDTH = V.WIDTH;
 	}
 	
 	public void exit() {
