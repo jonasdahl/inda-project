@@ -39,7 +39,7 @@ public class MenuScreen implements Screen {
 	private TweenManager tweenManager;
 
 	private final static String BACKGROUND_IMG = "img/menu_background.png";
-	private final static String FONT = "font/EggPillow.fnt";
+
 	private final static String BUTTON = "ui/button.pack";
 
 	/**
@@ -57,7 +57,7 @@ public class MenuScreen implements Screen {
 		background = new Texture(BACKGROUND_IMG);
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
 		Tween.registerAccessor(Table.class, new TableAccessor());
-		
+
 		// Create a table with the menu
 		table = new Table();
 		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
@@ -70,12 +70,12 @@ public class MenuScreen implements Screen {
 				return false;
 			}
 		};
-		
+
 		Table.drawDebug(stage); // TODO remove
 		stage.addActor(table);
-		
+
 		// Font is fun!
-		font = new BitmapFont(Gdx.files.internal(FONT), false);
+		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
 		font.setScale(V.HEIGHT / 500f);
 
 		// Start styling buttons
@@ -122,7 +122,7 @@ public class MenuScreen implements Screen {
 			table.row().pad(10);
 			table.add(button);
 		}
-		
+
 		table.debug(); // TODO remove
 	}
 
@@ -133,14 +133,13 @@ public class MenuScreen implements Screen {
 		EggPillow.setBackground();
 
 		batch.begin();
-		batch.draw(background, 0, 0, V.WIDTH,
-				V.HEIGHT);
+		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		batch.end();
 		stage.act(delta);
 		stage.draw();
 	}
-	
+
 	/**
 	 * Fades table and menu away.
 	 */
@@ -162,10 +161,8 @@ public class MenuScreen implements Screen {
 	@Override
 	public void show() {
 		// Make menu fade in smooth, yep, both table and the rest
-		Tween.set(batch, SpriteBatchAccessor.ALPHA).target(0)
-				.start(tweenManager);
-		Tween.to(batch, SpriteBatchAccessor.ALPHA, .25f).target(1)
-				.start(tweenManager);
+		Tween.set(batch, SpriteBatchAccessor.ALPHA).target(0).start(tweenManager);
+		Tween.to(batch, SpriteBatchAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		Gdx.input.setInputProcessor(stage);
 

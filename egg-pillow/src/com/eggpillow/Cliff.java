@@ -1,6 +1,5 @@
 package com.eggpillow;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Cliff extends Touchable {

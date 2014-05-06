@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 	private final static float EGG_WIDTH = 0.058f;
 	/** In percent of screen width */
 	private final static float CLIFF_HEIGHT = 0.5f;
-	
+
 	private final static int LIVES = 3;
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 
@@ -264,33 +264,26 @@ public class GameScreen implements Screen {
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		batch.draw(pTexture, 0, 0);
-		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH
-				* EGG_WIDTH, V.HEIGHT * EGG_HEIGHT);
-		batch.draw(pillowRegion, V.WIDTH / 2, V.HEIGHT / 4,
-				V.WIDTH * 0.1f, V.HEIGHT * 0.1f);
+		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH * EGG_WIDTH, V.HEIGHT * EGG_HEIGHT);
+		batch.draw(pillowRegion, V.WIDTH / 2, V.HEIGHT / 4, V.WIDTH * 0.1f, V.HEIGHT * 0.1f);
 
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(V.HEIGHT / V.FONT_BIG);
-		font.draw(batch, "Here is the pillow", V.WIDTH / 2 + V.WIDTH * 0.15f,
-				V.HEIGHT / 4);
-		font.draw(batch, "Here is egg", V.WIDTH / 2 + V.WIDTH * 0.15f,
-				V.HEIGHT * 3 / 4);
+		font.draw(batch, "Here is the pillow", V.WIDTH / 2 + V.WIDTH * 0.15f, V.HEIGHT / 4);
+		font.draw(batch, "Here is egg", V.WIDTH / 2 + V.WIDTH * 0.15f, V.HEIGHT * 3 / 4);
 	}
 
 	private void drawGameOver(SpriteBatch batch, int score, boolean newHS) {
-		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1,
-				false, false);
+		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 		font.draw(batch, "Game over", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
 		font.setScale(V.HEIGHT / V.FONT_SMALL);
 		if (newHS) {
-			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f,
-					V.HEIGHT / 3);
+			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f, V.HEIGHT / 3);
 		} else {
-			font.draw(batch, "Your score: " + freedEggs, V.WIDTH / 2 * 0.6f,
-					V.HEIGHT / 3);
+			font.draw(batch, "Your score: " + freedEggs, V.WIDTH / 2 * 0.6f, V.HEIGHT / 3);
 		}
 	}
 
@@ -300,10 +293,8 @@ public class GameScreen implements Screen {
 	private void drawPaus(SpriteBatch batch) { // TODO change name
 		font.setColor(Color.BLACK);
 		font.setScale(V.HEIGHT / V.FONT_BIG);
-		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1,
-				false, false);
-		font.draw(batch, "Touch the screen to resume your game", V.WIDTH / 2 * 0.6f,
-				V.HEIGHT / 2);
+		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
+		font.draw(batch, "Touch the screen to resume your game", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
 		font.draw(batch, "Score: " + freedEggs, V.WIDTH / 2 * 0.6f, V.HEIGHT / 2 * 0.8f);
 	}
 
@@ -315,11 +306,10 @@ public class GameScreen implements Screen {
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
-		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * EGG_WIDTH / 2),
-				(int) (V.HEIGHT / 4 - V.HEIGHT * EGG_HEIGHT / 2),
-				(int) (V.WIDTH * EGG_WIDTH * 1.2f));
-		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4
-				- (int) pillow.getHeight() / 2, (int) (pillow.getWidth() / 2 * 1.6f));
+		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT * EGG_HEIGHT
+				/ 2), (int) (V.WIDTH * EGG_WIDTH * 1.2f));
+		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4 - (int) pillow.getHeight() / 2,
+				(int) (pillow.getWidth() / 2 * 1.6f));
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
 	}

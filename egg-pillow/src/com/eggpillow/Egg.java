@@ -90,24 +90,24 @@ public class Egg extends Touchable {
 			}
 			float softnessX = t.softnessX;
 			// TODO left-right collision
-//			if (intersect.xDir == LEFT) {
-//				System.out.println("LEFT");
-//				if (xSpeed > 0) {
-//					xSpeed *= -1;
-//				}
-//				xSpeed += t.getXSpeed();
-//				System.out.println(xSpeed);
-//				setX(t.getX() - getWidth() + xSpeed * delta);
-//			}
-//			if (intersect.xDir == RIGHT) {
-//				System.out.println("RIGHT");
-//				if (xSpeed < 0) {
-//					xSpeed *= -1;
-//				}
-//				xSpeed += t.getXSpeed();
-//				xSpeed *= 1 - softnessX;
-//				setX(t.getX() + xSpeed * delta);
-//			}
+			// if (intersect.xDir == LEFT) {
+			// System.out.println("LEFT");
+			// if (xSpeed > 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// System.out.println(xSpeed);
+			// setX(t.getX() - getWidth() + xSpeed * delta);
+			// }
+			// if (intersect.xDir == RIGHT) {
+			// System.out.println("RIGHT");
+			// if (xSpeed < 0) {
+			// xSpeed *= -1;
+			// }
+			// xSpeed += t.getXSpeed();
+			// xSpeed *= 1 - softnessX;
+			// setX(t.getX() + xSpeed * delta);
+			// }
 		}
 
 		// Dead or just stopped

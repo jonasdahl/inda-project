@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class TableAccessor implements TweenAccessor<Table> {
 	// Defines the possible tween types
 	public static final int ALPHA = 1;
-	
+
 	@Override
 	public int getValues(Table target, int tweenType, float[] returnValues) {
 		switch (tweenType) {

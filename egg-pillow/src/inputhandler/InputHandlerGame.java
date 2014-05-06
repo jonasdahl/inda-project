@@ -7,21 +7,21 @@ import com.eggpillow.Pillow;
 import com.eggpillow.V;
 
 public class InputHandlerGame implements InputProcessor {
-	
+
 	private Pillow pillow;
 	private boolean onPillow = false;
 	EggPillow game;
-	
+
 	public InputHandlerGame(Pillow p, EggPillow g) {
 		pillow = p;
 		game = g;
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.MENU) {
 			game.gameScreen.pauseGame();
-		}else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+		} else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 			if (game.gameScreen.isPaused()) {
 				game.gameScreen.dispose();
 				game.setScreen(game.menuScreen);
@@ -48,7 +48,7 @@ public class InputHandlerGame implements InputProcessor {
 			pillow.setY(V.HEIGHT - screenY);
 			onPillow = true;
 		}
-		if (game.gameScreen.isPaused() ){
+		if (game.gameScreen.isPaused()) {
 			game.gameScreen.unPauseGame();
 			if (game.gameScreen.gameOver()) {
 				game.gameScreen.dispose();
@@ -72,7 +72,7 @@ public class InputHandlerGame implements InputProcessor {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		return false;

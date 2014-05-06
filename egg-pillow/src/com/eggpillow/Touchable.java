@@ -10,10 +10,10 @@ public abstract class Touchable extends Sprite {
 	public static final int LEFT = 1;
 	public static final int RIGHT = -1;
 	protected float softnessX = 0; // Between 0 and 1
-	protected float softnessY = 0; // Between 0 and 1 
+	protected float softnessY = 0; // Between 0 and 1
 
 	protected float xSpeed, ySpeed;
-	
+
 	// This be ugly
 	public Touchable(AtlasRegion tex) {
 		super(tex);
@@ -96,16 +96,18 @@ public abstract class Touchable extends Sprite {
 		float diffX = (rightBound - leftBound) / 10;
 		for (float j = 0; j < (rightBound - leftBound); j += diffX) {
 			if (getYSpeed() - t.getYSpeed() >= 0) {
-				if (getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY() && getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()) {
+				if (getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()
+						&& getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()) {
 					yDir = TOP;
 				}
 			} else {
-				if (getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY() && getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()) {
+				if (getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()
+						&& getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()) {
 					yDir = BOTTOM;
 				}
 			}
 		}
-		
+
 		if (xDir != 0 || yDir != 0) {
 			return new ReturnClass(t, xDir, yDir);
 		}
@@ -124,11 +126,11 @@ public abstract class Touchable extends Sprite {
 		}
 
 	}
-	
+
 	public float getYSoftness() {
 		return softnessY;
 	}
-	
+
 	public float getXSoftness() {
 		return softnessX;
 	}

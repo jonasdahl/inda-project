@@ -14,8 +14,8 @@ import com.eggpillow.V;
 import com.eggpillow.tween.SpriteAccessor;
 
 public class SplashScreen implements Screen {
-	private final static float FADE_SPEED = 1.0f; 
-	private final static float DELAY = 1.0f; 
+	private final static float FADE_SPEED = 1.0f;
+	private final static float DELAY = 1.0f;
 
 	private Sprite splash;
 	private SpriteBatch batch;
@@ -56,18 +56,16 @@ public class SplashScreen implements Screen {
 		splash.setSize(V.WIDTH, V.HEIGHT);
 
 		Tween.set(splash, SpriteAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).target(1)
-				.start(tweenManager);
-		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY)
-				.target(0).setCallback(new TweenCallback() {
-					@Override
-					public void onEvent(int type, BaseTween<?> source) {
-						game.setScreen(game.menuScreen);
-						// TODO Chrashes somewhere here if user taps screen on
-						// splashscreen // Johan kan inte reprodusera denna bug
-						// :(
-					}
-				}).start(tweenManager);
+		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).target(1).start(tweenManager);
+		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				game.setScreen(game.menuScreen);
+				// TODO Chrashes somewhere here if user taps screen on
+				// splashscreen // Johan kan inte reprodusera denna bug
+				// :(
+			}
+		}).start(tweenManager);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.eggpillow;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Basket extends Touchable {
@@ -12,8 +11,7 @@ public class Basket extends Touchable {
 		super(atlas.findRegion(ATLAS_REGION));
 		softnessY = 1;
 		softnessX = 0;
-		setSize(V.WIDTH * (WIDTH + eggWidth), V.HEIGHT
-				* (HEIGHT + eggHeight));
+		setSize(V.WIDTH * (WIDTH + eggWidth), V.HEIGHT * (HEIGHT + eggHeight));
 		setX(V.WIDTH - getWidth());
 		setY(0);
 	}

@@ -8,7 +8,7 @@ import com.eggpillow.EggPillow;
 public class SpriteBatchAccessor implements TweenAccessor<SpriteBatch> {
 	// Defines the possible tween types
 	public static final int ALPHA = 1;
-	
+
 	@Override
 	public int getValues(SpriteBatch target, int tweenType, float[] returnValues) {
 		switch (tweenType) {

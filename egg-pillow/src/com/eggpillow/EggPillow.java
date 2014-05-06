@@ -22,35 +22,33 @@ import com.eggpillow.screens.SplashScreen;
  */
 
 public class EggPillow extends Game {
-	public static final String TITLE = "Egg Pillow";
-	public static final String VERSION = "0.0.2";
 	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
-	
+
 	// Screens
 	public Screen splashScreen;
 	public GameScreen gameScreen;
 	public Screen settingsScreen;
 	public Screen menuScreen;
-	
+
 	@Override
-	public void create() {	
+	public void create() {
 		Texture.setEnforcePotImages(false);
 		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		// Starts the splash screen
 		splashScreen = new SplashScreen(this);
 		gameScreen = new GameScreen(this);
 		settingsScreen = new SettingsScreen(this);
 		menuScreen = new MenuScreen(this);
 		setScreen(new SplashScreen(this));
-		
+
 		Gdx.input.setCatchBackKey(true);
-		
-		V.HEIGHT = V.HEIGHT;
-		V.WIDTH = V.WIDTH;
+
+		V.HEIGHT = Gdx.graphics.getHeight();
+		V.WIDTH = Gdx.graphics.getWidth();
 	}
-	
+
 	public void exit() {
 		// TODO make sure everything is okay and save files.
 		Gdx.app.exit();
@@ -62,7 +60,7 @@ public class EggPillow extends Game {
 	}
 
 	@Override
-	public void render() {	
+	public void render() {
 		super.render();
 	}
 
@@ -80,7 +78,7 @@ public class EggPillow extends Game {
 	public void resume() {
 		super.resume();
 	}
-	
+
 	/**
 	 * Sets the background to standard.
 	 */

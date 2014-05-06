@@ -8,7 +8,7 @@ import com.eggpillow.EggPillow;
 public class SpriteAccessor implements TweenAccessor<Sprite> {
 	// Defines the possible tween types
 	public static final int ALPHA = 1;
-	
+
 	@Override
 	public int getValues(Sprite target, int tweenType, float[] returnValues) {
 		switch (tweenType) {

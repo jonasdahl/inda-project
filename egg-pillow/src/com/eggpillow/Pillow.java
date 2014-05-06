@@ -2,7 +2,6 @@ package com.eggpillow;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 /**
@@ -79,8 +78,8 @@ public class Pillow extends Touchable {
 		// TODO delay or fluctuate
 		xSpeed = (getX() - medel(oldX)) * delta * V.WIDTH;
 		ySpeed = (getY() - medel(oldY)) * delta * V.HEIGHT;
-		//xSpeed = (getX() - oldX[ nextOld]) * delta * V.WIDTH;
-		//ySpeed = (getY() - oldY[nextOld]) * delta * V.HEIGHT;
+		// xSpeed = (getX() - oldX[ nextOld]) * delta * V.WIDTH;
+		// ySpeed = (getY() - oldY[nextOld]) * delta * V.HEIGHT;
 
 		oldX[nextOld] = getX();
 		oldY[nextOld] = getY();
@@ -142,8 +141,7 @@ public class Pillow extends Touchable {
 	 * @return true if testX and textY is close to the pillow
 	 */
 	public boolean inside(int testX, int testY) {
-		if (testX > getX() - paddingX && testX < getWidth() + getX() + paddingX
-				&& testY < V.HEIGHT - getY() + paddingY
+		if (testX > getX() - paddingX && testX < getWidth() + getX() + paddingX && testY < V.HEIGHT - getY() + paddingY
 				&& testY > V.HEIGHT - getY() - getHeight() - paddingY) {
 			return true;
 		}
