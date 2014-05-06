@@ -106,14 +106,19 @@ public class Egg extends Touchable {
 			// setX(t.getX() - getWidth() + xSpeed * delta);
 			// }
 		}
-
-		// Dead or just stopped
-		if (getY() <= 0) {
+		if (getX() + getWidth() > V.WIDTH * 0.95f) {
+			System.out.println(getY() + "B" + V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT));
+		}
+		
+		// Stopped
+		if (getYSpeed() == 0 && getXSpeed() == 0 && getY() == V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT) && getX() + getWidth() > V.WIDTH * 0.95f) { //TODO Change 0.95f to BASKET WIDTH
 			stopped = true;
-			if (getX() + getWidth() < V.WIDTH * 0.95f) {
-				if (!dead) {
-					// TODO setRegion(crashRegion);
-				}
+			// Egg can now be removed from arrayList in gameScreen
+		}
+		//Dead
+		if (getY() <= 0) {
+			if (!dead) {
+				// TODO setRegion(crashRegion);
 				dead = true;
 			}
 		}

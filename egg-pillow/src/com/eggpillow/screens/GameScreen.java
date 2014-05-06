@@ -56,15 +56,6 @@ public class GameScreen implements Screen {
 	private Basket basket;
 
 	// Constants
-	private static final float TIME_BETWEEN_EGGS = 2f;
-	/** In percent of screen height */
-	private final static float EGG_HEIGHT = 0.15f;
-	/** In percent of screen width */
-	private final static float EGG_WIDTH = 0.058f;
-	/** In percent of screen width */
-	private final static float CLIFF_HEIGHT = 0.5f;
-
-	private final static int LIVES = 40;
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
 
 	/**
@@ -130,10 +121,14 @@ public class GameScreen implements Screen {
 			egg.update(delta);
 			if (egg.isDead()) {
 				deadEggs++;
+			} else if (egg.hasStopped()) {
+				System.out.println("DIE EGG");
+				eggs.remove(egg);
+				freedEggs++;
 			}
 		}
 
-		if (deadEggs >= LIVES) {
+		if (deadEggs >= V.LIVES) {
 			newHighscore = updateHighscore(freedEggs); // TODO change to
 														// succesfully saved
 														// eggs
@@ -142,15 +137,17 @@ public class GameScreen implements Screen {
 		}
 
 		// TODO Do it BETTER!
-		message = (LIVES - deadEggs) + "/" + LIVES + "  lives left";
+		message = (V.LIVES - deadEggs) + "/" + V.LIVES + "  lives left";
 
 		// Start eggs that should start
 		totalDelta += delta;
-		if (totalDelta > TIME_BETWEEN_EGGS) {
-			if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
-				eggs.get(freedEggs).start();
-				freedEggs++;
-			}
+		if (totalDelta > V.TIME_BETWEEN_EGGS) {
+			//if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
+				//eggs.get(freedEggs).start();
+				Egg newEgg = new Egg(this, V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
+				newEgg.start();
+				eggs.add(newEgg);
+			//}
 			totalDelta = 0;
 		}
 	}
@@ -190,8 +187,8 @@ public class GameScreen implements Screen {
 		pillow = new Pillow(touchables, -.08f, atlas);
 
 		// Setup cliff
-		cliff = new Cliff(CLIFF_HEIGHT, atlas);
-		basket = new Basket(EGG_WIDTH, EGG_HEIGHT, atlas);
+		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
+		basket = new Basket(V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
 
 		touchables.add(pillow);
 		touchables.add(cliff);
@@ -200,10 +197,10 @@ public class GameScreen implements Screen {
 		// Setup eggs
 		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
-		for (int i = 0; i < 100; i++) { // Add 100 eggs // TODO bad
+		//for (int i = 0; i < 100; i++) { // Add 100 eggs // TODO bad
 										// implementation ends after 100eggs.
-			eggs.add(new Egg(this, EGG_WIDTH, EGG_HEIGHT, atlas));
-		}
+		//	eggs.add(new Egg(this, EGG_WIDTH, EGG_HEIGHT, atlas));
+		//}
 
 		// background = new Texture(BACKGROUND_IMAGE);
 		background = new Texture(BACKGROUND_IMAGE);
@@ -264,7 +261,7 @@ public class GameScreen implements Screen {
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		batch.draw(pTexture, 0, 0);
-		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH * EGG_WIDTH, V.HEIGHT * EGG_HEIGHT);
+		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH * V.EGG_WIDTH, V.HEIGHT * V.EGG_HEIGHT);
 		batch.draw(pillowRegion, V.WIDTH / 2, V.HEIGHT / 4, V.WIDTH * 0.1f, V.HEIGHT * 0.1f);
 
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -306,8 +303,8 @@ public class GameScreen implements Screen {
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
-		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT * EGG_HEIGHT
-				/ 2), (int) (V.WIDTH * EGG_WIDTH * 1.2f));
+		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * V.EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT * V.EGG_HEIGHT
+				/ 2), (int) (V.WIDTH * V.EGG_WIDTH * 1.2f));
 		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4 - (int) pillow.getHeight() / 2,
 				(int) (pillow.getWidth() / 2 * 1.6f));
 		pTexture = new Texture(pixmap);
