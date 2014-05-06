@@ -36,6 +36,9 @@ public class EggPillow extends Game {
 		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		V.HEIGHT = Gdx.graphics.getHeight();
+		V.WIDTH = Gdx.graphics.getWidth();
+		
 		// Starts the splash screen
 		splashScreen = new SplashScreen(this);
 		gameScreen = new GameScreen(this);
@@ -45,8 +48,6 @@ public class EggPillow extends Game {
 
 		Gdx.input.setCatchBackKey(true);
 
-		V.HEIGHT = Gdx.graphics.getHeight();
-		V.WIDTH = Gdx.graphics.getWidth();
 	}
 
 	public void exit() {

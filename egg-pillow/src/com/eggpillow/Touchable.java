@@ -82,11 +82,11 @@ public abstract class Touchable extends Sprite {
 		float diffY = (topBound - botBound) / 10;
 		for (float i = 0; i < (topBound - botBound); i += diffY) {
 			if (getXSpeed() - t.getXSpeed() >= 0) {
-				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
+				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX() && getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
 					xDir = LEFT;
 				}
 			} else {
-				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
+				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX() && getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
 					xDir = RIGHT;
 				}
 			}

@@ -60,7 +60,7 @@ public class MenuScreen implements Screen {
 
 		// Create a table with the menu
 		table = new Table();
-		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
+		table.setBounds(0, 0, V.WIDTH, V.HEIGHT); // TODO
 		stage = new Stage() {
 			@Override
 			public boolean keyDown(int keycode) {
@@ -76,7 +76,7 @@ public class MenuScreen implements Screen {
 
 		// Font is fun!
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
-		font.setScale(V.HEIGHT / 500f);
+		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 
 		// Start styling buttons
 		skin = new Skin();
@@ -120,7 +120,7 @@ public class MenuScreen implements Screen {
 		// table.add(title);
 		for (TextButton button : buttons) {
 			table.row().pad(10);
-			table.add(button);
+			table.add(button).width(V.WIDTH/2).height(V.HEIGHT/6);
 		}
 
 		table.debug(); // TODO remove
