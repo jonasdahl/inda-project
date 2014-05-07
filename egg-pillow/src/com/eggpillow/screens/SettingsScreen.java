@@ -44,7 +44,7 @@ public class SettingsScreen implements Screen {
 	public static final String PREFERENCE_HIGHSCORE = "highscore";
 	public static final String PREFERENCE_FUNMODE = "funmode";
 	
-	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu
+	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
 
 	public SettingsScreen(EggPillow g) {
 		game = g;

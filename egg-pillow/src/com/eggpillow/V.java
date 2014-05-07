@@ -28,7 +28,7 @@ public class V {
 
 	public final static int LIVES = 40;
 
-	public V() {
+	public static void initV() {
 		HEIGHT = Gdx.graphics.getHeight();
 		WIDTH = Gdx.graphics.getWidth();
 	}

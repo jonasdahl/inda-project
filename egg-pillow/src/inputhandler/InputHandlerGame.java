@@ -44,8 +44,8 @@ public class InputHandlerGame implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (pillow.inside(screenX, screenY)) {
-			pillow.setX(screenX);
-			pillow.setY(V.HEIGHT - screenY);
+			pillow.setMouseX(screenX);
+			pillow.setMouseY(V.HEIGHT - screenY);
 			onPillow = true;
 		}
 		if (game.gameScreen.isPaused()) {
@@ -67,8 +67,8 @@ public class InputHandlerGame implements InputProcessor {
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		if (onPillow || pillow.inside(screenX, screenY)) {
-			pillow.setX(screenX);
-			pillow.setY(V.HEIGHT - screenY);
+			pillow.setMouseX(screenX);
+			pillow.setMouseY(V.HEIGHT - screenY);
 		}
 		return false;
 	}

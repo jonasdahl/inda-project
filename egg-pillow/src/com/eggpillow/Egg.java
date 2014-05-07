@@ -37,7 +37,6 @@ public class Egg extends Touchable {
 		super(atlas.findRegion(ATLAS_REGION));
 		setSize(V.WIDTH * width, V.HEIGHT * height);
 		// TODO crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
-		// TODO har alla ägg en arrayList med pillow/cliff och ett texture?
 
 		this.game = game;
 		started = false;

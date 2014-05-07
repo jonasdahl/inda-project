@@ -22,6 +22,7 @@ public class Pillow extends Touchable {
 
 	private float[] oldX, oldY;
 	private int nextOld = 0;
+	private float mX, mY;
 
 	private final static String ATLAS_REGION = "game_pillow";
 
@@ -67,22 +68,30 @@ public class Pillow extends Touchable {
 	 *            Time since last update (seconds)
 	 */
 	public void update(float delta) {
+		// TODO fix bug and vertical
+		setX(mX);
+		setY(mY);
 		updateSpeed(delta);
-		
 		// CollisionDetection
-				for (Touchable touch : touchables) {
-					if (touch != this) {
-						ReturnClass intersect = intersects(touch);
-						if (intersect.t != null) {
-							System.out.println("Pillow intersect");
-							if (intersect.xDir == RIGHT) {
-								//setX() intersect.t.getX() - getWidth();
-							} else if (intersect.xDir == LEFT) {
-								//setX() intersect.t.getX() + intersect.t.getWidth();
-							}
-						}
+		for (Touchable touch : touchables) {
+			if (touch != this) {
+				ReturnClass intersect = intersects(touch);
+				if (intersect.t != null) {
+					System.out.println("Pillow intersect");
+					if (intersect.xDir == RIGHT) {
+						System.out.println("RIGHT");
+						setX(intersect.t.getX() - getWidth() - 1);
+						mX = getX();
+					} else if (intersect.xDir == LEFT) {
+						System.out.println("LEFT");
+						setX(intersect.t.getX() + intersect.t.getWidth() + 1);
+						mX = getX();
 					}
+				} else {
+					System.out.println("NO");
 				}
+			}
+		}
 	}
 
 	/**
@@ -121,9 +130,11 @@ public class Pillow extends Touchable {
 	@Override
 	public void setX(float x) {
 		if (x > V.WIDTH - getWidth())
-			x = V.WIDTH - getWidth();
+			return;
+			//x = V.WIDTH - getWidth();
 		if (x < 0)
-			x = 0;
+			return;
+			//x = 0;
 		super.setX(x);
 	}
 
@@ -176,5 +187,21 @@ public class Pillow extends Touchable {
 	@Override
 	public float getRightLimit(float y) {
 		return this.getWidth();
+	}
+
+	public void setMouseX(float x) {
+		if (x > V.WIDTH - getWidth())
+			x = V.WIDTH - getWidth();
+		if (x < 0)
+			x = 0;
+		mX = x;
+	}
+
+	public void setMouseY(float y) {
+		if (y > V.HEIGHT - getHeight())
+			y = V.HEIGHT - getHeight();
+		if (y < 0)
+			y = 0;
+		mY = y;
 	}
 }
