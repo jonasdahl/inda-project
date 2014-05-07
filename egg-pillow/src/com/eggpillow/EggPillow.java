@@ -12,10 +12,12 @@ import com.eggpillow.screens.SplashScreen;
 
 /*
  *  Questions:
- *   changeListener 1/screen eller 1/knapp
- *   Jag fattar inte touchable getRight/left/top/bottomlimit vad ska göras?
- *   Eggs. Borde tas bort och läggas till i listan när de dör / spawnar. 
- *   MAXspeed på pillow? om man nu drar för fort drar man igenom ägget.
+ *   changeListener 1/screen eller 1/knapp i menu och settings
+ *   
+ *   Problem: 
+ *   Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw
+ *   Collisiondetection is fuckedup borde göras om
+ *   Konstanter i olika klasser eller alla i V?
  *   
  *   DRAW: lifeindicator
  *   		fix crashedEgg to png

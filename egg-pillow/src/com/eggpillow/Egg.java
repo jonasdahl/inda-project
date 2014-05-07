@@ -55,7 +55,7 @@ public class Egg extends Touchable {
 	 * Updates the position of this egg.
 	 */
 	public void updatePosition(float delta) {
-		if (!hasStarted() || hasStopped()) {
+		if (!hasStarted() || hasStopped() || isDead()) {
 			return;
 		}
 
@@ -106,9 +106,6 @@ public class Egg extends Touchable {
 			// setX(t.getX() - getWidth() + xSpeed * delta);
 			// }
 		}
-		if (getX() + getWidth() > V.WIDTH * 0.95f) {
-			System.out.println(getY() + "B" + V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT));
-		}
 		
 		// Stopped
 		if (getYSpeed() == 0 && getXSpeed() == 0 && getY() == V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT) && getX() + getWidth() > V.WIDTH * 0.95f) { //TODO Change 0.95f to BASKET WIDTH
@@ -118,6 +115,9 @@ public class Egg extends Touchable {
 		//Dead
 		if (getY() <= 0) {
 			if (!dead) {
+				setY(0);
+				ySpeed = 0;
+				xSpeed = 0;
 				// TODO setRegion(crashRegion);
 				dead = true;
 			}

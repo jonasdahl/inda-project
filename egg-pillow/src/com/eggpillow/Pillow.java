@@ -68,6 +68,21 @@ public class Pillow extends Touchable {
 	 */
 	public void update(float delta) {
 		updateSpeed(delta);
+		
+		// CollisionDetection
+				for (Touchable touch : touchables) {
+					if (touch != this) {
+						ReturnClass intersect = intersects(touch);
+						if (intersect.t != null) {
+							System.out.println("Pillow intersect");
+							if (intersect.xDir == RIGHT) {
+								//setX() intersect.t.getX() - getWidth();
+							} else if (intersect.xDir == LEFT) {
+								//setX() intersect.t.getX() + intersect.t.getWidth();
+							}
+						}
+					}
+				}
 	}
 
 	/**
@@ -88,13 +103,6 @@ public class Pillow extends Touchable {
 		nextOld++;
 		if (nextOld == 3) {
 			nextOld = 0;
-		}
-		for (Touchable touch : touchables) {
-			if (touch != this) {
-				if (intersects(touch).t != null) {
-					System.out.println("INTERSECT");
-				}
-			}
 		}
 	}
 

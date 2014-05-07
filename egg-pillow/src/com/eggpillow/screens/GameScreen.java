@@ -3,6 +3,8 @@ package com.eggpillow.screens;
 import inputhandler.InputHandlerGame;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
@@ -54,6 +56,7 @@ public class GameScreen implements Screen {
 	private Cliff cliff;
 	private ArrayList<Egg> eggs;
 	private Basket basket;
+	Queue<Egg> removeEggs;
 
 	// Constants
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
@@ -121,11 +124,13 @@ public class GameScreen implements Screen {
 			egg.update(delta);
 			if (egg.isDead()) {
 				deadEggs++;
-			} else if (egg.hasStopped()) {
-				System.out.println("DIE EGG");
-				eggs.remove(egg);
+			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO improve
+				removeEggs.add(egg);
 				freedEggs++;
 			}
+		}
+		while (removeEggs.size() > 3) {
+			eggs.remove(removeEggs.poll());			
 		}
 
 		if (deadEggs >= V.LIVES) {
@@ -195,12 +200,9 @@ public class GameScreen implements Screen {
 		touchables.add(basket);
 
 		// Setup eggs
+		removeEggs = new LinkedList<Egg>();
 		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
-		//for (int i = 0; i < 100; i++) { // Add 100 eggs // TODO bad
-										// implementation ends after 100eggs.
-		//	eggs.add(new Egg(this, EGG_WIDTH, EGG_HEIGHT, atlas));
-		//}
 
 		// background = new Texture(BACKGROUND_IMAGE);
 		background = new Texture(BACKGROUND_IMAGE);
@@ -260,10 +262,13 @@ public class GameScreen implements Screen {
 	 * Draw the instruction screen to batch.
 	 */
 	private void drawInstructions(SpriteBatch batch) {
+		// Darkscreen with circles
 		batch.draw(pTexture, 0, 0);
+		// Draw egg and pillow
 		batch.draw(eggRegion, V.WIDTH / 2, V.HEIGHT * 3 / 4, V.WIDTH * V.EGG_WIDTH, V.HEIGHT * V.EGG_HEIGHT);
 		batch.draw(pillowRegion, V.WIDTH / 2, V.HEIGHT / 4, V.WIDTH * 0.1f, V.HEIGHT * 0.1f);
 
+		// Instruction texts
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(V.HEIGHT / V.FONT_BIG);
 		font.draw(batch, "Here is the pillow", V.WIDTH / 2 + V.WIDTH * 0.15f, V.HEIGHT / 4);
@@ -271,11 +276,15 @@ public class GameScreen implements Screen {
 	}
 
 	private void drawGameOver(SpriteBatch batch, int score, boolean newHS) {
+		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
 		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+		// Game over text
 		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 		font.draw(batch, "Game over", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
+		
+		// Score text
 		font.setScale(V.HEIGHT / V.FONT_SMALL);
 		if (newHS) {
 			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f, V.HEIGHT / 3);
@@ -288,9 +297,12 @@ public class GameScreen implements Screen {
 	 * Draw paus screen to batch.
 	 */
 	private void drawPaus(SpriteBatch batch) { // TODO change name
+		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
+		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
+		
+		// Paus instructions text
 		font.setColor(Color.BLACK);
 		font.setScale(V.HEIGHT / V.FONT_BIG);
-		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
 		font.draw(batch, "Touch the screen to resume your game", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
 		font.draw(batch, "Score: " + freedEggs, V.WIDTH / 2 * 0.6f, V.HEIGHT / 2 * 0.8f);
 	}
@@ -303,10 +315,13 @@ public class GameScreen implements Screen {
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
+		// Circle around  egg
 		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * V.EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT * V.EGG_HEIGHT
 				/ 2), (int) (V.WIDTH * V.EGG_WIDTH * 1.2f));
+		// Cicle around pillow
 		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4 - (int) pillow.getHeight() / 2,
 				(int) (pillow.getWidth() / 2 * 1.6f));
+		
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
 	}
