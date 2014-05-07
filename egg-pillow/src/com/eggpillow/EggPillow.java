@@ -11,9 +11,6 @@ import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
 /*
- *  Questions:
- *   changeListener 1/screen eller 1/knapp i menu och settings
- *   
  *   Problem: 
  *   Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw
  *   Collisiondetection is fuckedup borde göras om
@@ -21,6 +18,7 @@ import com.eggpillow.screens.SplashScreen;
  *   
  *   DRAW: lifeindicator
  *   		fix crashedEgg to png
+ *   		settingsbackground
  */
 
 public class EggPillow extends Game {
@@ -85,7 +83,7 @@ public class EggPillow extends Game {
 	/**
 	 * Sets the background to standard.
 	 */
-	public static void setBackground() {
+	public static void setBackground() { // TODO Behöver den vara static?
 		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}

@@ -71,7 +71,6 @@ public class MenuScreen implements Screen {
 			}
 		};
 
-		Table.drawDebug(stage); // TODO remove
 		stage.addActor(table);
 
 		// Font is fun!
@@ -122,8 +121,6 @@ public class MenuScreen implements Screen {
 			table.row().pad(10);
 			table.add(button).width(V.WIDTH/2).height(V.HEIGHT/6);
 		}
-
-		table.debug(); // TODO remove
 	}
 
 	@Override

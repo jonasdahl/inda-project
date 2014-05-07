@@ -78,9 +78,8 @@ public class Egg extends Touchable {
 				ySpeed *= 1 - softnessY;
 
 				setY(t.getY() + t.getHeight() + ySpeed * delta);
-				// TODO make fun/special-mode
-				// only
-			} else if (intersect.yDir == TOP) {
+			
+			} else if (intersect.yDir == TOP) { 
 				if (ySpeed > 0) {
 					ySpeed *= -1;
 				}
@@ -88,6 +87,7 @@ public class Egg extends Touchable {
 				ySpeed *= 1 - softnessY;
 				setY(t.getY() - getHeight() + ySpeed * delta);
 			}
+			// TODO make fun/special-mode only
 			// TODO implement correctly
 			// float softnessX = t.softnessX;
 			// if (intersect.xDir == LEFT) {
