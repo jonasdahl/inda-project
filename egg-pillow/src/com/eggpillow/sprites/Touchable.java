@@ -1,18 +1,20 @@
-package com.eggpillow;
+package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.eggpillow.Point;
 
 public abstract class Touchable extends Sprite {
 
 	protected float softnessX = 0; // Between 0 and 1
 	protected float softnessY = 0; // Between 0 and 1
+	
+	protected float xSpeed;
+	protected float ySpeed;
 
 	protected final int ID;
 	protected final static int SQUARE = 0;
 	protected final static int ELLIPSE = 1;
-
-	protected float xSpeed, ySpeed;
 
 	// This be ugly
 	public Touchable(AtlasRegion tex, int id) {

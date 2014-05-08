@@ -3,8 +3,8 @@ package inputhandler;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.eggpillow.EggPillow;
-import com.eggpillow.Pillow;
 import com.eggpillow.V;
+import com.eggpillow.sprites.Pillow;
 
 public class InputHandlerGame implements InputProcessor {
 

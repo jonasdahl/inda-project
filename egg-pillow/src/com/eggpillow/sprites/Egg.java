@@ -1,8 +1,9 @@
-package com.eggpillow;
+package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.eggpillow.V;
 import com.eggpillow.screens.GameScreen;
 
 public class Egg extends Touchable {
@@ -19,10 +20,8 @@ public class Egg extends Touchable {
 
 	private final static float STARTING_HEIGHT = 0.52f; // In percent of screen
 														// height
-	private final static float ACCELERATION = 0.01f * 0.1f; // TODO balance
-															// speeds // TODO
-															// remove 0.1
 	private final static float X_SPEED = 0.4f; // In percent of screen width
+	
 	private final static String ATLAS_REGION = "game_egg";
 	private final static String ATLAS_REGION_CRASHED = "game_egg_crashed";
 
@@ -48,7 +47,7 @@ public class Egg extends Touchable {
 		stopped = false;
 		dead = false;
 		xSpeed = X_SPEED * V.WIDTH * 0.1f; // TODO remove 0.1
-		acceleration = ACCELERATION * V.HEIGHT;
+		acceleration = V.GRAVITATION * V.HEIGHT;
 		setY(V.HEIGHT * STARTING_HEIGHT);
 
 		// Start outside screen and slide in
@@ -113,48 +112,6 @@ public class Egg extends Touchable {
 					}
 				}
 			}
-
-			// int[][] map = new int[tilemap.width()][tileset.height()];
-			// for < width
-			// for < height
-			// int[i][j] = tileset.getTileID(i, j, layer);
-
-			// if (intersect.v < 0) {
-			//
-			// if (ySpeed < 0) {
-			// ySpeed *= -1;
-			// }
-			// ySpeed += t.getYSpeed();
-			// ySpeed *= 1 - softnessY;
-			//
-			// setY(t.getY() + t.getHeight() + ySpeed * delta);
-			//
-			// } else if (intersect.v == 0) {
-			// if (ySpeed > 0) {
-			// ySpeed *= -1;
-			// }
-			// ySpeed += t.getYSpeed();
-			// ySpeed *= 1 - softnessY;
-			// setY(t.getY() - getHeight() + ySpeed * delta);
-			// }
-			// // TODO make fun/special-mode only
-			// // TODO implement correctly
-			// // float softnessX = t.softnessX;
-			// // if (intersect.xDir == LEFT) {
-			// // if (xSpeed < 0) {
-			// // xSpeed *= -1;
-			// // }
-			// // xSpeed += t.getXSpeed();
-			// // setX(t.getX() + t.getWidth() + xSpeed * delta);
-			// // }
-			// // if (intersect.xDir == RIGHT) {
-			// // if (xSpeed > 0) {
-			// // xSpeed *= -1;
-			// // }
-			// // xSpeed += t.getXSpeed();
-			// // //xSpeed *= 1 - softnessX;
-			// // setX(t.getX() - getWidth() + xSpeed * delta);
-			// // }
 		}
 
 		// Stopped

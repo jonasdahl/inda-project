@@ -45,3 +45,17 @@ game_egg
   orig: 140, 192
   offset: 0, 0
   index: -1
+game_heart
+  rotate: false
+  xy: 443, 112
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game_powerUp
+  rotate: false
+  xy: 443, 10
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

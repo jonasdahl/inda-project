@@ -16,6 +16,7 @@ import com.eggpillow.screens.SplashScreen;
  *   Collisiondetection is fuckedup borde göras om FIXED? 
  *   Konstanter i olika klasser eller alla i V?
  *   DRAW pillow center on mousepos. FIXED?
+ *   Add predictions to intersects (use speed)
  *   
  *   DRAW: lifeindicator
  *   		fix crashedEgg to png

@@ -19,13 +19,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.eggpillow.Basket;
-import com.eggpillow.Cliff;
-import com.eggpillow.Egg;
 import com.eggpillow.EggPillow;
-import com.eggpillow.Pillow;
-import com.eggpillow.Touchable;
 import com.eggpillow.V;
+import com.eggpillow.sprites.Basket;
+import com.eggpillow.sprites.Cliff;
+import com.eggpillow.sprites.Egg;
+import com.eggpillow.sprites.Pillow;
+import com.eggpillow.sprites.PowerHeart;
+import com.eggpillow.sprites.PowerUp;
+import com.eggpillow.sprites.Touchable;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
@@ -35,11 +37,14 @@ public class GameScreen implements Screen {
 	private Texture background;
 	private BitmapFont font;
 	private EggPillow game;
-	private float totalDelta;
-	private int freedEggs;
 	private TweenManager tweenManager;
 	private ArrayList<Touchable> touchables;
 	public static String message = "";
+
+	private float totalDeltaPower;
+	private float timeToNextPower;
+	private float totalDeltaEgg;
+	private int freedEggs;
 
 	private boolean gamePaused = true;
 	private boolean showInstructions = true;
@@ -57,6 +62,8 @@ public class GameScreen implements Screen {
 	private ArrayList<Egg> eggs;
 	private Basket basket;
 	Queue<Egg> removeEggs;
+	private ArrayList<PowerUp> powerups;
+	Queue<PowerUp> removePowerups;
 
 	// Constants
 	private final static String BACKGROUND_IMAGE = "img/game_background.png";
@@ -80,11 +87,17 @@ public class GameScreen implements Screen {
 
 		batch.begin();
 		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
+
+		for (PowerUp power : powerups) {
+			power.draw(batch);
+		}
 		cliff.draw(batch);
 		pillow.draw(batch);
 
 		if (!gamePaused) {
 			pillow.update(delta);
+			updatePowerups(delta, pillow);
+
 			updateEggs(delta);
 		}
 
@@ -113,6 +126,31 @@ public class GameScreen implements Screen {
 	}
 
 	/**
+	 * Update all powerUps and check if they are dead/taken. Start new powerUps.
+	 */
+	private void updatePowerups(float delta, Pillow pillow) {
+		for (PowerUp power : powerups) {
+			power.update(delta, pillow);
+			if (power.isDead()) {
+				removePowerups.add(power);
+			}
+		}
+		for (PowerUp power : removePowerups) {
+			powerups.remove(power);
+		}
+
+		// Start eggs that should start
+		totalDeltaPower += delta;
+		if (totalDeltaPower > timeToNextPower) {
+			// TODO set random startPos
+			// TODO add for PowerUps powerups.add(new PowerHeart(atlas, V.WIDTH / 2)); 
+			totalDeltaPower = 0;
+			timeToNextPower = 10000;// TODO random
+		}
+
+	}
+
+	/**
 	 * Update all eggs and check if they are dead. Start new eggs.
 	 * 
 	 * @param delta
@@ -124,18 +162,20 @@ public class GameScreen implements Screen {
 			egg.update(delta);
 			if (egg.isDead()) {
 				deadEggs++;
-			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO improve
+			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO
+																		// improve
 				removeEggs.add(egg);
 				freedEggs++;
 			}
 		}
 		while (removeEggs.size() > 3) {
-			eggs.remove(removeEggs.poll());			
+			eggs.remove(removeEggs.poll());
 		}
 
 		if (deadEggs >= V.LIVES) {
 			newHighscore = updateHighscore(freedEggs); // TODO change to
-													// succesfully saved eggs
+														// succesfully saved
+														// eggs
 			gameOver = true;
 			gamePaused = true;
 		}
@@ -144,15 +184,15 @@ public class GameScreen implements Screen {
 		message = (V.LIVES - deadEggs) + "/" + V.LIVES + "  lives left";
 
 		// Start eggs that should start
-		totalDelta += delta;
-		if (totalDelta > V.TIME_BETWEEN_EGGS) {
-			//if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
-				//eggs.get(freedEggs).start();
-				Egg newEgg = new Egg(this, V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
-				newEgg.start();
-				eggs.add(newEgg);
-			//}
-			totalDelta = 0;
+		totalDeltaEgg += delta;
+		if (totalDeltaEgg > V.TIME_BETWEEN_EGGS) {
+			// if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
+			// eggs.get(freedEggs).start();
+			Egg newEgg = new Egg(this, V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
+			newEgg.start();
+			eggs.add(newEgg);
+			// }
+			totalDeltaEgg = 0;
 		}
 	}
 
@@ -197,6 +237,10 @@ public class GameScreen implements Screen {
 		touchables.add(pillow);
 		touchables.add(cliff);
 		touchables.add(basket);
+
+		// Setup powerups
+		removePowerups = new LinkedList<PowerUp>();
+		powerups = new ArrayList<PowerUp>();
 
 		// Setup eggs
 		removeEggs = new LinkedList<Egg>();
@@ -282,7 +326,7 @@ public class GameScreen implements Screen {
 		// Game over text
 		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 		font.draw(batch, "Game over", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
-		
+
 		// Score text
 		font.setScale(V.HEIGHT / V.FONT_SMALL);
 		if (newHS) {
@@ -298,7 +342,7 @@ public class GameScreen implements Screen {
 	private void drawPaus(SpriteBatch batch) { // TODO change name
 		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
 		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
-		
+
 		// Paus instructions text
 		font.setColor(Color.BLACK);
 		font.setScale(V.HEIGHT / V.FONT_BIG);
@@ -314,13 +358,13 @@ public class GameScreen implements Screen {
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
 		pixmap.setColor(Color.RED);
-		// Circle around  egg
-		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * V.EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT * V.EGG_HEIGHT
-				/ 2), (int) (V.WIDTH * V.EGG_WIDTH * 1.2f));
+		// Circle around egg
+		pixmap.drawCircle((int) (V.WIDTH / 2 + V.WIDTH * V.EGG_WIDTH / 2), (int) (V.HEIGHT / 4 - V.HEIGHT
+				* V.EGG_HEIGHT / 2), (int) (V.WIDTH * V.EGG_WIDTH * 1.2f));
 		// Cicle around pillow
 		pixmap.drawCircle(V.WIDTH / 2 + (int) pillow.getWidth() / 2, V.HEIGHT * 3 / 4 - (int) pillow.getHeight() / 2,
 				(int) (pillow.getWidth() / 2 * 1.6f));
-		
+
 		pTexture = new Texture(pixmap);
 		pixmap.dispose();
 	}

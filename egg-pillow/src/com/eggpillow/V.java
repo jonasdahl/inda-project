@@ -12,13 +12,12 @@ public class V {
 	public static int WIDTH; // TODO make final/get-set
 
 	public static final String TITLE = "Egg Pillow";
-	public static final String VERSION = "0.0.2";
+	public static final String VERSION = "0.1.0";
 
 	public final static String FONT = "font/EggPillow.fnt";
 	
 	public final static float BASKET_HEIGHT = 0.05f;
 	
-	public static final float TIME_BETWEEN_EGGS = 2f;
 	/** In percent of screen height */
 	public final static float EGG_HEIGHT = 0.15f;
 	/** In percent of screen width */
@@ -26,7 +25,9 @@ public class V {
 	/** In percent of screen width */
 	public final static float CLIFF_HEIGHT = 0.5f;
 
+	public static final float TIME_BETWEEN_EGGS = 2f;
 	public final static int LIVES = 40;
+	public final static float GRAVITATION = 0.01f;
 
 	public static void initV() {
 		HEIGHT = Gdx.graphics.getHeight();

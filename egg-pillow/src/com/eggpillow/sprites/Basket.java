@@ -1,6 +1,7 @@
-package com.eggpillow;
+package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.eggpillow.V;
 
 public class Basket extends Touchable {
 	private final static float WIDTH = 0.05f;

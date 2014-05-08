@@ -1,6 +1,7 @@
-package com.eggpillow;
+package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.eggpillow.V;
 
 public class Cliff extends Touchable {
 	/** Width in percent of screen width. */

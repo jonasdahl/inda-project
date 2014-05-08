@@ -1,8 +1,9 @@
-package com.eggpillow;
+package com.eggpillow.sprites;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.eggpillow.V;
 
 /**
  * A nice soft pillow. Eggs may bounce away if they come to close. The Pillow
@@ -73,8 +74,6 @@ public class Pillow extends Touchable {
 			if (touch != this) {
 				ReturnClass intersect = intersects(touch);
 				if (intersect.t != null) {
-					System.out.println("Pillow intersect");
-					System.out.println(intersect.v);
 					if (45 <= intersect.v && intersect.v <= 135) {
 						setY(touch.getY() - getHeight());
 					} else if (225 <= intersect.v && intersect.v <= 315) {
