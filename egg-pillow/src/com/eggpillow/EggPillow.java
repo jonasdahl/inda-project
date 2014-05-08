@@ -12,9 +12,10 @@ import com.eggpillow.screens.SplashScreen;
 
 /*
  *   Problem: 
- *   Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw
- *   Collisiondetection is fuckedup borde göras om
+ *   Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw FIXED?
+ *   Collisiondetection is fuckedup borde göras om FIXED? 
  *   Konstanter i olika klasser eller alla i V?
+ *   DRAW pillow center on mousepos. FIXED?
  *   
  *   DRAW: lifeindicator
  *   		fix crashedEgg to png
@@ -85,5 +86,14 @@ public class EggPillow extends Game {
 	public static void setBackground() { // TODO Behöver den vara static? alla screens har game
 		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+	
+	/**
+	 * Dispose current screen and set the screen to newScreen
+	 */
+	@Override
+	public void setScreen(Screen newScreen) {
+		// TODO ADD getScreen().dispose();
+		super.setScreen(newScreen);
 	}
 }

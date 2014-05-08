@@ -168,6 +168,7 @@ public class Pillow extends Touchable {
 	}
 
 	public void setMouseX(float x) {
+		x -= getWidth()/2;
 		if (x > V.WIDTH - getWidth()) {
 			x = V.WIDTH - getWidth();
 			return;
@@ -178,8 +179,13 @@ public class Pillow extends Touchable {
 		}
 		mX = x;
 	}
-
+	
+	/**
+	 * Set mouseY if y 
+	 * @param y
+	 */
 	public void setMouseY(float y) {
+		y -= getHeight()/2;
 		if (y > V.HEIGHT - getHeight()) {
 			y = V.HEIGHT - getHeight();
 			return;
