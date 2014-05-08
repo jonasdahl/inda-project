@@ -53,21 +53,52 @@ public abstract class Touchable extends Sprite {
 		}
 		if (ID == ELLIPSE && t.ID == SQUARE) {
 			if (t.insideSquare(getCircleEdge((float) v))) {
-				return new ReturnClass(t, (float)v);
+				return new ReturnClass(t, (float) v);
 			}
 		} else if (ID == SQUARE && t.ID == SQUARE) {
-			if (t.insideSquare(new Point(getX(), getY()))) {
-				return new ReturnClass(t, (float)v);
-			} else if (t.insideSquare(new Point(getX(), getY() + getHeight()))) {
-				return new ReturnClass(t, (float)v);
-			} else if (t.insideSquare(new Point(getX() + getWidth(), getY()))) {
-				return new ReturnClass(t, (float)v);
-			} else if (t.insideSquare(new Point(getX() + getWidth(), getY() + getHeight()))) {
-				return new ReturnClass(t, (float)v);
+			int vX = 0;
+			int vY = 0;
+			if (getX() + getWidth() > t.getX() && getX() + getWidth() < t.getX() + t.getWidth() && getY() + getHeight() > t.getY()
+					&& getY() < t.getY() + t.getHeight()) {
+				vX = 360;
+			} else if (getX() < t.getX() + t.getWidth() && getX() > t.getX()
+					&& getY() + getHeight() > t.getY() && getY() < t.getY() + t.getHeight()) {
+				vX = 180;
+			} else if (getY() + getHeight() > t.getY() && getY() + getHeight() < t.getY() + t.getHeight()
+					&& getX() + getWidth() > t.getX() && getX() < t.getX() + t.getWidth()) {
+				vY = 90;
+			} else if (getY() < t.getY() + t.getHeight() && getY() > t.getY()
+					&& getX() + getWidth() > t.getX() && getX() < t.getX() + t.getWidth()) {
+				vY = 270;
 			}
+			if (vX == 0 && vY == 0) {
+				return new ReturnClass(null, (float) v);
+			} else if (vX == 0|| vY == 0) {
+				return new ReturnClass(t, (float) vX + vY);
+			} else if (vY == 90 && vX == 360) {
+				return new ReturnClass(t, (float) vY / 2);
+			}else {
+				return new ReturnClass(t, (float) (vX + vY) / 2);
+			}
+			/*
+			 * 0	0 0 
+			 * 
+			 * 360 	360 0
+			 * 180  180 0
+			 * 
+			 * 90 	0 90
+			 * 270  0 270
+			 * 
+			 * 45 	360 90		0 + 90 / 2
+			 * 135  180 90		(180 + 90) / 2
+			 * 225	180 270		(180 + 270) /2
+			 * 315  360 270		(270 + 360) / 2
+			 * 
+			 */
+
 		}
 
-		return new ReturnClass(null, (float)v);
+		return new ReturnClass(null, (float) v);
 	}
 
 	public Point getCircleEdge(float v) {
@@ -91,6 +122,7 @@ public abstract class Touchable extends Sprite {
 
 		protected Touchable t;
 		protected float v;
+		protected int side;
 
 		protected ReturnClass(Touchable t, float v) {
 			this.t = t;

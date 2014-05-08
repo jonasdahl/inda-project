@@ -74,7 +74,18 @@ public class Pillow extends Touchable {
 				ReturnClass intersect = intersects(touch);
 				if (intersect.t != null) {
 					System.out.println("Pillow intersect");
-				} 
+					System.out.println(intersect.v);
+					if (45 <= intersect.v && intersect.v <= 135) {
+						setY(touch.getY() - getHeight());
+					} else if (225 <= intersect.v && intersect.v <= 315) {
+						setY(touch.getY() + touch.getHeight());
+					}
+					if (intersect.v == 360 || intersect.v == 315 || intersect.v == 45) {
+						setX(touch.getX() - getWidth());
+					} else if (135 <= intersect.v && intersect.v <= 225) {
+						setX(touch.getX() + touch.getWidth());
+					}
+				}
 			}
 		}
 	}
@@ -131,8 +142,10 @@ public class Pillow extends Touchable {
 	public void setY(float y) {
 		if (y < 0) {
 			y = 0;
+			return;
 		} else if (y > V.HEIGHT - getHeight()) {
 			y = V.HEIGHT - getHeight();
+			return;
 		}
 
 		if (!locked)
@@ -155,18 +168,26 @@ public class Pillow extends Touchable {
 	}
 
 	public void setMouseX(float x) {
-		if (x > V.WIDTH - getWidth())
+		if (x > V.WIDTH - getWidth()) {
 			x = V.WIDTH - getWidth();
-		if (x < 0)
+			return;
+		}
+		if (x <= 0) {
 			x = 0;
+			return;
+		}
 		mX = x;
 	}
 
 	public void setMouseY(float y) {
-		if (y > V.HEIGHT - getHeight())
+		if (y > V.HEIGHT - getHeight()) {
 			y = V.HEIGHT - getHeight();
-		if (y < 0)
+			return;
+		}
+		if (y <= 0) {
 			y = 0;
+			return;
+		}
 		mY = y;
 	}
 
