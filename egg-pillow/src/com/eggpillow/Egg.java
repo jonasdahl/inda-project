@@ -13,6 +13,9 @@ public class Egg extends Touchable {
 	private boolean dead; // Invariant: true if egg has died
 	private float acceleration;
 	private GameScreen game;
+	
+	private final static float CRASHED_EGG_WIDTH = 0.058f * 2.55f;
+	private final static float CRASHED_EGG_HEIGHT = 0.058f;
 
 	private final static float STARTING_HEIGHT = 0.52f; // In percent of screen
 														// height
@@ -36,7 +39,7 @@ public class Egg extends Touchable {
 	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
 		super(atlas.findRegion(ATLAS_REGION));
 		setSize(V.WIDTH * width, V.HEIGHT * height);
-		// TODO crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
+		crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
 
 		this.game = game;
 		started = false;
@@ -117,7 +120,8 @@ public class Egg extends Touchable {
 				setY(0);
 				ySpeed = 0;
 				xSpeed = 0;
-				// TODO setRegion(crashRegion);
+				setRegion(crashRegion);
+				setSize(CRASHED_EGG_WIDTH * V.WIDTH, CRASHED_EGG_HEIGHT * V.HEIGHT);
 				dead = true;
 			}
 		}

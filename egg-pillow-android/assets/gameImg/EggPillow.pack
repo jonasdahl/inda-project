@@ -31,9 +31,16 @@ game_pillow_hit
   orig: 315, 135
   offset: 0, 0
   index: -1
+game_egg_crashed
+  rotate: false
+  xy: 301, 214
+  size: 273, 60
+  orig: 273, 60
+  offset: 0, 0
+  index: -1
 game_egg
   rotate: false
-  xy: 301, 82
+  xy: 301, 20
   size: 140, 192
   orig: 140, 192
   offset: 0, 0

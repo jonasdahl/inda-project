@@ -135,8 +135,7 @@ public class GameScreen implements Screen {
 
 		if (deadEggs >= V.LIVES) {
 			newHighscore = updateHighscore(freedEggs); // TODO change to
-														// succesfully saved
-														// eggs
+													// succesfully saved eggs
 			gameOver = true;
 			gamePaused = true;
 		}
