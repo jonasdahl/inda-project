@@ -13,13 +13,15 @@ public class Egg extends Touchable {
 	private boolean dead; // Invariant: true if egg has died
 	private float acceleration;
 	private GameScreen game;
-	
+
 	private final static float CRASHED_EGG_WIDTH = 0.058f * 2.55f;
 	private final static float CRASHED_EGG_HEIGHT = 0.058f;
 
 	private final static float STARTING_HEIGHT = 0.52f; // In percent of screen
 														// height
-	private final static float ACCELERATION = 0.01f; // TODO balance speeds
+	private final static float ACCELERATION = 0.01f * 0.1f; // TODO balance
+															// speeds // TODO
+															// remove 0.1
 	private final static float X_SPEED = 0.4f; // In percent of screen width
 	private final static String ATLAS_REGION = "game_egg";
 	private final static String ATLAS_REGION_CRASHED = "game_egg_crashed";
@@ -37,7 +39,7 @@ public class Egg extends Touchable {
 	 *            the height in percent of the screen width of this egg
 	 */
 	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
-		super(atlas.findRegion(ATLAS_REGION));
+		super(atlas.findRegion(ATLAS_REGION), ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
 		crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
 
@@ -45,7 +47,7 @@ public class Egg extends Touchable {
 		started = false;
 		stopped = false;
 		dead = false;
-		xSpeed = X_SPEED * V.WIDTH;
+		xSpeed = X_SPEED * V.WIDTH * 0.1f; // TODO remove 0.1
 		acceleration = ACCELERATION * V.HEIGHT;
 		setY(V.HEIGHT * STARTING_HEIGHT);
 
@@ -70,51 +72,99 @@ public class Egg extends Touchable {
 		// Bounce on pillow if in range
 		for (Touchable t : game.getTouchables()) {
 			ReturnClass intersect = intersects(t);
-			float softnessY = t.getYSoftness();
-			if (intersect.yDir == BOTTOM) {
+			if (intersect.t != null) {
+				// Collision vertical
+				float softnessY = t.getYSoftness();
+				if (Math.PI <= intersect.v && intersect.v <= Math.PI * 2) {
+					if (ySpeed < 0) {
+						ySpeed *= -1;
+					}
+					ySpeed += t.getYSpeed();
+					ySpeed *= 1 - softnessY;
 
-				if (ySpeed < 0) {
-					ySpeed *= -1;
+					setY(t.getY() + t.getHeight() + ySpeed * delta);
+				} else if (0 < intersect.v && intersect.v < Math.PI) {
+					if (ySpeed > 0) {
+						ySpeed *= -1;
+					}
+					ySpeed += t.getYSpeed();
+					ySpeed *= 1 - softnessY;
+					setY(t.getY() - getHeight() + ySpeed * delta);
 				}
-				ySpeed += t.getYSpeed();
-				ySpeed *= 1 - softnessY;
+				// Collision horizontal
+				// TODO if funmode
+				if (false) {
+					float softnessX = t.getXSoftness();
+					if (Math.PI / 2 > intersect.v && intersect.v > Math.PI * 3 / 2) {
+						if (xSpeed < 0) {
+							xSpeed *= -1;
+						}
+						xSpeed += t.getXSpeed();
+						xSpeed *= 1 - softnessX;
 
-				setY(t.getY() + t.getHeight() + ySpeed * delta);
-			
-			} else if (intersect.yDir == TOP) { 
-				if (ySpeed > 0) {
-					ySpeed *= -1;
+						setX(t.getX() + t.getWidth() + xSpeed * delta);
+					} else if (Math.PI / 2 < intersect.v && intersect.v < Math.PI * 3 / 2) {
+						if (xSpeed > 0) {
+							xSpeed *= -1;
+						}
+						xSpeed += t.getXSpeed();
+						xSpeed *= 1 - softnessX;
+						setX(t.getX() - getWidth() + xSpeed * delta);
+					}
 				}
-				ySpeed += t.getYSpeed();
-				ySpeed *= 1 - softnessY;
-				setY(t.getY() - getHeight() + ySpeed * delta);
 			}
-			// TODO make fun/special-mode only
-			// TODO implement correctly
-			// float softnessX = t.softnessX;
-			// if (intersect.xDir == LEFT) {
-			// if (xSpeed < 0) {
-			// xSpeed *= -1;
+
+			// int[][] map = new int[tilemap.width()][tileset.height()];
+			// for < width
+			// for < height
+			// int[i][j] = tileset.getTileID(i, j, layer);
+
+			// if (intersect.v < 0) {
+			//
+			// if (ySpeed < 0) {
+			// ySpeed *= -1;
 			// }
-			// xSpeed += t.getXSpeed();
-			// setX(t.getX() + t.getWidth() + xSpeed * delta);
+			// ySpeed += t.getYSpeed();
+			// ySpeed *= 1 - softnessY;
+			//
+			// setY(t.getY() + t.getHeight() + ySpeed * delta);
+			//
+			// } else if (intersect.v == 0) {
+			// if (ySpeed > 0) {
+			// ySpeed *= -1;
 			// }
-			// if (intersect.xDir == RIGHT) {
-			// if (xSpeed > 0) {
-			// xSpeed *= -1;
+			// ySpeed += t.getYSpeed();
+			// ySpeed *= 1 - softnessY;
+			// setY(t.getY() - getHeight() + ySpeed * delta);
 			// }
-			// xSpeed += t.getXSpeed();
-			// //xSpeed *= 1 - softnessX;
-			// setX(t.getX() - getWidth() + xSpeed * delta);
-			// }
+			// // TODO make fun/special-mode only
+			// // TODO implement correctly
+			// // float softnessX = t.softnessX;
+			// // if (intersect.xDir == LEFT) {
+			// // if (xSpeed < 0) {
+			// // xSpeed *= -1;
+			// // }
+			// // xSpeed += t.getXSpeed();
+			// // setX(t.getX() + t.getWidth() + xSpeed * delta);
+			// // }
+			// // if (intersect.xDir == RIGHT) {
+			// // if (xSpeed > 0) {
+			// // xSpeed *= -1;
+			// // }
+			// // xSpeed += t.getXSpeed();
+			// // //xSpeed *= 1 - softnessX;
+			// // setX(t.getX() - getWidth() + xSpeed * delta);
+			// // }
 		}
-		
+
 		// Stopped
-		if (getYSpeed() == 0 && getXSpeed() == 0 && getY() == V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT) && getX() + getWidth() > V.WIDTH * 0.95f) { //TODO Change 0.95f to BASKET WIDTH
+		if (getYSpeed() == 0 && getXSpeed() == 0 && getY() == V.HEIGHT * (V.BASKET_HEIGHT + V.EGG_HEIGHT)
+				&& getX() + getWidth() > V.WIDTH * 0.95f) { // TODO Change 0.95f
+															// to BASKET WIDTH
 			stopped = true;
 			// Egg can now be removed from arrayList in gameScreen
 		}
-		//Dead
+		// Dead
 		if (getY() <= 0) {
 			if (!dead) {
 				setY(0);
@@ -202,39 +252,5 @@ public class Egg extends Touchable {
 	public boolean hasStopped() {
 		return stopped;
 	}
-
-	@Override
-	public float getTopLimit(float x) {
-		// The eggs are ellipses
-		float width = getWidth();
-		float height = getHeight();
-		return (float) (Math.sqrt(1 - (x - width / 2) * (x - width / 2) / (width * width / 4)) * height / 2 + height / 2);
-	}
-
-	@Override
-	public float getBottomLimit(float x) {
-		return getHeight() - getTopLimit(x);
-	}
-
-	@Override
-	public float getLeftLimit(float y) {
-		return getWidth() - getRightLimit(y);
-	}
-
-	@Override
-	public float getRightLimit(float y) {
-		float width = getWidth();
-		float height = getHeight();
-		return (float) (Math.sqrt(1 - (y - height / 2) * (y - height/2) / (height * height / 4)) * width / 2 + width / 2 );
-	}
-
-	@Override
-	public float getRadiusSquare(float v) {
-		float x = (getWidth() / 2) * (float)Math.cos(v);
-		float y = (getHeight() / 2) * (float)Math.sin(v);
-		
-		return x * x + y * y;
-	}
-
 
 }

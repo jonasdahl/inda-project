@@ -13,8 +13,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Pillow extends Touchable {
 	private float level;
 	private boolean locked;
-	private float paddingX;
-	private float paddingY;
 	private ArrayList<Touchable> touchables;
 
 	private final static float WIDTH = .1f; // In percent of screen width
@@ -42,7 +40,7 @@ public class Pillow extends Touchable {
 	 *            the height (in percent of screen height)
 	 */
 	public Pillow(ArrayList<Touchable> thouchables, float yLevel, TextureAtlas atlas) {
-		super(atlas.findRegion(ATLAS_REGION));
+		super(atlas.findRegion(ATLAS_REGION), SQUARE);
 		setSize(V.WIDTH * WIDTH, V.HEIGHT * HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
@@ -51,8 +49,6 @@ public class Pillow extends Touchable {
 			level = yLevel;
 		}
 		this.touchables = thouchables;
-		this.paddingX = V.WIDTH / 10;
-		this.paddingY = V.HEIGHT / 10;
 		setX(0);
 		setY(-1 * level);
 		oldX = new float[3];
@@ -78,13 +74,6 @@ public class Pillow extends Touchable {
 				ReturnClass intersect = intersects(touch);
 				if (intersect.t != null) {
 					System.out.println("Pillow intersect");
-					if (intersect.xDir == RIGHT) {
-						setX(intersect.t.getX() - getWidth() - 1);
-						mX = getX();
-					} else if (intersect.xDir == LEFT) {
-						setX(intersect.t.getX() + intersect.t.getWidth() + 1);
-						mX = getX();
-					}
 				} 
 			}
 		}
@@ -157,32 +146,12 @@ public class Pillow extends Touchable {
 	 * 
 	 * @return true if testX and textY is close to the pillow
 	 */
-	public boolean inside(int testX, int testY) {
+	public boolean inside(int testX, int testY, int paddingX, int paddingY) {
 		if (testX > getX() - paddingX && testX < getWidth() + getX() + paddingX && testY < V.HEIGHT - getY() + paddingY
 				&& testY > V.HEIGHT - getY() - getHeight() - paddingY) {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public float getTopLimit(float x) {
-		return this.getHeight() / 2;
-	}
-
-	@Override
-	public float getBottomLimit(float x) {
-		return 0;
-	}
-
-	@Override
-	public float getLeftLimit(float y) {
-		return 0;
-	}
-
-	@Override
-	public float getRightLimit(float y) {
-		return this.getWidth();
 	}
 
 	public void setMouseX(float x) {
@@ -201,21 +170,4 @@ public class Pillow extends Touchable {
 		mY = y;
 	}
 
-	@Override
-	public float getRadiusSquare(float v) {
-		if (v > Math.PI * 2 || v < 0) {
-			System.out.println(v);
-			throw new IllegalArgumentException();
-		}
-		if (Math.PI < v && v <= 2*Math.PI) {
-			v = 360 - v;
-		}
-		if (Math.PI / 2 < v && v <= Math.PI) {
-			v = 180 - v;
-		}
-		float r1 = (float) ((getWidth() / 2) / Math.cos(v));
-		float r2 = (float) ((getHeight() / 2) / Math.sin(v));
-		float r = Math.min(r1, r2);
-		return r * r;
-	}
 }

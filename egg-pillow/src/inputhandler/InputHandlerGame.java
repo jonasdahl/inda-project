@@ -43,7 +43,7 @@ public class InputHandlerGame implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (pillow.inside(screenX, screenY)) {
+		if (pillow.inside(screenX, screenY, V.WIDTH / 10, V.HEIGHT / 10)) { // TODO 1 merge 2
 			pillow.setMouseX(screenX);
 			pillow.setMouseY(V.HEIGHT - screenY);
 			onPillow = true;
@@ -66,7 +66,7 @@ public class InputHandlerGame implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (onPillow || pillow.inside(screenX, screenY)) {
+		if (onPillow || pillow.inside(screenX, screenY, V.WIDTH / 10, V.HEIGHT / 10)) { // TODO  2 merge 1
 			pillow.setMouseX(screenX);
 			pillow.setMouseY(V.HEIGHT - screenY);
 		}

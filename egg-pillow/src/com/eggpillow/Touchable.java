@@ -5,59 +5,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public abstract class Touchable extends Sprite {
 
-	public static final int TOP = -100;
-	public static final int BOTTOM = 100;
-	public static final int LEFT = 100;
-	public static final int RIGHT = -100;
 	protected float softnessX = 0; // Between 0 and 1
 	protected float softnessY = 0; // Between 0 and 1
+
+	protected final int ID;
+	protected final static int SQUARE = 0;
+	protected final static int ELLIPSE = 1;
 
 	protected float xSpeed, ySpeed;
 
 	// This be ugly
-	public Touchable(AtlasRegion tex) {
+	public Touchable(AtlasRegion tex, int id) {
 		super(tex);
+		ID = id;
 	}
-
-	/**
-	 * Get the top limit of this object in terms of y-pixels above the downside
-	 * of this object.
-	 * 
-	 * @param x
-	 *            the x-column that is to be investigated
-	 * @return the top limit of this object y-wise for given x-column
-	 */
-	public abstract float getTopLimit(float x);
-
-	/**
-	 * Get the bottom limit of this object in terms of y-pixels above the
-	 * downside of this object.
-	 * 
-	 * @param x
-	 *            the x-column that is to be investigated
-	 * @return the bottom limit of this object y-wise for given x-column
-	 */
-	public abstract float getBottomLimit(float x);
-
-	/**
-	 * Get the left limit of this object in terms of x-pixels to the right of
-	 * the left side of this object.
-	 * 
-	 * @param y
-	 *            the y-column that is to be investigated
-	 * @return the left limit of this object x-wise for given y-column
-	 */
-	public abstract float getLeftLimit(float y);
-
-	/**
-	 * Get the right limit of this object in terms of x-pixels to the right of
-	 * the left side of this object.
-	 * 
-	 * @param y
-	 *            the y-column that is to be investigated
-	 * @return the right limit of this object x-wise for given y-column
-	 */
-	public abstract float getRightLimit(float y);
 
 	// Speed
 	/** percent of screen width / sec */
@@ -78,57 +39,69 @@ public abstract class Touchable extends Sprite {
 	public ReturnClass intersects(Touchable t) {
 		// Calculate Degree v
 		float pX = t.getCenterX() - getCenterX();
-		float pY = t.getCenterY()- getCenterY();
-		
-		double v;
-		// To first quadrant
-		if (pX < 0 && pY < 0) {
-			// 4
-			v =  Math.atan(pX / pY);
-			v = 2 * Math.PI - v;
-		} else if (pX < 0) {
-			v =  Math.atan(-(pX / pY));
-			// 2
+		float pY = t.getCenterY() - getCenterY();
+		double v = 0;
+
+		if (pX < 0) {
+			v = Math.atan(pY / -pX);
 			v = Math.PI - v;
-		} else if (pY < 0) {
-			// 3
-			v = Math.atan(-(pX / pY));
-			v = Math.PI + v; 
-		} else {
-			// 1
-			v = Math.atan(pX / pY);
-		}
-		float rad0 = pX * pX + pY * pY;
-		float rad1 = getRadiusSquare((float)v);
-		float rad2 = t.getRadiusSquare((float)v);
-		
-		if (rad0 < rad1 + rad2) {
-			// INTERSECT
-			if (t.getWidth() == V.WIDTH * 0.1f) {
-				System.out.println("INSIDE");
+		} else if (pX >= 0) {
+			v = Math.atan(pY / pX);
+			if (v < 0) {
+				v = Math.PI * 2 + v;
 			}
-				
 		}
-		
-		return new ReturnClass(null, 0, 0);
+		if (ID == ELLIPSE && t.ID == SQUARE) {
+			if (t.insideSquare(getCircleEdge((float) v))) {
+				return new ReturnClass(t, (float)v);
+			}
+		} else if (ID == SQUARE && t.ID == SQUARE) {
+			if (t.insideSquare(new Point(getX(), getY()))) {
+				return new ReturnClass(t, (float)v);
+			} else if (t.insideSquare(new Point(getX(), getY() + getHeight()))) {
+				return new ReturnClass(t, (float)v);
+			} else if (t.insideSquare(new Point(getX() + getWidth(), getY()))) {
+				return new ReturnClass(t, (float)v);
+			} else if (t.insideSquare(new Point(getX() + getWidth(), getY() + getHeight()))) {
+				return new ReturnClass(t, (float)v);
+			}
+		}
+
+		return new ReturnClass(null, (float)v);
+	}
+
+	public Point getCircleEdge(float v) {
+		float x = (getWidth() / 2) * (float) Math.cos(v);
+		float y = (getHeight() / 2) * (float) Math.sin(v);
+		// System.out.println(x + "  " + y + "  " + v * 57 + " " + Math.sqrt(x
+		// *x + y * y));
+		x = getCenterX() + x;
+		y = getCenterY() + y;
+		return new Point(x, y);
+	}
+
+	public boolean insideSquare(Point p) {
+		if (p.getX() > getX() && p.getX() < getWidth() + getX() && p.getY() < getHeight() + getY() && p.getY() > getY()) {
+			return true;
+		}
+		return false;
 	}
 
 	protected class ReturnClass {
 
 		protected Touchable t;
-		protected int xDir, yDir;
+		protected float v;
 
-		protected ReturnClass(Touchable t, int x, int y) {
+		protected ReturnClass(Touchable t, float v) {
 			this.t = t;
-			xDir = x;
-			yDir = y;
+			this.v = v;
 		}
 	}
-	
+
 	public float getCenterX() {
 		return getX() + getWidth() / 2;
 	}
-	
+
 	public float getCenterY() {
 		return getY() + getHeight() / 2;
 	}
@@ -140,10 +113,5 @@ public abstract class Touchable extends Sprite {
 	public float getXSoftness() {
 		return softnessX;
 	}
-	
-	/**
-	 * @param v Degrees from positive x-axis
-	 * @return Length of radius^2
-	 */
-	public abstract float getRadiusSquare(float v);
+
 }
