@@ -45,4 +45,21 @@ public class Basket extends Touchable {
 		return 0;
 	}
 
+	@Override
+	public float getRadiusSquare(float v) {
+		if (v > Math.PI * 2 || v < 0) {
+			throw new IllegalArgumentException();
+		}
+		if (Math.PI < v && v <= 2*Math.PI) {
+			v = 360 - v;
+		}
+		if (Math.PI / 2 < v && v <= Math.PI) {
+			v = 180 - v;
+		}
+		float r1 = (float) ((getWidth() / 2) / Math.cos(v));
+		float r2 = (float) ((getHeight() / 2) / Math.sin(v));
+		float r = Math.min(r1, r2);
+		return r * r;
+	}
+
 }

@@ -228,26 +228,13 @@ public class Egg extends Touchable {
 		return (float) (Math.sqrt(1 - (y - height / 2) * (y - height/2) / (height * height / 4)) * width / 2 + width / 2 );
 	}
 
-	// /**
-	// * Checks if this egg intersects with t.
-	// *
-	// * @param t
-	// * a touchable, like a cliff or pillow, or another egg.
-	// * @return true if the two objects share some pixels (if too many, it
-	// * returns false)
-	// */
-	// private boolean intersects(Touchable t) {
-	// // TODO Improve - kollar bara rakt uppifrån mot rakt nerifrån just nu
-	// int leftBound = (int) Math.max(getX(), t.getX()) + 1;
-	// int rightBound = (int) Math.min(getX() + getWidth(),
-	// t.getX() + t.getWidth()) - 1;
-	// for (int i = leftBound; i <= rightBound; i += 10) {
-	// float diff = (t.getTopLimit(i - t.getX()) + t.getY())
-	// - (getBottomLimit(i - getX()) + getY());
-	// if (diff > 0)
-	// return true;
-	// }
-	// return false;
-	// }
+	@Override
+	public float getRadiusSquare(float v) {
+		float x = (getWidth() / 2) * (float)Math.cos(v);
+		float y = (getHeight() / 2) * (float)Math.sin(v);
+		
+		return x * x + y * y;
+	}
+
 
 }

@@ -79,17 +79,13 @@ public class Pillow extends Touchable {
 				if (intersect.t != null) {
 					System.out.println("Pillow intersect");
 					if (intersect.xDir == RIGHT) {
-						System.out.println("RIGHT");
 						setX(intersect.t.getX() - getWidth() - 1);
 						mX = getX();
 					} else if (intersect.xDir == LEFT) {
-						System.out.println("LEFT");
 						setX(intersect.t.getX() + intersect.t.getWidth() + 1);
 						mX = getX();
 					}
-				} else {
-					System.out.println("NO");
-				}
+				} 
 			}
 		}
 	}
@@ -131,10 +127,10 @@ public class Pillow extends Touchable {
 	public void setX(float x) {
 		if (x > V.WIDTH - getWidth())
 			return;
-			//x = V.WIDTH - getWidth();
+		// x = V.WIDTH - getWidth();
 		if (x < 0)
 			return;
-			//x = 0;
+		// x = 0;
 		super.setX(x);
 	}
 
@@ -203,5 +199,23 @@ public class Pillow extends Touchable {
 		if (y < 0)
 			y = 0;
 		mY = y;
+	}
+
+	@Override
+	public float getRadiusSquare(float v) {
+		if (v > Math.PI * 2 || v < 0) {
+			System.out.println(v);
+			throw new IllegalArgumentException();
+		}
+		if (Math.PI < v && v <= 2*Math.PI) {
+			v = 360 - v;
+		}
+		if (Math.PI / 2 < v && v <= Math.PI) {
+			v = 180 - v;
+		}
+		float r1 = (float) ((getWidth() / 2) / Math.cos(v));
+		float r2 = (float) ((getHeight() / 2) / Math.sin(v));
+		float r = Math.min(r1, r2);
+		return r * r;
 	}
 }

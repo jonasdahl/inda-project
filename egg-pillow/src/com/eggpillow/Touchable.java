@@ -76,43 +76,40 @@ public abstract class Touchable extends Sprite {
 	 * @return ReturnClass if intersect with t = null if no intersect.
 	 */
 	public ReturnClass intersects(Touchable t) {
-		// TODO this is a mess. Need to think through how to do it
-		int xDir = 0, yDir = 0;
-		float botBound = Math.max(getY(), t.getY());
-		float topBound = Math.min(getY() + getHeight(), t.getY() + t.getHeight());
-		float diffY = (topBound - botBound) / 10;
-		for (float i = 0; i < (topBound - botBound); i += diffY) {
-			if (getXSpeed() - t.getXSpeed() > 0) {
-				if (getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()
-						&& getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()) {
-					xDir = RIGHT;
-				}
-			} else {
-				if (getLeftLimit(i) + getX() < t.getRightLimit(i) + t.getX()
-						&& getRightLimit(i) + getX() > t.getLeftLimit(i) + t.getX()) {
-					xDir = LEFT;
-				}
+		// Calculate Degree v
+		float pX = t.getCenterX() - getCenterX();
+		float pY = t.getCenterY()- getCenterY();
+		
+		double v;
+		// To first quadrant
+		if (pX < 0 && pY < 0) {
+			// 4
+			v =  Math.atan(pX / pY);
+			v = 2 * Math.PI - v;
+		} else if (pX < 0) {
+			v =  Math.atan(-(pX / pY));
+			// 2
+			v = Math.PI - v;
+		} else if (pY < 0) {
+			// 3
+			v = Math.atan(-(pX / pY));
+			v = Math.PI + v; 
+		} else {
+			// 1
+			v = Math.atan(pX / pY);
+		}
+		float rad0 = pX * pX + pY * pY;
+		float rad1 = getRadiusSquare((float)v);
+		float rad2 = t.getRadiusSquare((float)v);
+		
+		if (rad0 < rad1 + rad2) {
+			// INTERSECT
+			if (t.getWidth() == V.WIDTH * 0.1f) {
+				System.out.println("INSIDE");
 			}
+				
 		}
-		float leftBound = Math.max(getX(), t.getX());
-		float rightBound = Math.min(getX() + getWidth(), t.getX() + t.getWidth());
-		float diffX = (rightBound - leftBound) / 10;
-		for (float j = 0; j < (rightBound - leftBound); j += diffX) {
-			if (getYSpeed() - t.getYSpeed() > 0) {
-				if (getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()
-						&& getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()) {
-					yDir = TOP;
-				}
-			} else {
-				if (getBottomLimit(j) + getY() < t.getTopLimit(j) + t.getY()
-						&& getTopLimit(j) + getY() > t.getBottomLimit(j) + t.getY()) {
-					yDir = BOTTOM;
-				}
-			}
-		}
-		if (xDir == LEFT || xDir == RIGHT || yDir == TOP || yDir == BOTTOM) {
-			return new ReturnClass(t, xDir, yDir);
-		}
+		
 		return new ReturnClass(null, 0, 0);
 	}
 
@@ -126,14 +123,13 @@ public abstract class Touchable extends Sprite {
 			xDir = x;
 			yDir = y;
 		}
-
 	}
 	
-	public float centerX() {
+	public float getCenterX() {
 		return getX() + getWidth() / 2;
 	}
 	
-	public float centerY() {
+	public float getCenterY() {
 		return getY() + getHeight() / 2;
 	}
 
@@ -144,4 +140,10 @@ public abstract class Touchable extends Sprite {
 	public float getXSoftness() {
 		return softnessX;
 	}
+	
+	/**
+	 * @param v Degrees from positive x-axis
+	 * @return Length of radius^2
+	 */
+	public abstract float getRadiusSquare(float v);
 }
