@@ -28,6 +28,8 @@ public class V {
 	public final static String BASKET_REGION = "game_basket";
 	public final static String CLIFF_REGION = "game_cliff";
 	public final static String CRASHED_EGG_REGION = "game_egg_crashed";
+	public final static String POWERUP_REGION = "game_powerUp"; // TODO Small letters plox
+	public final static String POWERUP_HEART_REGION = "game_heart";
 	
 	public final static float BASKET_HEIGHT = 0.05f;
 	
@@ -53,6 +55,10 @@ public class V {
 	public final static float PILLOW_WIDTH = .1f; 
 	/** Width in percent of screen height. */
 	public final static float PILLOW_HEIGHT = .1f; 
+	/** Width in percent of screen width. */
+	public final static float POWERUP_WIDTH = 0.05f;
+	/** Height in percent of screen height. */
+	public final static float POWERUP_HEIGHT = 0.05f;
 
 	public static final float TIME_BETWEEN_EGGS = 2f;
 	public final static int LIVES = 40;

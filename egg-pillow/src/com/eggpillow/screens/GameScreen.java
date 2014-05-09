@@ -41,24 +41,19 @@ public class GameScreen implements Screen {
 	private TweenManager tweenManager;
 	private ArrayList<Touchable> touchables;
 	public static String message = "";
-
 	private float totalDeltaPower;
 	private float timeToNextPower;
 	private float totalDeltaEgg;
 	private int freedEggs;
-
 	private boolean gamePaused = true;
 	private boolean showInstructions = true;
 	private Texture pTexture;
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
-	
 	private Random random;
-
 	private TextureAtlas atlas;
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
-
 	// Sprites
 	private Pillow pillow;
 	private Cliff cliff;
@@ -70,9 +65,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Constructor for GameScreen
-	 * 
-	 * @param g
-	 *            the main Game class as a reference later on
+	 * @param g the main Game class as a reference later on
 	 */
 	public GameScreen(EggPillow g) {
 		tweenManager = new TweenManager();
@@ -228,7 +221,7 @@ public class GameScreen implements Screen {
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(touchables, .08f, atlas);
+		pillow = new Pillow(touchables, .25f, .5f, atlas);
 		// TODO if funmode new Pillow(touchables, -1, atlas);
 
 		// Setup cliff

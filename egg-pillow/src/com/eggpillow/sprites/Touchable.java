@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.Point;
 
 public abstract class Touchable extends Sprite {
-
-	protected float softnessX = 0; // Between 0 and 1
-	protected float softnessY = 0; // Between 0 and 1
-	
+	protected float softnessX;
+	protected float softnessY;
 	protected float xSpeed;
 	protected float ySpeed;
 
@@ -16,7 +14,11 @@ public abstract class Touchable extends Sprite {
 	protected final static int SQUARE = 0;
 	protected final static int ELLIPSE = 1;
 
-	// This be ugly
+	/**
+	 * 
+	 * @param tex
+	 * @param id
+	 */
 	public Touchable(AtlasRegion tex, int id) {
 		super(tex);
 		ID = id;

@@ -17,7 +17,7 @@ public class Pillow extends Touchable {
 
 	private float[] oldX, oldY;
 	private int nextOld = 0;
-	private float mX, mY;
+	private float xPos, yPos;
 
 	/**
 	 * Constructor for Pillow.
@@ -29,35 +29,37 @@ public class Pillow extends Touchable {
 	 * @param width the width (in percent of screen width)
 	 * @param height the height (in percent of screen height)
 	 */
-	public Pillow(ArrayList<Touchable> thouchables, float yLevel, TextureAtlas atlas) {
+	public Pillow(ArrayList<Touchable> touchables, float yLevel, float xPos, TextureAtlas atlas) {
 		super(atlas.findRegion(V.PILLOW_REGION), SQUARE);
 		setSize(V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * V.PILLOW_HEIGHT);
+		this.touchables = touchables;
+		
+		// Checks if y level should be fixed or not
 		if (yLevel < 0) {
 			locked = false;
+			level = -yLevel;
 		} else {
 			locked = true;
 			level = yLevel;
 		}
-		this.touchables = thouchables;
-		setX(0);
-		setY(-1 * level);
+		setX(xPos * V.WIDTH);
+		setY(yLevel);
 		oldX = new float[3];
 		oldY = new float[3];
-		softnessX = 0;
+		softnessX = 0; // Soft as fuck!
 		softnessY = 0;
 	}
 
 	/**
 	 * Update the pillows properties. speed
-	 * 
-	 * @param delta
-	 *            Time since last update (seconds)
+	 * @param delta Time since last update (seconds)
 	 */
 	public void update(float delta) {
 		// TODO fix bug and vertical
-		setX(mX);
-		setY(mY);
+		setX(xPos);
+		setY(yPos);
 		updateSpeed(delta);
+		
 		// CollisionDetection
 		for (Touchable touch : touchables) {
 			if (touch != this) {
@@ -80,16 +82,11 @@ public class Pillow extends Touchable {
 
 	/**
 	 * Update the speed of the pillow.
-	 * 
-	 * @param delta
-	 *            Time since last update seconds
+	 * @param delta Time since last update seconds
 	 */
 	private void updateSpeed(float delta) {
-		// TODO delay or fluctuate
-		xSpeed = (getX() - medel(oldX)) * delta * V.WIDTH;
-		ySpeed = (getY() - medel(oldY)) * delta * V.HEIGHT;
-		// xSpeed = (getX() - oldX[ nextOld]) * delta * V.WIDTH;
-		// ySpeed = (getY() - oldY[nextOld]) * delta * V.HEIGHT;
+		xSpeed = (getX() - average(oldX)) * delta * V.WIDTH;
+		ySpeed = (getY() - average(oldY)) * delta * V.HEIGHT;
 
 		oldX[nextOld] = getX();
 		oldY[nextOld] = getY();
@@ -99,7 +96,12 @@ public class Pillow extends Touchable {
 		}
 	}
 
-	private float medel(float[] v) {
+	/**
+	 * Calculates average value of the floats in v.
+	 * @param v the array to averageify
+	 * @return the average of the values in v
+	 */
+	private float average(float[] v) {
 		float x = 0;
 		for (float f : v) {
 			x += f;
@@ -115,10 +117,8 @@ public class Pillow extends Touchable {
 	public void setX(float x) {
 		if (x > V.WIDTH - getWidth())
 			return;
-		// x = V.WIDTH - getWidth();
 		if (x < 0)
 			return;
-		// x = 0;
 		super.setX(x);
 	}
 
@@ -128,13 +128,10 @@ public class Pillow extends Touchable {
 	 */
 	@Override
 	public void setY(float y) {
-		if (y < 0) {
-			y = 0;
+		if (y < 0) 
 			return;
-		} else if (y > V.HEIGHT - getHeight()) {
-			y = V.HEIGHT - getHeight();
+		if (y > V.HEIGHT - getHeight())
 			return;
-		}
 
 		if (!locked)
 			super.setY(y);
@@ -143,46 +140,52 @@ public class Pillow extends Touchable {
 	}
 
 	/**
-	 * Checks if testX and testY is inside or very close to the pillow.
-	 * 
+	 * Checks if testX and testY is inside or very close to the pillow (with padding).
+	 * @param testX x col to test
+	 * @param testY y row to test
+	 * @param paddingX x padding to include
+	 * @param paddingY y padding to include
 	 * @return true if testX and textY is close to the pillow
 	 */
 	public boolean inside(int testX, int testY, int paddingX, int paddingY) {
-		if (testX > getX() - paddingX && testX < getWidth() + getX() + paddingX && testY < V.HEIGHT - getY() + paddingY
+		if (testX > getX() - paddingX 
+				&& testX < getWidth() + getX() + paddingX 
+				&& testY < V.HEIGHT - getY() + paddingY
 				&& testY > V.HEIGHT - getY() - getHeight() - paddingY) {
 			return true;
 		}
 		return false;
 	}
 
-	public void setMouseX(float x) {
-		x -= getWidth()/2;
-		if (x > V.WIDTH - getWidth()) {
-			x = V.WIDTH - getWidth();
-			return;
-		}
-		if (x <= 0) {
-			x = 0;
-			return;
-		}
-		mX = x;
-	}
-	
-	/**
-	 * Set mouseY if y 
-	 * @param y
-	 */
-	public void setMouseY(float y) {
-		y -= getHeight()/2;
-		if (y > V.HEIGHT - getHeight()) {
-			y = V.HEIGHT - getHeight();
-			return;
-		}
-		if (y <= 0) {
-			y = 0;
-			return;
-		}
-		mY = y;
-	}
+	// TODO VŠlja mellan pest och kolera
+//	public void setMouseX(float x) {
+//		x -= getWidth()/2;
+//		if (x > V.WIDTH - getWidth()) {
+//			x = V.WIDTH - getWidth();
+//			return;
+//		}
+//		if (x <= 0) {
+//			x = 0;
+//			return;
+//		}
+//		mouseX = x;
+//	}
+//	
+//	/**
+//	 * Set mouseY if y 
+//	 * @param y
+//	 */
+//	public void setMouseY(float y) {
+//		y -= getHeight()/2;
+//		if (y > V.HEIGHT - getHeight()) {
+//			y = V.HEIGHT - getHeight();
+//			return;
+//		}
+//		if (y <= 0) {
+//			y = 0;
+//			return;
+//		}
+//		mouseY = y;
+//	}
 
 }
