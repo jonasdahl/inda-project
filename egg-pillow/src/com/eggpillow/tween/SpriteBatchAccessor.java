@@ -5,8 +5,15 @@ import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eggpillow.V;
 
+/**
+ * An accessor for Tween enginge that makes values changeable.
+ * @author jonas
+ * @version 2014-05-09
+ */
 public class SpriteBatchAccessor implements TweenAccessor<SpriteBatch> {
-	// Defines the possible tween types
+	/**
+	 * A Tween Type.
+	 */
 	public static final int ALPHA = 1;
 
 	@Override

@@ -4,8 +4,15 @@ import aurelienribon.tweenengine.TweenAccessor;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+/**
+ * An accessor for Tween enginge that makes values changeable.
+ * @author jonas
+ * @version 2014-05-09
+ */
 public class TableAccessor implements TweenAccessor<Table> {
-	// Defines the possible tween types
+	/**
+	 * A Tween Type.
+	 */
 	public static final int ALPHA = 1;
 
 	@Override

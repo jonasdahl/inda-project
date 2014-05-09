@@ -20,8 +20,7 @@ import com.eggpillow.screens.SplashScreen;
  *   TODO Add predictions to intersects (use speed)
  *   
  *   TODO DRAW: lifeindicator
- *   TODO 		fix crashedEgg to png
- *   TODO 		settingsbackground
+ *   TODO DRAW:	settingsbackground
  */
 
 /**

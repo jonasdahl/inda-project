@@ -15,6 +15,7 @@ public class Egg extends Touchable {
 	private boolean started; // Invariant: true if egg has started moving, false otherwise
 	private boolean stopped; // Invariant: true if egg has reached basket, false otherwise
 	private boolean dead; // Invariant: true if egg has died
+	private boolean deadLastTime; // Invariant: true if egg was died last update
 	private float yAcceleration;
 	private GameScreen game;
 	private TextureAtlas atlas;
@@ -33,6 +34,7 @@ public class Egg extends Touchable {
 		started = false;
 		stopped = false;
 		dead = false;
+		deadLastTime = false;
 		atlas = tAtlas;
 		xSpeed = V.EGG_X_SPEED * V.WIDTH;
 		yAcceleration = V.GRAVITATION * V.HEIGHT;
@@ -46,11 +48,12 @@ public class Egg extends Touchable {
 	 */
 	public void updatePosition(float delta) {
 		if (!hasStarted() || hasStopped() || isDead()) {
+			deadLastTime = true;
 			return; // We're done!
 		}
 
 		float screenWidth = V.WIDTH;
-		ySpeed -= yAcceleration;
+		ySpeed -= yAcceleration * delta;
 		setY(getY() + ySpeed * delta);
 		setX(getX() + xSpeed * delta);
 
@@ -172,6 +175,14 @@ public class Egg extends Touchable {
 	 */
 	public boolean isDead() {
 		return dead;
+	}
+
+	/**
+	 * Checks if the egg is alive or dead.
+	 * @return true if egg is dead
+	 */
+	public boolean wasDeadLastTime() {
+		return deadLastTime;
 	}
 
 	/**

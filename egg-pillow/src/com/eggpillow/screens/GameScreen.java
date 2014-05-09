@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.EggPillow;
+import com.eggpillow.Stats;
 import com.eggpillow.V;
 import com.eggpillow.sprites.Basket;
 import com.eggpillow.sprites.Cliff;
@@ -59,9 +60,10 @@ public class GameScreen implements Screen {
 	private Cliff cliff;
 	private ArrayList<Egg> eggs;
 	private Basket basket;
-	Queue<Egg> removeEggs;
 	private ArrayList<PowerUp> powerups;
+	private Stats stats;
 	Queue<PowerUp> removePowerups;
+	Queue<Egg> removeEggs;
 
 	/**
 	 * Constructor for GameScreen
@@ -70,15 +72,14 @@ public class GameScreen implements Screen {
 	public GameScreen(EggPillow g) {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
+		stats = new Stats(V.LIVES, 1);
 		game = g;
 		random = new Random();
 	}
 
 	@Override
 	public void render(float delta) {
-		// Make images scalable
-		Texture.setEnforcePotImages(false);
-
+		delta *= stats.getGameSpeed();
 		batch.begin();
 		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 
@@ -89,6 +90,7 @@ public class GameScreen implements Screen {
 		pillow.draw(batch);
 
 		if (!gamePaused) {
+			inputHandler.update(delta);
 			pillow.update(delta);
 			updatePowerups(delta, pillow);
 			updateEggs(delta);
@@ -136,7 +138,7 @@ public class GameScreen implements Screen {
 		if (totalDeltaPower > timeToNextPower) {
 			// TODO set random startPos
 			// TODO add for PowerUps 
-			powerups.add(new PowerHeart(atlas, V.WIDTH / 2)); 
+			powerups.add(new PowerHeart(atlas, V.WIDTH / 2, stats)); 
 			totalDeltaPower = 0;
 			timeToNextPower = 5 + random.nextInt(10); // TODO random
 		}
@@ -153,8 +155,8 @@ public class GameScreen implements Screen {
 		int deadEggs = 0;
 		for (Egg egg : eggs) {
 			egg.update(delta);
-			if (egg.isDead()) {
-				deadEggs++;
+			if (egg.isDead() && !egg.wasDeadLastTime()) {
+				stats.deadEgg();
 			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO
 																		// improve
 				removeEggs.add(egg);
@@ -165,7 +167,7 @@ public class GameScreen implements Screen {
 			eggs.remove(removeEggs.poll());
 		}
 
-		if (deadEggs >= V.LIVES) {
+		if (deadEggs >= stats.startLives()) {
 			newHighscore = updateHighscore(freedEggs); // TODO change to
 														// succesfully saved
 														// eggs
@@ -174,7 +176,7 @@ public class GameScreen implements Screen {
 		}
 
 		// TODO Do it BETTER!
-		message = (V.LIVES - deadEggs) + "/" + V.LIVES + "  lives left";
+		message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
 		totalDeltaEgg += delta;
@@ -221,7 +223,8 @@ public class GameScreen implements Screen {
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(touchables, .25f, .5f, atlas);
+		pillow = new Pillow(touchables, -.25f, .5f, atlas);
+		inputHandler = new InputHandlerGame(game, this, pillow); // TODO Menu-fix
 		// TODO if funmode new Pillow(touchables, -1, atlas);
 
 		// Setup cliff
@@ -243,7 +246,6 @@ public class GameScreen implements Screen {
 
 		// background = new Texture(BACKGROUND_IMAGE);
 		background = new Texture(V.GAME_BACKGROUND_IMAGE);
-		inputHandler = new InputHandlerGame(pillow, this, new MenuScreen(game), game); // TODO Menu-fix
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 

@@ -1,8 +1,11 @@
 package com.eggpillow.sprites;
 
+import inputhandler.InputHandlerGame;
+
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.eggpillow.Point;
 import com.eggpillow.V;
 
 /**
@@ -17,7 +20,6 @@ public class Pillow extends Touchable {
 
 	private float[] oldX, oldY;
 	private int nextOld = 0;
-	private float xPos, yPos;
 
 	/**
 	 * Constructor for Pillow.
@@ -43,7 +45,7 @@ public class Pillow extends Touchable {
 			level = yLevel;
 		}
 		setX(xPos * V.WIDTH);
-		setY(yLevel);
+		setY(level * V.HEIGHT);
 		oldX = new float[3];
 		oldY = new float[3];
 		softnessX = 0; // Soft as fuck!
@@ -56,8 +58,6 @@ public class Pillow extends Touchable {
 	 */
 	public void update(float delta) {
 		// TODO fix bug and vertical
-		setX(xPos);
-		setY(yPos);
 		updateSpeed(delta);
 		
 		// CollisionDetection
@@ -147,7 +147,7 @@ public class Pillow extends Touchable {
 	 * @param paddingY y padding to include
 	 * @return true if testX and textY is close to the pillow
 	 */
-	public boolean inside(int testX, int testY, int paddingX, int paddingY) {
+	public boolean inside(float testX, float testY, float paddingX, float paddingY) {
 		if (testX > getX() - paddingX 
 				&& testX < getWidth() + getX() + paddingX 
 				&& testY < V.HEIGHT - getY() + paddingY
@@ -157,35 +157,12 @@ public class Pillow extends Touchable {
 		return false;
 	}
 
-	// TODO VŠlja mellan pest och kolera
-//	public void setMouseX(float x) {
-//		x -= getWidth()/2;
-//		if (x > V.WIDTH - getWidth()) {
-//			x = V.WIDTH - getWidth();
-//			return;
-//		}
-//		if (x <= 0) {
-//			x = 0;
-//			return;
-//		}
-//		mouseX = x;
-//	}
-//	
-//	/**
-//	 * Set mouseY if y 
-//	 * @param y
-//	 */
-//	public void setMouseY(float y) {
-//		y -= getHeight()/2;
-//		if (y > V.HEIGHT - getHeight()) {
-//			y = V.HEIGHT - getHeight();
-//			return;
-//		}
-//		if (y <= 0) {
-//			y = 0;
-//			return;
-//		}
-//		mouseY = y;
-//	}
-
+	/**
+	 * Sets this pillow's location.
+	 * @param lastPosition the new location
+	 */
+	public void setLocation(Point lastPosition) {
+		setX(lastPosition.getX() - getWidth() / 2);
+		setY(lastPosition.getY() + getHeight() / 10);
+	}
 }

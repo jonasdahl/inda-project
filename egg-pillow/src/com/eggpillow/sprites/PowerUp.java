@@ -1,6 +1,7 @@
 package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.eggpillow.Stats;
 import com.eggpillow.V;
 
 /**
@@ -10,6 +11,7 @@ import com.eggpillow.V;
  */
 public abstract class PowerUp extends Touchable {
 	protected boolean dead = false;
+	protected Stats gameStats;
 
 	/**
 	 * Creates a new powerup
@@ -17,11 +19,12 @@ public abstract class PowerUp extends Touchable {
 	 * @param atlasRegion where to look in the atlas region
 	 * @param startX the starting x position
 	 */
-	public PowerUp(TextureAtlas atlas, String atlasRegion, float startX) {
+	public PowerUp(TextureAtlas atlas, String atlasRegion, float startX, Stats stats) {
 		super(atlas.findRegion(atlasRegion), ELLIPSE);
 		setSize(V.POWERUP_WIDTH * V.WIDTH, V.POWERUP_HEIGHT * V.HEIGHT);
 		setX(startX);
 		setY(V.HEIGHT);
+		gameStats = stats;
 	}
 	
 	/**
@@ -42,7 +45,7 @@ public abstract class PowerUp extends Touchable {
 		if (getY() < 0) {
 			dead = true;
 		}
-		ySpeed -= V.HEIGHT * V.GRAVITATION;
+		ySpeed -= V.HEIGHT * V.GRAVITATION * delta;
 		setY(getY() + ySpeed * delta);
 	}
 	

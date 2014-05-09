@@ -62,7 +62,8 @@ public class V {
 
 	public static final float TIME_BETWEEN_EGGS = 2f;
 	public final static int LIVES = 40;
-	public final static float GRAVITATION = 0.01f;
+	public final static int ADD_LIVES = 3;
+	public final static float GRAVITATION = 4f;
 
 	public static void initV() {
 		HEIGHT = Gdx.graphics.getHeight();
