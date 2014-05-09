@@ -1,18 +1,53 @@
 package inputhandler;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.eggpillow.Pillow;
+import com.eggpillow.EggPillow;
+import com.eggpillow.Point;
+import com.eggpillow.V;
+import com.eggpillow.screens.GameScreen;
+import com.eggpillow.screens.MenuScreen;
+import com.eggpillow.sprites.Pillow;
 
+/**
+ * Handles input on game screen.
+ * @author jonas
+ * @version 2014-05-09
+ */
 public class InputHandlerGame implements InputProcessor {
+	private Point nextPillowPosition;
+	GameScreen gameScreen;
+	EggPillow game;
+	Pillow pillow;
 	
-	private Pillow pillow;
-	
-	public InputHandlerGame(Pillow p) {
+	/**
+	 * Creates a new input handler for a game.
+	 * @param g a reference to the main game object
+	 * @param gs a reference to the game screen
+	 */
+	public InputHandlerGame(EggPillow g, GameScreen gs, Pillow p) {
+		gameScreen = gs;
+		game = g;
 		pillow = p;
+		nextPillowPosition = new Point(V.WIDTH / 2, V.HEIGHT / 2);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 * Pauses the game.
+	 */
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode == Keys.MENU) {
+			gameScreen.pauseGame();
+		} else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+			if (gameScreen.isPaused()) {
+				// Seems like user want's to quit, nah?
+				gameScreen.dispose();
+				game.setScreen(new MenuScreen(game));
+			}
+			gameScreen.pauseGame();
+		}
 		return false;
 	}
 
@@ -26,27 +61,40 @@ public class InputHandlerGame implements InputProcessor {
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * Updates lastPosition and handles pause.
+	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		pillow.setX(screenX);
-		pillow.setY(screenY);
+		if (pillow.inside(screenX, screenY, V.PILLOW_WIDTH / 2, V.PILLOW_HEIGHT / 2)) {
+			nextPillowPosition = new Point(screenX, V.HEIGHT- screenY);
+		}
+		if (gameScreen.isPaused()) {
+			gameScreen.unPauseGame();
+			if (gameScreen.gameIsOver()) {
+				gameScreen.dispose();
+				game.setScreen(new MenuScreen(game));
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		pillow.setX(screenX);
-		pillow.setY(screenY);
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * Updates lastPosition.
+	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		pillow.setX(screenX);
-		pillow.setY(screenY);
+		nextPillowPosition = new Point(screenX, V.HEIGHT - screenY);
 		return false;
 	}
-	
+
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		return false;
@@ -55,5 +103,20 @@ public class InputHandlerGame implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
+	}
+	
+	/**
+	 * Returns the last known position of the mouse/finger.
+	 */
+	public Point getLocation() {
+		return nextPillowPosition;
+	}
+	
+	/**
+	 * Sends commands to Pillows and stuff.
+	 * @param delta
+	 */
+	public void update(float delta) {
+		pillow.setLocation(nextPillowPosition);
 	}
 }

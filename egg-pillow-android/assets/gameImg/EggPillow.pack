@@ -1,0 +1,61 @@
+
+EggPillow.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game_cliff
+  rotate: false
+  xy: 1, 1
+  size: 298, 1098
+  orig: 298, 1098
+  offset: 0, 0
+  index: -1
+game_basket
+  rotate: false
+  xy: 301, 550
+  size: 337, 549
+  orig: 337, 549
+  offset: 0, 0
+  index: -1
+game_pillow
+  rotate: false
+  xy: 301, 413
+  size: 315, 135
+  orig: 315, 135
+  offset: 0, 0
+  index: -1
+game_pillow_hit
+  rotate: false
+  xy: 301, 276
+  size: 315, 135
+  orig: 315, 135
+  offset: 0, 0
+  index: -1
+game_egg_crashed
+  rotate: false
+  xy: 301, 214
+  size: 273, 60
+  orig: 273, 60
+  offset: 0, 0
+  index: -1
+game_egg
+  rotate: false
+  xy: 301, 20
+  size: 140, 192
+  orig: 140, 192
+  offset: 0, 0
+  index: -1
+game_heart
+  rotate: false
+  xy: 443, 112
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game_powerUp
+  rotate: false
+  xy: 443, 10
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

@@ -1,26 +1,69 @@
 package com.eggpillow;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.eggpillow.screens.GameScreen;
+import com.eggpillow.screens.MenuScreen;
+import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
+/*
+ *   TODO Problem: 
+ *   TODO Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw FIXED?
+ *   TODO Collisiondetection is fuckedup borde göras om FIXED? 
+ *   TODO Konstanter i olika klasser eller alla i V?
+ *   TODO DRAW pillow center on mousepos. FIXED?
+ *   TODO Add predictions to intersects (use speed)
+ *   
+ *   TODO DRAW: lifeindicator
+ *   TODO DRAW:	settingsbackground
+ */
+
+/**
+ * The main class that initiates and starts the game.
+ * @author jonas
+ * @version 2014-05-09
+ */
 public class EggPillow extends Game {
-	public static final String NAME = "Egg Pillow";
-	public static final String VERSION = "0.0.1";
-	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
-	
+	/**
+	 * Sets background and starts splash screen.
+	 */
 	@Override
-	public void create() {	
-		Texture.setEnforcePotImages(false);
-		Gdx.gl.glClearColor(BG_R, BG_G, BG_B, BG_O);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	public void create() {
+		Texture.setEnforcePotImages(false); // TODO Keep everywhere or just in one place?
+		setBackground();
+		V.initV(); // Initialize V's values
 		
-		// Starts the splash screen
-		// TODO setScreen(new SplashScreen(this));
-		setScreen(new GameScreen());
+		// Start splash screen
+		setScreen(new SplashScreen(this));
+
+		Gdx.input.setCatchBackKey(true);
+	}
+
+	/**
+	 * Sets the background to standard.
+	 */
+	public static void setBackground() {
+		Gdx.gl.glClearColor(V.BG_R, V.BG_G, V.BG_B, V.BG_O);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
+	
+	/**
+	 * Dispose current screen and set the screen to newScreen
+	 */
+	@Override
+	public void setScreen(Screen newScreen) {
+		// TODO add getScreen().dispose();
+		super.setScreen(newScreen);
+	}
+
+	public void exit() {
+		// TODO make sure everything is okay and save files.
+		Gdx.app.exit();
 	}
 
 	@Override
@@ -29,7 +72,7 @@ public class EggPillow extends Game {
 	}
 
 	@Override
-	public void render() {	
+	public void render() {
 		super.render();
 	}
 
