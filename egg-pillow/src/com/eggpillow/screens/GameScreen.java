@@ -5,6 +5,7 @@ import inputhandler.InputHandlerGame;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
@@ -51,6 +52,8 @@ public class GameScreen implements Screen {
 	private Texture pTexture;
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
+	
+	private Random random;
 
 	private TextureAtlas atlas;
 	private AtlasRegion eggRegion;
@@ -78,6 +81,7 @@ public class GameScreen implements Screen {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
 		game = g;
+		random = new Random();
 	}
 
 	@Override
@@ -143,9 +147,10 @@ public class GameScreen implements Screen {
 		totalDeltaPower += delta;
 		if (totalDeltaPower > timeToNextPower) {
 			// TODO set random startPos
-			// TODO add for PowerUps powerups.add(new PowerHeart(atlas, V.WIDTH / 2)); 
+			// TODO add for PowerUps 
+			powerups.add(new PowerHeart(atlas, V.WIDTH / 2)); 
 			totalDeltaPower = 0;
-			timeToNextPower = 10000;// TODO random
+			timeToNextPower = 5 + random.nextInt(10); // TODO random
 		}
 
 	}
