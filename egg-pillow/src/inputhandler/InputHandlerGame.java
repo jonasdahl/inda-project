@@ -1,32 +1,38 @@
 package inputhandler;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.eggpillow.EggPillow;
 import com.eggpillow.V;
+import com.eggpillow.screens.GameScreen;
+import com.eggpillow.screens.MenuScreen;
 import com.eggpillow.sprites.Pillow;
 
 public class InputHandlerGame implements InputProcessor {
 
 	private Pillow pillow;
 	private boolean onPillow = false;
-	EggPillow game;
+	GameScreen gameScreen;
+	MenuScreen menuScreen;
+	Game game;
 
-	public InputHandlerGame(Pillow p, EggPillow g) {
+	public InputHandlerGame(Pillow p, GameScreen gs, MenuScreen ms, Game g) {
 		pillow = p;
+		gameScreen = gs;
+		menuScreen = ms;
 		game = g;
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.MENU) {
-			game.gameScreen.pauseGame();
+			gameScreen.pauseGame();
 		} else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
-			if (game.gameScreen.isPaused()) {
-				game.gameScreen.dispose();
-				game.setScreen(game.menuScreen);
+			if (gameScreen.isPaused()) {
+				gameScreen.dispose();
+				game.setScreen(menuScreen);
 			}
-			game.gameScreen.pauseGame();
+			gameScreen.pauseGame();
 		}
 		return false;
 	}
@@ -48,11 +54,11 @@ public class InputHandlerGame implements InputProcessor {
 			pillow.setMouseY(V.HEIGHT - screenY);
 			onPillow = true;
 		}
-		if (game.gameScreen.isPaused()) {
-			game.gameScreen.unPauseGame();
-			if (game.gameScreen.gameOver()) {
-				game.gameScreen.dispose();
-				game.setScreen(game.menuScreen);
+		if (gameScreen.isPaused()) {
+			gameScreen.unPauseGame();
+			if (gameScreen.gameIsOver()) {
+				gameScreen.dispose();
+				game.setScreen(menuScreen);
 			}
 		}
 		return false;

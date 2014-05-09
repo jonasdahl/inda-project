@@ -94,7 +94,7 @@ public class SettingsScreen implements Screen {
 			public boolean keyDown(int keycode) {
 				if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 					dispose();
-					game.setScreen(game.menuScreen);
+					game.setScreen(new MenuScreen(game));
 				}
 				return false;
 			}
@@ -132,7 +132,7 @@ public class SettingsScreen implements Screen {
 		buttonDone.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				dispose();
-				game.setScreen(game.menuScreen);
+				game.setScreen(new MenuScreen(game));
 			}
 		});
 

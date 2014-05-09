@@ -6,43 +6,32 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.eggpillow.V;
 
 /**
- * A nice soft pillow. Eggs may bounce away if they come to close. The Pillow
- * will probably be green.
- * 
- * Update the pillow with update(delta) and draw(batch) every frame.
+ * A pillow representation
+ * @author jonas
+ * @version 2014-05-09
  */
 public class Pillow extends Touchable {
 	private float level;
 	private boolean locked;
 	private ArrayList<Touchable> touchables;
 
-	private final static float WIDTH = .1f; // In percent of screen width
-	private final static float HEIGHT = .1f; // In percent of screen height
-
 	private float[] oldX, oldY;
 	private int nextOld = 0;
 	private float mX, mY;
 
-	private final static String ATLAS_REGION = "game_pillow";
-
 	/**
 	 * Constructor for Pillow.
 	 * 
-	 * @param limitXLeft
-	 *            the pillow can't be taken left of this column
-	 * @param limitXRight
-	 *            the pillow can't be taken right of this column
-	 * @param yLevel
-	 *            the level of the pillow in percent of the screen. if set to
-	 *            negative value, then the pillow has no fixed level y-wise.
-	 * @param width
-	 *            the width (in percent of screen width)
-	 * @param height
-	 *            the height (in percent of screen height)
+	 * @param limitXLeft the pillow can't be taken left of this column
+	 * @param limitXRight the pillow can't be taken right of this column
+	 * @param yLevel the level of the pillow in percent of the screen. if set to
+	 *               negative value, then the pillow has no fixed level y-wise.
+	 * @param width the width (in percent of screen width)
+	 * @param height the height (in percent of screen height)
 	 */
 	public Pillow(ArrayList<Touchable> thouchables, float yLevel, TextureAtlas atlas) {
-		super(atlas.findRegion(ATLAS_REGION), SQUARE);
-		setSize(V.WIDTH * WIDTH, V.HEIGHT * HEIGHT);
+		super(atlas.findRegion(V.PILLOW_REGION), SQUARE);
+		setSize(V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * V.PILLOW_HEIGHT);
 		if (yLevel < 0) {
 			locked = false;
 		} else {

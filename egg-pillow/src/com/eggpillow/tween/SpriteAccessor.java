@@ -3,7 +3,7 @@ package com.eggpillow.tween;
 import aurelienribon.tweenengine.TweenAccessor;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.eggpillow.EggPillow;
+import com.eggpillow.V;
 
 public class SpriteAccessor implements TweenAccessor<Sprite> {
 	// Defines the possible tween types
@@ -25,7 +25,7 @@ public class SpriteAccessor implements TweenAccessor<Sprite> {
 	public void setValues(Sprite target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 		case ALPHA:
-			target.setColor(EggPillow.BG_R, EggPillow.BG_G, EggPillow.BG_B, newValues[0]);
+			target.setColor(V.BG_R, V.BG_G, V.BG_B, newValues[0]);
 			break;
 		default:
 			assert false;

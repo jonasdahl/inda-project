@@ -6,69 +6,55 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.V;
 import com.eggpillow.screens.GameScreen;
 
+/**
+ * Representation of an egg.
+ * @author jonas
+ * @version 2014-05-09
+ */
 public class Egg extends Touchable {
-	private boolean started; // Invariant: true if egg has started moving, false
-								// otherwise
-	private boolean stopped; // Invariant: true if egg has reached basket, false
-								// otherwise
+	private boolean started; // Invariant: true if egg has started moving, false otherwise
+	private boolean stopped; // Invariant: true if egg has reached basket, false otherwise
 	private boolean dead; // Invariant: true if egg has died
-	private float acceleration;
+	private float yAcceleration;
 	private GameScreen game;
-
-	private final static float CRASHED_EGG_WIDTH = 0.058f * 2.55f;
-	private final static float CRASHED_EGG_HEIGHT = 0.058f;
-
-	private final static float STARTING_HEIGHT = 0.52f; // In percent of screen
-														// height
-	private final static float X_SPEED = 0.4f; // In percent of screen width
-	
-	private final static String ATLAS_REGION = "game_egg";
-	private final static String ATLAS_REGION_CRASHED = "game_egg_crashed";
-
-	private AtlasRegion crashRegion;
+	private TextureAtlas atlas;
 
 	/**
 	 * Constructor for class Egg.
-	 * 
-	 * @param pillow
-	 *            the pillow on which this specific egg can bounce
-	 * @param height
-	 *            the height in percent of the screen height of this egg
-	 * @param width
-	 *            the height in percent of the screen width of this egg
+	 * @param pillow the pillow on which this specific egg can bounce
+	 * @param height the height in percent of the screen height of this egg
+	 * @param width the height in percent of the screen width of this egg
 	 */
-	public Egg(GameScreen game, float width, float height, TextureAtlas atlas) {
-		super(atlas.findRegion(ATLAS_REGION), ELLIPSE);
+	public Egg(GameScreen gameScreen, float width, float height, TextureAtlas tAtlas) {
+		super(tAtlas.findRegion(V.EGG_REGION), ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
-		crashRegion = atlas.findRegion(ATLAS_REGION_CRASHED);
 
-		this.game = game;
+		game = gameScreen;
 		started = false;
 		stopped = false;
 		dead = false;
-		xSpeed = X_SPEED * V.WIDTH * 0.1f; // TODO remove 0.1
-		acceleration = V.GRAVITATION * V.HEIGHT;
-		setY(V.HEIGHT * STARTING_HEIGHT);
-
-		// Start outside screen and slide in
-		setX(-getWidth());
+		atlas = tAtlas;
+		xSpeed = V.EGG_X_SPEED * V.WIDTH;
+		yAcceleration = V.GRAVITATION * V.HEIGHT;
+		setY(V.HEIGHT * V.EGG_STARTING_HEIGHT);
+		setX(-getWidth()); // Start outside screen and slide in
 	}
 
 	/**
 	 * Updates the position of this egg.
+	 * @param delta the time since last update in seconds
 	 */
 	public void updatePosition(float delta) {
 		if (!hasStarted() || hasStopped() || isDead()) {
-			return;
+			return; // We're done!
 		}
 
 		float screenWidth = V.WIDTH;
-
-		ySpeed -= acceleration;
+		ySpeed -= yAcceleration;
 		setY(getY() + ySpeed * delta);
 		setX(getX() + xSpeed * delta);
 
-		// Bounce on pillow if in range
+		// Bounce on touchable if in range
 		for (Touchable t : game.getTouchables()) {
 			ReturnClass intersect = intersects(t);
 			if (intersect.t != null) {
@@ -80,7 +66,6 @@ public class Egg extends Touchable {
 					}
 					ySpeed += t.getYSpeed();
 					ySpeed *= 1 - softnessY;
-
 					setY(t.getY() + t.getHeight() + ySpeed * delta);
 				} else if (0 < intersect.v && intersect.v < Math.PI) {
 					if (ySpeed > 0) {
@@ -127,8 +112,8 @@ public class Egg extends Touchable {
 				setY(0);
 				ySpeed = 0;
 				xSpeed = 0;
-				setRegion(crashRegion);
-				setSize(CRASHED_EGG_WIDTH * V.WIDTH, CRASHED_EGG_HEIGHT * V.HEIGHT);
+				setRegion(atlas.findRegion(V.CRASHED_EGG_REGION));
+				setSize(V.CRASHED_EGG_WIDTH * V.WIDTH, V.CRASHED_EGG_HEIGHT * V.HEIGHT);
 				dead = true;
 			}
 		}
@@ -166,9 +151,7 @@ public class Egg extends Touchable {
 
 	/**
 	 * Update the egg properties. position
-	 * 
-	 * @param delta
-	 *            Time since last update (seconds)
+	 * @param delta Time since last update (seconds)
 	 */
 	public void update(float delta) {
 		if (hasStarted() && !hasStopped()) {
@@ -185,7 +168,6 @@ public class Egg extends Touchable {
 
 	/**
 	 * Checks if the egg is alive or dead.
-	 * 
 	 * @return true if egg is dead
 	 */
 	public boolean isDead() {
@@ -193,8 +175,6 @@ public class Egg extends Touchable {
 	}
 
 	/**
-	 * Checks if the egg is on the move.
-	 * 
 	 * @return true if egg has started
 	 */
 	public boolean hasStarted() {
@@ -203,7 +183,6 @@ public class Egg extends Touchable {
 
 	/**
 	 * Checks if the egg has reached the basket.
-	 * 
 	 * @return true if egg has reached the basket.
 	 */
 	public boolean hasStopped() {

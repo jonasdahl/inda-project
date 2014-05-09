@@ -91,7 +91,7 @@ public class MenuScreen implements Screen {
 		TextButton buttonStart = new TextButton("Play", textButtonStyle);
 		buttonStart.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				fadeAwayTo(game.gameScreen);
+				fadeAwayTo(new GameScreen(game));
 			}
 		});
 		buttons.add(buttonStart);
@@ -100,7 +100,7 @@ public class MenuScreen implements Screen {
 		TextButton buttonSettings = new TextButton("Settings", textButtonStyle);
 		buttonSettings.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				fadeAwayTo(game.settingsScreen);
+				fadeAwayTo(new SettingsScreen(game));
 			}
 		});
 		buttons.add(buttonSettings);

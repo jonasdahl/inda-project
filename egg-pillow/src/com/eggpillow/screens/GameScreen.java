@@ -68,9 +68,6 @@ public class GameScreen implements Screen {
 	private ArrayList<PowerUp> powerups;
 	Queue<PowerUp> removePowerups;
 
-	// Constants
-	private final static String BACKGROUND_IMAGE = "img/game_background.png";
-
 	/**
 	 * Constructor for GameScreen
 	 * 
@@ -101,7 +98,6 @@ public class GameScreen implements Screen {
 		if (!gamePaused) {
 			pillow.update(delta);
 			updatePowerups(delta, pillow);
-
 			updateEggs(delta);
 		}
 
@@ -121,8 +117,7 @@ public class GameScreen implements Screen {
 			} else if (gameOver) {
 				drawGameOver(batch, freedEggs, newHighscore);
 			} else {
-				drawPaus(batch);
-
+				drawPause(batch);
 			}
 		}
 
@@ -227,13 +222,14 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 
 		// TODO textureAtlas or texture
-		atlas = new TextureAtlas(Gdx.files.internal("gameImg/EggPillow.pack"));
-		eggRegion = atlas.findRegion("game_egg");
-		pillowRegion = atlas.findRegion("game_pillow");
+		atlas = new TextureAtlas(Gdx.files.internal(V.GAME_IMAGE_PACK));
+		eggRegion = atlas.findRegion(V.EGG_REGION);
+		pillowRegion = atlas.findRegion(V.PILLOW_REGION);
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(touchables, -.08f, atlas);
+		pillow = new Pillow(touchables, .08f, atlas);
+		// TODO if funmode new Pillow(touchables, -1, atlas);
 
 		// Setup cliff
 		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
@@ -253,8 +249,8 @@ public class GameScreen implements Screen {
 		eggs = new ArrayList<Egg>();
 
 		// background = new Texture(BACKGROUND_IMAGE);
-		background = new Texture(BACKGROUND_IMAGE);
-		inputHandler = new InputHandlerGame(pillow, game);
+		background = new Texture(V.GAME_BACKGROUND_IMAGE);
+		inputHandler = new InputHandlerGame(pillow, this, new MenuScreen(game), game); // TODO Menu-fix
 		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 
@@ -287,10 +283,16 @@ public class GameScreen implements Screen {
 		pTexture.dispose();
 	}
 
+	/**
+	 * Pauses game.
+	 */
 	public void pauseGame() {
 		gamePaused = true;
 	}
 
+	/**
+	 * Unpauses game if it is possible, ie when no instructions are actively show.
+	 */
 	public void unPauseGame() {
 		if (showInstructions) {
 			showInstructions = false;
@@ -298,16 +300,25 @@ public class GameScreen implements Screen {
 		gamePaused = false;
 	}
 
+	/**
+	 * Checks if game is paused.
+	 * @return true if game is paused, false if not
+	 */
 	public boolean isPaused() {
 		return gamePaused;
 	}
 
-	public boolean gameOver() {
+	/**
+	 * Checks if game is over.
+	 * @return true if game is over, false if not
+	 */
+	public boolean gameIsOver() {
 		return gameOver;
 	}
 
 	/**
 	 * Draw the instruction screen to batch.
+	 * @param batch the batch to draw on
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		// Darkscreen with circles
@@ -323,7 +334,13 @@ public class GameScreen implements Screen {
 		font.draw(batch, "Here is egg", V.WIDTH / 2 + V.WIDTH * 0.15f, V.HEIGHT * 3 / 4);
 	}
 
-	private void drawGameOver(SpriteBatch batch, int score, boolean newHS) {
+	/**
+	 * Draws game over screen.
+	 * @param batch the batch to draw on
+	 * @param score the score when dead
+	 * @param newHighScore true if new highscore was set, false if not
+	 */
+	private void drawGameOver(SpriteBatch batch, int score, boolean newHighScore) {
 		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
 		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -334,7 +351,7 @@ public class GameScreen implements Screen {
 
 		// Score text
 		font.setScale(V.HEIGHT / V.FONT_SMALL);
-		if (newHS) {
+		if (newHighScore) {
 			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f, V.HEIGHT / 3);
 		} else {
 			font.draw(batch, "Your score: " + freedEggs, V.WIDTH / 2 * 0.6f, V.HEIGHT / 3);
@@ -342,9 +359,10 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Draw paus screen to batch.
+	 * Draw pause screen to batch.
+	 * @param batch the SpriteBatch to draw on
 	 */
-	private void drawPaus(SpriteBatch batch) { // TODO change name
+	private void drawPause(SpriteBatch batch) {
 		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
 		batch.draw(pTexture, 0f, 0f, (float) V.WIDTH, (float) V.HEIGHT, 0, 0, 1, 1, false, false);
 
@@ -359,6 +377,7 @@ public class GameScreen implements Screen {
 	 * Creates a texture with circles to show the pillow and egg.
 	 */
 	private void createInstructionTexture() {
+		// TODO
 		Pixmap pixmap = new Pixmap(V.WIDTH, V.HEIGHT, Pixmap.Format.RGBA8888);
 		pixmap.setColor(0f, 0f, 0f, 0.5f);
 		pixmap.fill();
@@ -375,8 +394,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Gets all touchables except off eggs.
-	 * 
+	 * Gets all touchables in the screen except of eggs.
 	 * @return get all other touchables than eggs (like cliff and pillow)
 	 */
 	public ArrayList<Touchable> getTouchables() {

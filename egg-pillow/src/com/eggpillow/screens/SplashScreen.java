@@ -60,7 +60,7 @@ public class SplashScreen implements Screen {
 		Tween.to(splash, SpriteAccessor.ALPHA, FADE_SPEED).delay(DELAY).target(0).setCallback(new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				game.setScreen(game.menuScreen);
+				game.setScreen(new MenuScreen(game));
 				// TODO Chrashes somewhere here if user taps screen on
 				// splashscreen // Johan kan inte reprodusera denna bug
 				// :(
