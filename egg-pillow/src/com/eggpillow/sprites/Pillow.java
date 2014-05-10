@@ -30,7 +30,7 @@ public class Pillow extends Touchable {
 	 * @param height the height (in percent of screen height)
 	 */
 	public Pillow(ArrayList<Touchable> touchables, float yLevel, float xPos, TextureAtlas atlas) {
-		super(atlas.findRegion(V.PILLOW_REGION), SQUARE);
+		super(atlas.findRegion(V.PILLOW_REGION), ids.SQUARE);
 		setSize(V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * V.PILLOW_HEIGHT);
 		this.touchables = touchables;
 		

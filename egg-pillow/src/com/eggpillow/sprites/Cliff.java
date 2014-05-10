@@ -14,7 +14,7 @@ public class Cliff extends Touchable {
 	 * @param height percent of height of screen where cliff top should be
 	 */
 	public Cliff(float height, TextureAtlas atlas) {
-		super(atlas.findRegion(V.CLIFF_REGION), SQUARE);
+		super(atlas.findRegion(V.CLIFF_REGION), ids.SQUARE);
 		softnessY = 1; // Hard as stone
 		softnessX = 1;
 		setSize(V.CLIFF_WIDTH * V.WIDTH, V.CLIFF_HEIGHT * V.HEIGHT);

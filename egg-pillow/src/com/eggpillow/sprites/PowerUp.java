@@ -25,7 +25,7 @@ public abstract class PowerUp extends Touchable {
 	 *            the starting x position
 	 */
 	public PowerUp(TextureAtlas atlas, String atlasRegion, float startX, Stats stats) {
-		super(atlas.findRegion(atlasRegion), ELLIPSE);
+		super(atlas.findRegion(atlasRegion), ids.ELLIPSE);
 		setSize(V.POWERUP_WIDTH * V.WIDTH, V.POWERUP_HEIGHT * V.HEIGHT);
 		setX(startX);
 		setY(V.HEIGHT);

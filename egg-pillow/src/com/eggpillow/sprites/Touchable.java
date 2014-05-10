@@ -15,16 +15,19 @@ public abstract class Touchable extends Sprite {
 	protected float xSpeed;
 	protected float ySpeed;
 
-	protected final int ID;
-	protected final static int SQUARE = 0;
-	protected final static int ELLIPSE = 1;
+	protected final ids ID;
+	protected enum ids {
+		SQUARE, ELLIPSE
+	}
+	//protected final static int SQUARE = 0;
+	//protected final static int ELLIPSE = 1;
 
 	/**
 	 * Creates a new touchable.
 	 * @param aRegion the atlasRegion to use
 	 * @param id SQUARE or ELLIPSE
 	 */
-	public Touchable(AtlasRegion aRegion, int id) {
+	public Touchable(AtlasRegion aRegion, ids id) {
 		super(aRegion);
 		ID = id;
 	}
@@ -66,11 +69,11 @@ public abstract class Touchable extends Sprite {
 				v = Math.PI * 2 + v;
 			}
 		}
-		if (ID == ELLIPSE && t.ID == SQUARE) {
+		if (ID == ids.ELLIPSE && t.ID == ids.SQUARE) {
 			if (t.insideSquare(getCircleEdge((float) v))) {
 				return (float)v;
 			}
-		} else if (ID == SQUARE && t.ID == SQUARE) {
+		} else if (ID == ids.SQUARE && t.ID == ids.SQUARE) {
 			int vX = 0;
 			int vY = 0;
 			if (getX() + getWidth() > t.getX() && getX() + getWidth() < t.getX() + t.getWidth()
@@ -105,7 +108,7 @@ public abstract class Touchable extends Sprite {
 			 * 45 360 90 0 + 90 / 2 135 180 90 (180 + 90) / 2 225 180 270 (180 +
 			 * 270) /2 315 360 270 (270 + 360) / 2
 			 */
-		} else if (ID == SQUARE && t.ID == ELLIPSE) {
+		} else if (ID == ids.SQUARE && t.ID == ids.ELLIPSE) {
 			// TODO Test
 			if (insideSquare(t.getCircleEdge((float)v))) {
 				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED"); // TODO Test

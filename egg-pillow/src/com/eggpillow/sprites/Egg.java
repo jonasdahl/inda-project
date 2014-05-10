@@ -26,7 +26,7 @@ public class Egg extends Touchable {
 	 * @param width the height in percent of the screen width of this egg
 	 */
 	public Egg(GameScreen gameScreen, float width, float height, TextureAtlas tAtlas) {
-		super(tAtlas.findRegion(V.EGG_REGION), ELLIPSE);
+		super(tAtlas.findRegion(V.EGG_REGION), ids.ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
 
 		game = gameScreen;

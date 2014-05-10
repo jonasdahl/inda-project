@@ -16,7 +16,7 @@ public class Basket extends Touchable {
 	 * @param atlas the atlas to get image from
 	 */
 	public Basket(float eggWidth, float eggHeight, TextureAtlas atlas) {
-		super(atlas.findRegion(V.BASKET_REGION), SQUARE);
+		super(atlas.findRegion(V.BASKET_REGION), ids.SQUARE);
 		softnessY = 1;
 		softnessX = 0;
 		setSize(V.WIDTH * (V.BASKET_WIDTH + eggWidth), V.HEIGHT * (V.BASKET_HEIGHT + eggHeight));
