@@ -25,7 +25,7 @@ public class PowerFreeze extends PowerUp {
 	 */
 	@Override
 	public void action() {
-		gameStats.changeGameSpeed(0.3f, 5);	
+		gameStats.changeGameSpeed(0.5f, 5);	
 	}
 
 }

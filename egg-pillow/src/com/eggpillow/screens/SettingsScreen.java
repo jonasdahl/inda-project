@@ -34,8 +34,27 @@ public class SettingsScreen implements Screen {
 	private final int INDEX_MUTE = 0;
 	private final int INDEX_FUN = 1;
 	private final int INDEX_RESET = 2;
-	private final int INDEX_DONE = 3;
-	private final int BUTTONS_LENGTH = 4;
+	private final int INDEX_DONE = 4;
+	private final int INDEX_MAP = 3;
+	
+	private final int BUTTONS_LENGTH;
+	
+	private enum enumButtons {
+		INDEX_MUTE, INDEX_FUN, INDEX_RESET, INDEX_DONE, INDEX_MAP;
+	}
+	
+	public enum enumMaps {
+		STANDARD_MAP("EggPillow");
+		
+		String map;
+		
+		private enumMaps(String m) {
+			map = m;
+		}
+		public String getLocation() {
+			return map;
+		}
+	}
 
 	private Table table;
 
@@ -48,11 +67,13 @@ public class SettingsScreen implements Screen {
 	public static final String PREFERENCE_MUTED = "muted";
 	public static final String PREFERENCE_HIGHSCORE = "highscore";
 	public static final String PREFERENCE_FUNMODE = "funmode";
+	public static final String PREFERENCE_MAP = "selectedMap";
 	
 	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
 
 	public SettingsScreen(EggPillow g) {
 		game = g;
+		BUTTONS_LENGTH = enumButtons.values().length;
 	}
 
 	@Override
@@ -61,12 +82,10 @@ public class SettingsScreen implements Screen {
 		EggPillow.setBackground();
 
 		batch.begin();
-		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
+		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT); // TODO add after new background is drawn
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 5);
 		batch.end();
-
-		//Table.drawDebug(stage); // TODO remove
 
 		stage.act(delta);
 		stage.draw();
@@ -113,17 +132,19 @@ public class SettingsScreen implements Screen {
 		tbstyle.down = skin.getDrawable("buttonDown");
 		tbstyle.up = skin.getDrawable("ButtonUp");
 		TextButton buttonMute = new TextButton("", tbstyle);
-		TextButton buttonFun = new TextButton("Fun", tbstyle );
+		TextButton buttonFun = new TextButton("", tbstyle );
 		TextButton buttonResetHS = new TextButton("Reset highscore", tbstyle);
 		TextButton buttonDone = new TextButton("Done", tbstyle);
+		TextButton buttonMap = new TextButton("Map : " + prefs.getString(PREFERENCE_MAP, enumMaps.STANDARD_MAP.getLocation()) , tbstyle);
 		
 		buttons[INDEX_MUTE] = buttonMute;
 		buttons[INDEX_FUN] = buttonFun;
 		buttons[INDEX_RESET] = buttonResetHS;
 		buttons[INDEX_DONE] = buttonDone;
+		buttons[INDEX_MAP] = buttonMap;
 		
 		setButtonText(INDEX_MUTE, "Sound", mute);
-		setButtonText(INDEX_FUN, "Funmode", prefs.getBoolean(PREFERENCE_FUNMODE));
+		setButtonText(INDEX_FUN, "Funmode", prefs.getBoolean(PREFERENCE_FUNMODE, false));
 
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -154,6 +175,12 @@ public class SettingsScreen implements Screen {
 			public void changed(ChangeEvent event, Actor actor) {
 				prefs.putInteger(PREFERENCE_HIGHSCORE, 0);
 				message = "Highscore " + 0;
+			}
+		});
+		
+		buttonMap.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				// TODO change map
 			}
 		});
 

@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
 	private ArrayList<Touchable> touchables;
 	public static String message = "";
 	private float totalDeltaPower;
-	private float timeToNextPower;
+	private float randomTimePower;
 	private float totalDeltaEgg;
 	private int freedEggs;
 	private boolean gamePaused = true;
@@ -151,8 +151,8 @@ public class GameScreen implements Screen {
 
 		// Start powerups that should start
 		totalDeltaPower += gameSpeedDelta;
-		if (totalDeltaPower > timeToNextPower) {
-			// TODO add for PowerUps
+		if (totalDeltaPower > V.TIME_BETWEEN_POWERUPS + randomTimePower) {
+			// TODO improve HARDCODED values for PowerUps
 			int id = random.nextInt(2);
 			switch (id) {
 			case 0:
@@ -163,13 +163,10 @@ public class GameScreen implements Screen {
 				powerups.add(new PowerFreeze(atlas, random.nextInt((int) (V.WIDTH
 						- ((V.CLIFF_WIDTH + V.BASKET_WIDTH) * V.WIDTH) + V.CLIFF_WIDTH * V.WIDTH)), stats));
 				break;
-			case 2:
-				System.out.println("2");
-				break;
 			}
 			;
 			totalDeltaPower = 0;
-			timeToNextPower = 5 + random.nextInt(10); // TODO random
+			randomTimePower = random.nextInt(7); // TODO random
 		}
 
 	}
