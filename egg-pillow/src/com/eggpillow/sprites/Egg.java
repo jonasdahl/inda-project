@@ -1,7 +1,9 @@
 package com.eggpillow.sprites;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.eggpillow.V;
 import com.eggpillow.screens.GameScreen;
 
@@ -18,6 +20,9 @@ public class Egg extends Touchable {
 	private float yAcceleration;
 	private GameScreen game;
 	private TextureAtlas atlas;
+	private TextureRegion arrow_region;
+	
+	private float maxHeight;
 
 	/**
 	 * Constructor for class Egg.
@@ -29,6 +34,7 @@ public class Egg extends Touchable {
 		super(tAtlas.findRegion(V.EGG_REGION), ids.ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
 
+		arrow_region = tAtlas.findRegion(V.ARROW_REGION);
 		game = gameScreen;
 		started = false;
 		stopped = false;
@@ -132,12 +138,26 @@ public class Egg extends Touchable {
 	}
 
 	/**
-	 * Draw the egg to the batch if it has started.
+	 * Draw the egg to the batch if it has started. 
+	 * Draw a triangle under the egg if egg is above screenheight.
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {
 		if (hasStarted()) {
 			super.draw(batch);
+			if (getY() > V.HEIGHT) {
+				
+				if (getYSpeed() > 0) {
+					batch.setColor(new Color(255, 0, 0, 255));	
+					maxHeight = getY() - V.HEIGHT;
+				} else {
+					float colorScale = (maxHeight  - (getY() - V.HEIGHT)) / maxHeight; 
+					batch.setColor(new Color((1 - colorScale), colorScale, 0f, 1f ));
+				}
+				
+				batch.draw(arrow_region, getX(), V.HEIGHT - V.ARROW_HEIGHT * V.HEIGHT, V.ARROW_WIDTH * V.WIDTH, V.ARROW_HEIGHT * V.HEIGHT);
+				batch.setColor(Color.WHITE);
+			}
 		}
 	}
 

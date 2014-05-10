@@ -94,7 +94,6 @@ public class GameScreen implements Screen {
 		if (!gamePaused) {
 			stats.update(delta);
 			float gameSpeedDelta = delta * stats.getGameSpeed();
-			System.out.println(stats.getGameSpeed());
 			inputHandler.update(delta);
 			pillow.update(delta, gameSpeedDelta);
 			updatePowerups(delta, gameSpeedDelta, pillow);

@@ -52,10 +52,17 @@ game_heart
   orig: 100, 100
   offset: 0, 0
   index: -1
-game_powerUp
+game_powerup
   rotate: false
   xy: 443, 10
   size: 100, 100
   orig: 100, 100
+  offset: 0, 0
+  index: -1
+game_triangle
+  rotate: false
+  xy: 545, 144
+  size: 100, 68
+  orig: 100, 68
   offset: 0, 0
   index: -1
