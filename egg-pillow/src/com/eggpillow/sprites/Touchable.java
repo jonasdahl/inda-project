@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.Point;
 
+/**
+ * Represents a sprite in the game with properties to make it able to collide with other touchables
+ * @author Johan & Jonas
+ * @version 2014-05-09
+ */
 public abstract class Touchable extends Sprite {
 	protected float softnessX;
 	protected float softnessY;
@@ -43,9 +48,9 @@ public abstract class Touchable extends Sprite {
 	/**
 	 * Checks if this object intersects with t.
 	 * @param t
-	 * @return ReturnClass with angel and intersect object if this intersects with t. Returns new ReturnClass(null, (float) v) if t and this doesn't intersect.
+	 * @return angel. Negative angle if no intersections.
 	 */
-	public ReturnClass intersects(Touchable t) {
+	public float intersects(Touchable t) {
 		// TODO Just return degree?? Isn't it enough??
 		// Calculate Degree v
 		float pX = t.getCenterX() - getCenterX();
@@ -63,7 +68,7 @@ public abstract class Touchable extends Sprite {
 		}
 		if (ID == ELLIPSE && t.ID == SQUARE) {
 			if (t.insideSquare(getCircleEdge((float) v))) {
-				return new ReturnClass(t, (float) v);
+				return (float)v;
 			}
 		} else if (ID == SQUARE && t.ID == SQUARE) {
 			int vX = 0;
@@ -82,13 +87,13 @@ public abstract class Touchable extends Sprite {
 				vY = 270;
 			}
 			if (vX == 0 && vY == 0) {
-				return new ReturnClass(null, (float) v);
+				return (float) v;
 			} else if (vX == 0 || vY == 0) {
-				return new ReturnClass(t, (float) vX + vY);
+				return (float) (vX + vY);
 			} else if (vY == 90 && vX == 360) {
-				return new ReturnClass(t, (float) vY / 2);
+				return (float) (vY / 2);
 			} else {
-				return new ReturnClass(t, (float) (vX + vY) / 2);
+				return (float) ((vX + vY) / 2);
 			}
 			/*
 			 * LÅT STÅ plz 0 0 0
@@ -103,13 +108,13 @@ public abstract class Touchable extends Sprite {
 		} else if (ID == SQUARE && t.ID == ELLIPSE) {
 			// TODO Test
 			if (insideSquare(t.getCircleEdge((float)v))) {
-				throw new Error("THIS NEEDS TO BE TESTED");
+				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED"); // TODO Test
 				// TODO return new ReturnClass(t, (float) v);
 			}
 		} else {
-			throw new Error("HOW DID U GET HERE? THIS IS NOT SAFE"); // TODO FIX PLZ
+			throw new Error("HOW DID U GET HERE? THIS IS NOT SAFE"); // TODO FIX PLZ, but it's not safe to be here
 		}
-		return new ReturnClass(null, (float) v);
+		return -1; // No collision
 	}
 
 	/**
@@ -167,21 +172,5 @@ public abstract class Touchable extends Sprite {
 	 */
 	public float getXSoftness() {
 		return softnessX;
-	}
-
-	/**
-	 * A struct for values returned by intersect(t).
-	 * @author jonas
-	 * TODO Keep?
-	 */
-	protected class ReturnClass {
-		protected Touchable t;
-		protected float v;
-		protected int side;
-
-		protected ReturnClass(Touchable t, float v) {
-			this.t = t;
-			this.v = v;
-		}
 	}
 }

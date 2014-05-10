@@ -1,14 +1,10 @@
 package com.eggpillow;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.eggpillow.screens.MenuScreen;
-import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.screens.SplashScreen;
 
 /*
@@ -25,8 +21,8 @@ import com.eggpillow.screens.SplashScreen;
 
 /**
  * The main class that initiates and starts the game.
- * @author jonas
- * @version 2014-05-09
+ * @author Johan & Jonas
+ * @version 2014-05-10
  */
 public class EggPillow extends Game {
 	/**

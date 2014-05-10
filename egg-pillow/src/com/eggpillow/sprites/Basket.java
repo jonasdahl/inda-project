@@ -5,7 +5,7 @@ import com.eggpillow.V;
 
 /**
  * The basket where eggs land.
- * @author jonas
+ * @author Jonas
  * @version 2014-05-09
  */
 public class Basket extends Touchable {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * A class containing a vast number of constants and variables.
- * @author jonas
+ * @author Johan & Jonas
  * @version 2014-05-09
  */
 public class V {
@@ -64,6 +64,7 @@ public class V {
 	public final static int LIVES = 40;
 	public final static int ADD_LIVES = 3;
 	public final static float GRAVITATION = 4f;
+	public final static float GAMESPEED = 1f;
 
 	public static void initV() {
 		HEIGHT = Gdx.graphics.getHeight();

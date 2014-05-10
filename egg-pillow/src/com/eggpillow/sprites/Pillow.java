@@ -1,7 +1,5 @@
 package com.eggpillow.sprites;
 
-import inputhandler.InputHandlerGame;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,7 +8,7 @@ import com.eggpillow.V;
 
 /**
  * A pillow representation
- * @author jonas
+ * @author Johan
  * @version 2014-05-09
  */
 public class Pillow extends Touchable {
@@ -55,24 +53,25 @@ public class Pillow extends Touchable {
 	/**
 	 * Update the pillows properties. speed
 	 * @param delta Time since last update (seconds)
+	 * @param gameSpeedDelta Game-time since last update (seconds)
 	 */
-	public void update(float delta) {
-		// TODO fix bug and vertical
+	public void update(float delta, float gameSpeedDelta) {
 		updateSpeed(delta);
 		
+		// TODO vertical
 		// CollisionDetection
 		for (Touchable touch : touchables) {
 			if (touch != this) {
-				ReturnClass intersect = intersects(touch);
-				if (intersect.t != null) {
-					if (45 <= intersect.v && intersect.v <= 135) {
+				float angel = intersects(touch);
+				if ( angel > 0) {
+					if (45 <= angel && angel <= 135) {
 						setY(touch.getY() - getHeight());
-					} else if (225 <= intersect.v && intersect.v <= 315) {
+					} else if (225 <= angel && angel <= 315) {
 						setY(touch.getY() + touch.getHeight());
 					}
-					if (intersect.v == 360 || intersect.v == 315 || intersect.v == 45) {
+					if (angel == 360 || angel == 315 || angel == 45) {
 						setX(touch.getX() - getWidth());
-					} else if (135 <= intersect.v && intersect.v <= 225) {
+					} else if (135 <= angel && angel <= 225) {
 						setX(touch.getX() + touch.getWidth());
 					}
 				}

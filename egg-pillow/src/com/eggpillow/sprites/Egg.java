@@ -2,13 +2,12 @@ package com.eggpillow.sprites;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.eggpillow.V;
 import com.eggpillow.screens.GameScreen;
 
 /**
  * Representation of an egg.
- * @author jonas
+ * @author Jonas
  * @version 2014-05-09
  */
 public class Egg extends Touchable {
@@ -59,18 +58,18 @@ public class Egg extends Touchable {
 
 		// Bounce on touchable if in range
 		for (Touchable t : game.getTouchables()) {
-			ReturnClass intersect = intersects(t);
-			if (intersect.t != null) {
+			float angle = intersects(t);
+			if (angle > 0) {
 				// Collision vertical
 				float softnessY = t.getYSoftness();
-				if (Math.PI <= intersect.v && intersect.v <= Math.PI * 2) {
+				if (Math.PI <= angle && angle <= Math.PI * 2) {
 					if (ySpeed < 0) {
 						ySpeed *= -1;
 					}
 					ySpeed += t.getYSpeed();
 					ySpeed *= 1 - softnessY;
 					setY(t.getY() + t.getHeight() + ySpeed * delta);
-				} else if (0 < intersect.v && intersect.v < Math.PI) {
+				} else if (0 < angle && angle < Math.PI) {
 					if (ySpeed > 0) {
 						ySpeed *= -1;
 					}
@@ -82,7 +81,7 @@ public class Egg extends Touchable {
 				// TODO if funmode
 				if (false) {
 					float softnessX = t.getXSoftness();
-					if (Math.PI / 2 > intersect.v && intersect.v > Math.PI * 3 / 2) {
+					if (Math.PI / 2 > angle && angle > Math.PI * 3 / 2) {
 						if (xSpeed < 0) {
 							xSpeed *= -1;
 						}
@@ -90,7 +89,7 @@ public class Egg extends Touchable {
 						xSpeed *= 1 - softnessX;
 
 						setX(t.getX() + t.getWidth() + xSpeed * delta);
-					} else if (Math.PI / 2 < intersect.v && intersect.v < Math.PI * 3 / 2) {
+					} else if (Math.PI / 2 < angle && angle < Math.PI * 3 / 2) {
 						if (xSpeed > 0) {
 							xSpeed *= -1;
 						}

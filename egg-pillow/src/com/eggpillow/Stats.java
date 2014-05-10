@@ -1,14 +1,34 @@
 package com.eggpillow;
 
+/**
+ * Represents important stats which will change under the game.
+ * @author Johan & Jonas
+ * @version 2014-05-09
+ */
 public class Stats {
 	private int startLives;
 	private int lives;
 	private float gameSpeed;
+	private float timer;
+	private float lifeTime;
 	
+	/**
+	 * Stats-container 
+	 * @param lives 
+	 * @param gameSpeed
+	 */
 	public Stats(int lives, float gameSpeed) {
 		this.startLives = lives;
 		this.lives = lives;
 		this.gameSpeed = gameSpeed;
+		timer = 0;
+	}
+	
+	public void update(float delta) {
+		timer += delta;
+		if (getGameSpeed() != V.GAMESPEED && timer > lifeTime) {
+			changeGameSpeed(V.GAMESPEED, -1);
+		}
 	}
 
 	/**
@@ -36,8 +56,9 @@ public class Stats {
 	 * Set the game speed
 	 * @param speed new gamespeed
 	 */
-	public void setGameSpeed(float speed) {
+	public void changeGameSpeed(float speed, int time) {
 		gameSpeed = speed;
+		lifeTime = timer + time;
 	}
 
 	/**
@@ -45,6 +66,7 @@ public class Stats {
 	 */
 	public void setLives(int lives) {
 		this.lives = lives;
+		// TODO check if gameover
 	}
 
 	/**

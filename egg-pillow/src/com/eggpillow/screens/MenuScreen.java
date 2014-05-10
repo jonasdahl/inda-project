@@ -26,6 +26,11 @@ import com.eggpillow.V;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
+/**
+ * Menuscreen for EggPillow. Showed at the start and used to redirect the player to different gamemodes and settings.
+ * @author Jonas
+ * @version 2014-05-09
+ */
 public class MenuScreen implements Screen {
 	private EggPillow game;
 	private SpriteBatch batch;

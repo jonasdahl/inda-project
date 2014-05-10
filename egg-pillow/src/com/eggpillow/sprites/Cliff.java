@@ -5,7 +5,7 @@ import com.eggpillow.V;
 
 /**
  * The cliff where eggs jump from.
- * @author jonas
+ * @author Jonas
  * @version 2014-05-09
  */
 public class Cliff extends Touchable {

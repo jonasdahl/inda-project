@@ -18,6 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 
+/**
+ * Settings screen for EggPillow. Contains all settings.
+ * @author Johan
+ * @version 2014-05-09
+ */
 public class SettingsScreen implements Screen {
 
 	private SpriteBatch batch;

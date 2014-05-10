@@ -2,7 +2,7 @@ package com.eggpillow;
 
 /**
  * Represents a point (x, y)
- * @author jonas
+ * @author Johan & Jonas
  * @version 2014-05-09
  */
 public class Point {

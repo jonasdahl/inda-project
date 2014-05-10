@@ -6,7 +6,7 @@ import com.eggpillow.V;
 
 /**
  * Represents a Heart Powerup, which should increase the lives for player.
- * @author jonas
+ * @author Johan
  * @version 2014-05-09
  */
 public class PowerHeart extends PowerUp {
@@ -22,6 +22,5 @@ public class PowerHeart extends PowerUp {
 	@Override
 	public void action() {
 		gameStats.addLives(V.ADD_LIVES);
-		gameStats.setGameSpeed(.5f);
 	}
 }

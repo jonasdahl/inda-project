@@ -11,7 +11,7 @@ import com.eggpillow.sprites.Pillow;
 
 /**
  * Handles input on game screen.
- * @author jonas
+ * @author Johan & Jonas
  * @version 2014-05-09
  */
 public class InputHandlerGame implements InputProcessor {
@@ -114,7 +114,7 @@ public class InputHandlerGame implements InputProcessor {
 	
 	/**
 	 * Sends commands to Pillows and stuff.
-	 * @param delta
+	 * @param delta time since last update seconds
 	 */
 	public void update(float delta) {
 		pillow.setLocation(nextPillowPosition);

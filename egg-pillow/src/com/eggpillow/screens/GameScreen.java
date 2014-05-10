@@ -27,12 +27,18 @@ import com.eggpillow.sprites.Basket;
 import com.eggpillow.sprites.Cliff;
 import com.eggpillow.sprites.Egg;
 import com.eggpillow.sprites.Pillow;
+import com.eggpillow.sprites.PowerFreeze;
 import com.eggpillow.sprites.PowerHeart;
 import com.eggpillow.sprites.PowerUp;
 import com.eggpillow.sprites.Touchable;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
 
+/**
+ * Gamescreen for EggPillow.
+ * @author Johan & Jonas
+ * @version 2014-05-09
+ */
 public class GameScreen implements Screen {
 	private InputHandlerGame inputHandler;
 	private SpriteBatch batch;
@@ -67,34 +73,40 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Constructor for GameScreen
-	 * @param g the main Game class as a reference later on
+	 * 
+	 * @param g
+	 *            the main Game class as a reference later on
 	 */
 	public GameScreen(EggPillow g) {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
-		stats = new Stats(V.LIVES, 1);
+		stats = new Stats(V.LIVES, V.GAMESPEED);
 		game = g;
 		random = new Random();
 	}
 
 	@Override
 	public void render(float delta) {
-		delta *= stats.getGameSpeed();
 		batch.begin();
 		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 
+		// Update gamestuff
+		if (!gamePaused) {
+			stats.update(delta);
+			float gameSpeedDelta = delta * stats.getGameSpeed();
+			System.out.println(stats.getGameSpeed());
+			inputHandler.update(delta);
+			pillow.update(delta, gameSpeedDelta);
+			updatePowerups(delta, gameSpeedDelta, pillow);
+			updateEggs(delta, gameSpeedDelta);
+		}
+		
+		// Draw all sprites
 		for (PowerUp power : powerups) {
 			power.draw(batch);
 		}
 		cliff.draw(batch);
 		pillow.draw(batch);
-
-		if (!gamePaused) {
-			inputHandler.update(delta);
-			pillow.update(delta);
-			updatePowerups(delta, pillow);
-			updateEggs(delta);
-		}
 
 		for (Egg egg : eggs) {
 			egg.draw(batch);
@@ -121,10 +133,15 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Update all powerUps and check if they are dead/taken. Start new powerUps.
+	 * 
+	 * @param delta
+	 *            Time since last update (seconds)
+	 * @param gameSpeedDelta
+	 *            Game-time since last update (seconds)
 	 */
-	private void updatePowerups(float delta, Pillow pillow) {
+	private void updatePowerups(float delta, float gameSpeedDelta, Pillow pillow) {
 		for (PowerUp power : powerups) {
-			power.update(delta, pillow);
+			power.update(gameSpeedDelta, pillow);
 			if (power.isDead()) {
 				removePowerups.add(power);
 			}
@@ -133,12 +150,25 @@ public class GameScreen implements Screen {
 			powerups.remove(power);
 		}
 
-		// Start eggs that should start
-		totalDeltaPower += delta;
+		// Start powerups that should start
+		totalDeltaPower += gameSpeedDelta;
 		if (totalDeltaPower > timeToNextPower) {
-			// TODO set random startPos
-			// TODO add for PowerUps 
-			powerups.add(new PowerHeart(atlas, V.WIDTH / 2, stats)); 
+			// TODO add for PowerUps
+			int id = random.nextInt(2);
+			switch (id) {
+			case 0:
+				powerups.add(new PowerHeart(atlas, random.nextInt((int) (V.WIDTH
+						- ((V.CLIFF_WIDTH + V.BASKET_WIDTH) * V.WIDTH) + V.CLIFF_WIDTH * V.WIDTH)), stats));
+				break;
+			case 1:
+				powerups.add(new PowerFreeze(atlas, random.nextInt((int) (V.WIDTH
+						- ((V.CLIFF_WIDTH + V.BASKET_WIDTH) * V.WIDTH) + V.CLIFF_WIDTH * V.WIDTH)), stats));
+				break;
+			case 2:
+				System.out.println("2");
+				break;
+			}
+			;
 			totalDeltaPower = 0;
 			timeToNextPower = 5 + random.nextInt(10); // TODO random
 		}
@@ -150,11 +180,13 @@ public class GameScreen implements Screen {
 	 * 
 	 * @param delta
 	 *            Time since last update (seconds)
+	 * @param gameSpeedDelta
+	 *            Game-time since last update (seconds)
 	 */
-	private void updateEggs(float delta) {
+	private void updateEggs(float delta, float gameSpeedDelta) {
 		int deadEggs = 0;
 		for (Egg egg : eggs) {
-			egg.update(delta);
+			egg.update(gameSpeedDelta);
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
 				stats.deadEgg();
 			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO
@@ -179,7 +211,7 @@ public class GameScreen implements Screen {
 		message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
-		totalDeltaEgg += delta;
+		totalDeltaEgg += gameSpeedDelta;
 		if (totalDeltaEgg > V.TIME_BETWEEN_EGGS) {
 			// if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
 			// eggs.get(freedEggs).start();
@@ -224,7 +256,8 @@ public class GameScreen implements Screen {
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
 		pillow = new Pillow(touchables, -.25f, .5f, atlas);
-		inputHandler = new InputHandlerGame(game, this, pillow); // TODO Menu-fix
+		inputHandler = new InputHandlerGame(game, this, pillow); // TODO
+																	// Menu-fix
 		// TODO if funmode new Pillow(touchables, -1, atlas);
 
 		// Setup cliff
@@ -286,7 +319,8 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Unpauses game if it is possible, ie when no instructions are actively show.
+	 * Unpauses game if it is possible, ie when no instructions are actively
+	 * show.
 	 */
 	public void unPauseGame() {
 		if (showInstructions) {
@@ -297,6 +331,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Checks if game is paused.
+	 * 
 	 * @return true if game is paused, false if not
 	 */
 	public boolean isPaused() {
@@ -305,6 +340,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Checks if game is over.
+	 * 
 	 * @return true if game is over, false if not
 	 */
 	public boolean gameIsOver() {
@@ -313,7 +349,9 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Draw the instruction screen to batch.
-	 * @param batch the batch to draw on
+	 * 
+	 * @param batch
+	 *            the batch to draw on
 	 */
 	private void drawInstructions(SpriteBatch batch) {
 		// Darkscreen with circles
@@ -331,9 +369,13 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Draws game over screen.
-	 * @param batch the batch to draw on
-	 * @param score the score when dead
-	 * @param newHighScore true if new highscore was set, false if not
+	 * 
+	 * @param batch
+	 *            the batch to draw on
+	 * @param score
+	 *            the score when dead
+	 * @param newHighScore
+	 *            true if new highscore was set, false if not
 	 */
 	private void drawGameOver(SpriteBatch batch, int score, boolean newHighScore) {
 		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
@@ -355,7 +397,9 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Draw pause screen to batch.
-	 * @param batch the SpriteBatch to draw on
+	 * 
+	 * @param batch
+	 *            the SpriteBatch to draw on
 	 */
 	private void drawPause(SpriteBatch batch) {
 		// Darkscreen (Just takes the color from (0,0) pixel in pTexture)
@@ -390,6 +434,7 @@ public class GameScreen implements Screen {
 
 	/**
 	 * Gets all touchables in the screen except of eggs.
+	 * 
 	 * @return get all other touchables than eggs (like cliff and pillow)
 	 */
 	public ArrayList<Touchable> getTouchables() {

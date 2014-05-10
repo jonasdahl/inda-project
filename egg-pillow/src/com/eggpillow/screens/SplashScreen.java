@@ -13,6 +13,11 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 import com.eggpillow.tween.SpriteAccessor;
 
+/**
+ * Splashscreen will show the appname and/or logo when the user starts the app.
+ * @author Johan & Jonas
+ * @version 2014-05-09
+ */
 public class SplashScreen implements Screen {
 	private final static float FADE_SPEED = 1.0f;
 	private final static float DELAY = 1.0f;
