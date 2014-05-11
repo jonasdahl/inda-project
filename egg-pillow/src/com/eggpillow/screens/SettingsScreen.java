@@ -42,19 +42,6 @@ public class SettingsScreen implements Screen {
 	private enum enumButtons {
 		INDEX_MUTE, INDEX_FUN, INDEX_RESET, INDEX_DONE, INDEX_MAP;
 	}
-	
-	public enum enumMaps {
-		STANDARD_MAP("EggPillow");
-		
-		String map;
-		
-		private enumMaps(String m) {
-			map = m;
-		}
-		public String getLocation() {
-			return map;
-		}
-	}
 
 	private Table table;
 
@@ -135,7 +122,7 @@ public class SettingsScreen implements Screen {
 		TextButton buttonFun = new TextButton("", tbstyle );
 		TextButton buttonResetHS = new TextButton("Reset highscore", tbstyle);
 		TextButton buttonDone = new TextButton("Done", tbstyle);
-		TextButton buttonMap = new TextButton("Map : " + prefs.getString(PREFERENCE_MAP, enumMaps.STANDARD_MAP.getLocation()) , tbstyle);
+		TextButton buttonMap = new TextButton("Map : " + prefs.getString(PREFERENCE_MAP, V.GAME_IMAGE_PACK) , tbstyle);
 		
 		buttons[INDEX_MUTE] = buttonMute;
 		buttons[INDEX_FUN] = buttonFun;

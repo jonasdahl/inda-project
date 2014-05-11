@@ -22,7 +22,6 @@ public class V {
 	
 	public final static String FONT = "font/EggPillow.fnt";
 	public final static String GAME_BACKGROUND_IMAGE = "img/game_background.png";
-	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
 	public final static String EGG_REGION = "game_egg";
 	public final static String PILLOW_REGION = "game_pillow";
 	public final static String BASKET_REGION = "game_basket";
@@ -32,6 +31,8 @@ public class V {
 	public final static String POWERUP_HEART_REGION = "game_heart";
 	public final static String ARROW_REGION = "game_triangle";
 	
+	
+	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
 	
 	/** In percent of screen height */
 	public final static float EGG_HEIGHT = 0.15f;
@@ -71,7 +72,7 @@ public class V {
 	public static final float TIME_BETWEEN_EGGS = 2f;
 	public static final float TIME_BETWEEN_POWERUPS = 5f;
 	
-	public final static int LIVES = 40;
+	public final static int LIVES = 3;
 	public final static int ADD_LIVES = 3;
 
 	public static void initV() {
