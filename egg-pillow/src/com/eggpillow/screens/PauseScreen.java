@@ -27,6 +27,7 @@ public class PauseScreen {
 	private String eggDesc = "Here is an egg.";
 	
 	// TODO use to be able to draw on 2lines.
+	// https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/LabelTest.java
 	private Label pillowLabel;
 	
 	BitmapFont font;
