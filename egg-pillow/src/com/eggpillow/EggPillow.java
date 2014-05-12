@@ -14,6 +14,7 @@ import com.eggpillow.screens.SplashScreen;
  *   TODO Konstanter i olika klasser eller alla i V?
  *   TODO DRAW pillow center on mousepos. FIXED?
  *   TODO Add predictions to intersects (use speed)
+ *   TODO Bitmap fonts don't typical scale well, especially at small sizes. It is suggested to use a separate bitmap font for each font size.
  *   
  *   TODO DRAW: lifeindicator
  *   TODO DRAW:	settingsbackground

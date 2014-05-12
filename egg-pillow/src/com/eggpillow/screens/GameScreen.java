@@ -187,8 +187,7 @@ public class GameScreen implements Screen {
 			egg.update(gameSpeedDelta);
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
 				stats.deadEgg();
-			} else if (egg.hasStopped() && !removeEggs.contains(egg)) { // TODO
-																		// improve
+			} else if (egg.hasStopped() && !removeEggs.contains(egg)) {
 				removeEggs.add(egg);
 				freedEggs++;
 			}
@@ -198,21 +197,16 @@ public class GameScreen implements Screen {
 		}
 
 		if (deadEggs >= stats.startLives()) {
-			newHighscore = updateHighscore(freedEggs); // TODO change to
-														// succesfully saved
-														// eggs
+			newHighscore = updateHighscore(freedEggs); 
 			gameOver = true;
 			gamePaused = true;
 		}
 
-		// TODO Do it BETTER!
 		message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
 		totalDeltaEgg += gameSpeedDelta;
 		if (totalDeltaEgg > V.TIME_BETWEEN_EGGS) {
-			// if (freedEggs < eggs.size() && eggs.get(freedEggs) != null) {
-			// eggs.get(freedEggs).start();
 			Egg newEgg = new Egg(this, V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
 			newEgg.start();
 			eggs.add(newEgg);
@@ -251,7 +245,7 @@ public class GameScreen implements Screen {
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(touchables, -.25f, .5f, atlas);
+		pillow = new Pillow(touchables, -.25f, V.CLIFF_WIDTH, atlas);
 		inputHandler = new InputHandlerGame(game, this, pillow); // TODO
 																	// Menu-fix
 		// TODO if funmode new Pillow(touchables, -1, atlas);
@@ -281,7 +275,6 @@ public class GameScreen implements Screen {
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		
 		pauseScreen = new PauseScreen(font, atlas);
 	}
 
