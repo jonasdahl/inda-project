@@ -5,7 +5,7 @@ import com.eggpillow.Stats;
 import com.eggpillow.V;
 
 /**
- * Powerup used to slowdown gamespeed.
+ * Powerup used to slow down the speed of the game.
  * @author Johan
  * @version 2014-05-10
  */
@@ -21,7 +21,7 @@ public class PowerFreeze extends PowerUp {
 	}
 
 	/**
-	 * Change the gameSpeed to 1/10 for 5 seconds
+	 * Change the gameSpeed to 1/2 for 5 seconds
 	 */
 	@Override
 	public void action() {

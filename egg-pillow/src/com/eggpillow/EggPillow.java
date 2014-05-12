@@ -25,7 +25,7 @@ import com.eggpillow.screens.SplashScreen;
  */
 public class EggPillow extends Game {
 	
-	FPSLogger fpsl;
+	FPSLogger fpslog;
 	private boolean debugMode = false;
 	
 	/**
@@ -43,7 +43,7 @@ public class EggPillow extends Game {
 		Gdx.input.setCatchBackKey(true);
 		
 		if (debugMode) {
-			fpsl = new FPSLogger();			
+			fpslog = new FPSLogger();			
 		}
 	}
 
@@ -78,7 +78,7 @@ public class EggPillow extends Game {
 	public void render() {
 		super.render();
 		if (debugMode) {
-			fpsl.log();			
+			fpslog.log();			
 		}
 	}
 

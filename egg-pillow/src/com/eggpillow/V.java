@@ -10,12 +10,11 @@ import com.badlogic.gdx.Gdx;
  * @version 2014-05-09
  */
 public class V {
-	public static final float FONT_BIG = 700f;
 	public static final float FONT_MEDIUM = 800f;
 	public static final float FONT_SMALL = 900f;
 
-	public static int HEIGHT; // TODO make final/get-set
-	public static int WIDTH; // TODO make final/get-set
+	public static int HEIGHT; 
+	public static int WIDTH;
 
 	public static final String TITLE = "Egg Pillow";
 	public static final String VERSION = "0.1.0";
@@ -29,7 +28,7 @@ public class V {
 	public final static String CRASHED_EGG_REGION = "game_egg_crashed";
 	public final static String POWERUP_REGION = "game_powerup"; 
 	public final static String POWERUP_HEART_REGION = "game_heart";
-	public final static String POWERUP_FREEZE_REGION = "game_powerup"; // TODO powerup freeze pic
+	public final static String POWERUP_FREEZE_REGION = "game_freeze";
 	public final static String ARROW_REGION = "game_triangle";
 	
 	
@@ -73,14 +72,15 @@ public class V {
 	public static final float TIME_BETWEEN_EGGS = 2f;
 	public static final float TIME_BETWEEN_POWERUPS = 5f;
 	
-	public final static int LIVES = 3;
+	public final static int LIVES = 20;
 	public final static int ADD_LIVES = 3;
 
+
+	/** The standard background colors of the screen. */
+	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
+	
 	public static void initV() {
 		HEIGHT = Gdx.graphics.getHeight();
 		WIDTH = Gdx.graphics.getWidth();
 	}
-
-	/** The standard background colors of the screen. */
-	public static final float BG_R = 1.0f, BG_G = 0.7f, BG_B = 0.0f, BG_O = 1.0f;
 }
