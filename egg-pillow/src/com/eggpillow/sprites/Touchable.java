@@ -19,8 +19,6 @@ public abstract class Touchable extends Sprite {
 	protected enum ids {
 		SQUARE, ELLIPSE
 	}
-	//protected final static int SQUARE = 0;
-	//protected final static int ELLIPSE = 1;
 
 	/**
 	 * Creates a new touchable.
@@ -54,7 +52,6 @@ public abstract class Touchable extends Sprite {
 	 * @return angel. Negative angle if no intersections.
 	 */
 	public float intersects(Touchable t) {
-		// TODO Just return degree?? Isn't it enough??
 		// Calculate Degree v
 		float pX = t.getCenterX() - getCenterX();
 		float pY = t.getCenterY() - getCenterY();
@@ -109,10 +106,9 @@ public abstract class Touchable extends Sprite {
 			 * 270) /2 315 360 270 (270 + 360) / 2
 			 */
 		} else if (ID == ids.SQUARE && t.ID == ids.ELLIPSE) {
-			// TODO Test
 			if (insideSquare(t.getCircleEdge((float)v))) {
-				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED"); // TODO Test
-				// TODO return new ReturnClass(t, (float) v);
+				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED");
+				// TODO test and return (float) v;
 			}
 		} else {
 			throw new Error("HOW DID U GET HERE? THIS IS NOT SAFE"); // TODO FIX PLZ, but it's not safe to be here

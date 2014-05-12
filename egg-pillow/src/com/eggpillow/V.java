@@ -29,6 +29,7 @@ public class V {
 	public final static String CRASHED_EGG_REGION = "game_egg_crashed";
 	public final static String POWERUP_REGION = "game_powerup"; 
 	public final static String POWERUP_HEART_REGION = "game_heart";
+	public final static String POWERUP_FREEZE_REGION = "game_powerup"; // TODO powerup freeze pic
 	public final static String ARROW_REGION = "game_triangle";
 	
 	

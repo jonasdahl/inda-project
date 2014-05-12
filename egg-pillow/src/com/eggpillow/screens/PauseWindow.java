@@ -10,52 +10,68 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.eggpillow.V;
 
 /**
  * This class is used to draw different pauseScreens to gameScreen
  * 
+ * TODO update game over with labels and tables
+ * 
  * @author Johan version 2014-05-11
  */
-public class PauseScreen {
+public class PauseWindow {
 
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
 
 	private String pillowDesc = "Here is your Pillow use it to save the eggs.";
 	private String eggDesc = "Here is an egg.";
+	private String pauseDesc = "Touch the screen to resume your game";
 
-	private Color pauseColor = new Color(0, 0, 0, 0.5f);
-
-	private Label pillowLabel;
-	private Label eggLabel;
-	
 	private Table pillowTable;
 	private Table eggTable;
+	private Table pauseTable;
+	
+	Label scoreLabel;
+	Label highScoreLabel;
+	
+	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
 	private ShapeRenderer shapeRender;
 
 	private BitmapFont font;
 
-	public PauseScreen(BitmapFont font, TextureAtlas atlas) {
+	public PauseWindow(BitmapFont font, TextureAtlas atlas) {
 		this.font = font;
 		eggRegion = atlas.findRegion(V.EGG_REGION);
 		pillowRegion = atlas.findRegion(V.PILLOW_REGION);
 		
 		pillowTable = new Table();
 		LabelStyle labelstyle = new LabelStyle(font, Color.BLACK);
-		pillowLabel = new Label(pillowDesc, labelstyle);
+		Label pillowLabel = new Label(pillowDesc, labelstyle);
 		pillowLabel.setWrap(true);
 		pillowTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.PILLOW_WIDTH * 1.2f), V.HEIGHT / 4);
 		pillowTable.add(pillowLabel).minWidth(V.WIDTH / 2);
 		pillowTable.pack();
 		
 		eggTable = new Table();
-		eggLabel = new Label(eggDesc, labelstyle);
+		Label eggLabel = new Label(eggDesc, labelstyle);
 		eggLabel.setWrap(true);
 		eggTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.EGG_WIDTH * 2), V.HEIGHT * 3 / 4);
 		eggTable.add(eggLabel).minWidth(V.WIDTH / 2);
 		eggTable.pack();
+		
+		pauseTable = new Table();
+		Label pauseLabel = new Label(pauseDesc, labelstyle);
+		pauseLabel.setWrap(true);
+		scoreLabel = new Label("Score : 000", labelstyle);
+		scoreLabel.setWrap(true);
+		pauseTable.setPosition(V.WIDTH / 5, V.HEIGHT / 2);
+		pauseTable.add(pauseLabel).minWidth(V.WIDTH * 4 / 5).align(Align.left);
+		pauseTable.row();
+		pauseTable.add(scoreLabel).minWidth(V.WIDTH * 4 / 5);
+		pauseTable.pack();
 		
 		shapeRender = new ShapeRenderer();
 	}
@@ -102,12 +118,10 @@ public class PauseScreen {
 		shapeRender.setColor(pauseColor);
 		shapeRender.filledRect(0, 0, V.WIDTH, V.HEIGHT);
 		shapeRender.end();
-
-		// Paus instructions text
-		font.setColor(Color.BLACK);
-		font.setScale(V.HEIGHT / V.FONT_BIG);
-		font.draw(batch, "Touch the screen to resume your game", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
-		font.draw(batch, "Score: " + score, V.WIDTH / 2 * 0.6f, V.HEIGHT / 2 * 0.8f);
+		
+		// Update score string 
+		scoreLabel.setText("Score : " + score);
+		pauseTable.draw(batch, 1);
 	}
 
 	/**

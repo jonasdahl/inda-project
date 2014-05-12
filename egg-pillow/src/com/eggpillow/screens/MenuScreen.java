@@ -54,7 +54,6 @@ public class MenuScreen implements Screen {
 	 *            the main class for reference (for changing screens)
 	 */
 	public MenuScreen(EggPillow g) {
-		// TODO €ndra knapparnas storlek
 		game = g;
 		buttons = new ArrayList<TextButton>();
 		tweenManager = new TweenManager();
@@ -65,7 +64,7 @@ public class MenuScreen implements Screen {
 
 		// Create a table with the menu
 		table = new Table();
-		table.setBounds(0, 0, V.WIDTH, V.HEIGHT); // TODO
+		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		stage = new Stage() {
 			@Override
 			public boolean keyDown(int keycode) {

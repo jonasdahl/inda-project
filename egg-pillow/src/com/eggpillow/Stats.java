@@ -1,5 +1,9 @@
 package com.eggpillow;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.eggpillow.screens.SettingsScreen;
+
 /**
  * Represents important stats which will change under the game.
  * @author Johan & Jonas
@@ -12,6 +16,8 @@ public class Stats {
 	private float timer;
 	private float lifeTime;
 	
+	private boolean funMode = false;
+	
 	/**
 	 * Stats-container 
 	 * @param lives 
@@ -22,6 +28,9 @@ public class Stats {
 		this.lives = lives;
 		this.gameSpeed = gameSpeed;
 		timer = 0;
+		
+		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
+		funMode = prefs.getBoolean(SettingsScreen.PREFERENCE_FUNMODE);
 	}
 	
 	public void update(float delta) {
@@ -29,6 +38,13 @@ public class Stats {
 		if (getGameSpeed() != V.GAMESPEED && timer > lifeTime) {
 			changeGameSpeed(V.GAMESPEED, -1);
 		}
+	}
+	
+	/**
+	 * @return true if funmode is on.
+	 */
+	public boolean funMode() {
+		return funMode;
 	}
 
 	/**
@@ -57,7 +73,7 @@ public class Stats {
 	 * @param speed new gamespeed
 	 */
 	public void changeGameSpeed(float speed, int time) {
-		gameSpeed = speed;
+		gameSpeed = V.GAMESPEED * speed;
 		lifeTime = timer + time;
 	}
 
@@ -66,7 +82,6 @@ public class Stats {
 	 */
 	public void setLives(int lives) {
 		this.lives = lives;
-		// TODO check if gameover
 	}
 
 	/**

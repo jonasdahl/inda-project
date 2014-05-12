@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 	Queue<PowerUp> removePowerups;
 	Queue<Egg> removeEggs;
 	
-	private PauseScreen pauseScreen;
+	private PauseWindow pauseScreen;
 
 	/**
 	 * Constructor for GameScreen
@@ -154,7 +154,6 @@ public class GameScreen implements Screen {
 		// Start powerups that should start
 		totalDeltaPower += gameSpeedDelta;
 		if (totalDeltaPower > V.TIME_BETWEEN_POWERUPS + randomTimePower) {
-			// TODO improve HARDCODED values for PowerUps
 			int id = random.nextInt(2);
 			switch (id) {
 			case 0:
@@ -168,7 +167,7 @@ public class GameScreen implements Screen {
 			}
 			;
 			totalDeltaPower = 0;
-			randomTimePower = random.nextInt(7); // TODO random
+			randomTimePower = random.nextInt(7);
 		}
 
 	}
@@ -184,7 +183,7 @@ public class GameScreen implements Screen {
 	private void updateEggs(float delta, float gameSpeedDelta) {
 		int deadEggs = 0;
 		for (Egg egg : eggs) {
-			egg.update(gameSpeedDelta);
+			egg.update(gameSpeedDelta, stats.funMode());
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
 				stats.deadEgg();
 			} else if (egg.hasStopped() && !removeEggs.contains(egg)) {
@@ -240,15 +239,17 @@ public class GameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 
-		// TODO textureAtlas or texture
 		atlas = new TextureAtlas(Gdx.files.internal(V.GAME_IMAGE_PACK));
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
-		pillow = new Pillow(touchables, -.25f, V.CLIFF_WIDTH, atlas);
-		inputHandler = new InputHandlerGame(game, this, pillow); // TODO
-																	// Menu-fix
-		// TODO if funmode new Pillow(touchables, -1, atlas);
+		if (stats.funMode()) {
+			pillow = new Pillow(touchables, -.25f, V.CLIFF_WIDTH, atlas);
+		} else {			
+			pillow = new Pillow(touchables, .25f, V.CLIFF_WIDTH, atlas);
+		}
+		inputHandler = new InputHandlerGame(game, this, pillow); 
+		// TODO Menu-fix
 
 		// Setup cliff
 		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
@@ -275,7 +276,7 @@ public class GameScreen implements Screen {
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		pauseScreen = new PauseScreen(font, atlas);
+		pauseScreen = new PauseWindow(font, atlas);
 	}
 
 	@Override

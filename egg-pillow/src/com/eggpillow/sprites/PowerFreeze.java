@@ -17,7 +17,7 @@ public class PowerFreeze extends PowerUp {
 	 * @param startX the start x position
 	 */
 	public PowerFreeze(TextureAtlas atlas, float startX, Stats stats) {
-		super(atlas, V.POWERUP_REGION, startX, stats); // TODO POWERUP_FREEZE_REGION
+		super(atlas, V.POWERUP_FREEZE_REGION, startX, stats);
 	}
 
 	/**

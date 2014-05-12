@@ -58,7 +58,6 @@ public class Pillow extends Touchable {
 	public void update(float delta, float gameSpeedDelta) {
 		updateSpeed(delta);
 		
-		// TODO vertical
 		// CollisionDetection
 		for (Touchable touch : touchables) {
 			if (touch != this) {

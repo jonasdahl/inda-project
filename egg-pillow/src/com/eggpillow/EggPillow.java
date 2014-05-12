@@ -3,16 +3,14 @@ package com.eggpillow;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.eggpillow.screens.SplashScreen;
 
 /*
- *   TODO Problem: 
- *   TODO Pillows position ändras av inputhandler mellan Pillow.update och pillow.draw FIXED?
- *   TODO Collisiondetection is fuckedup borde göras om FIXED? 
+ *   Problem: 
  *   TODO Konstanter i olika klasser eller alla i V?
- *   TODO DRAW pillow center on mousepos. FIXED?
  *   TODO Add predictions to intersects (use speed)
  *   TODO Bitmap fonts don't typical scale well, especially at small sizes. It is suggested to use a separate bitmap font for each font size.
  *   
@@ -26,6 +24,10 @@ import com.eggpillow.screens.SplashScreen;
  * @version 2014-05-10
  */
 public class EggPillow extends Game {
+	
+	FPSLogger fpsl;
+	private boolean debugMode = false;
+	
 	/**
 	 * Sets background and starts splash screen.
 	 */
@@ -39,6 +41,10 @@ public class EggPillow extends Game {
 		setScreen(new SplashScreen(this));
 
 		Gdx.input.setCatchBackKey(true);
+		
+		if (debugMode) {
+			fpsl = new FPSLogger();			
+		}
 	}
 
 	/**
@@ -71,6 +77,9 @@ public class EggPillow extends Game {
 	@Override
 	public void render() {
 		super.render();
+		if (debugMode) {
+			fpsl.log();			
+		}
 	}
 
 	@Override

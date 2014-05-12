@@ -69,7 +69,7 @@ public class SettingsScreen implements Screen {
 		EggPillow.setBackground();
 
 		batch.begin();
-		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT); // TODO add after new background is drawn
+		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT); // TODO add after new Settingsbackground is drawn
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 5);
 		batch.end();
@@ -84,7 +84,7 @@ public class SettingsScreen implements Screen {
 	}
 
 	/**
-	 * A mess of buttons and styles. TODO sort
+	 * Create buttons and styles for settings.
 	 */
 	@Override
 	public void show() {
