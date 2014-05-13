@@ -115,15 +115,15 @@ public class Egg extends Touchable {
 				// Collision horizontal
 				if (funMode) {
 					float softnessX = t.getXSoftness();
-					if (Math.PI / 3 > angle && angle > Math.PI * 7 / 3) {
-						if (xSpeed < 0) {
+					if (Math.PI / 3 > angle || angle > Math.PI * 5 / 3) {
+						if (xSpeed > 0) {
 							xSpeed *= -1;
 						}
 						xSpeed += t.getXSpeed() * Math.abs(Math.cos(angle));
 						xSpeed *= 1 - softnessX;
 						setX(t.getX() - getWidth() + xSpeed * delta);
 					} else if (Math.PI * 2 / 3 < angle && angle < Math.PI * 4 / 3) {
-						if (xSpeed > 0) {
+						if (xSpeed < 0) {
 							xSpeed *= -1;
 						}
 						xSpeed += t.getXSpeed() * Math.abs(Math.cos(angle));
@@ -144,8 +144,8 @@ public class Egg extends Touchable {
 		if (getY() <= 0) {
 			if (!dead) {
 				setY(0);
-				ySpeed = 0;
 				xSpeed = 0;
+				ySpeed = 0;
 				setRegion(atlas.findRegion(V.CRASHED_EGG_REGION));
 				setSize(V.CRASHED_EGG_WIDTH * V.WIDTH, V.CRASHED_EGG_HEIGHT * V.HEIGHT);
 				dead = true;
@@ -155,11 +155,20 @@ public class Egg extends Touchable {
 		// Reached right side!
 		if (getX() + getWidth() >= screenWidth) {
 			setX(screenWidth - getWidth());
-			xSpeed = 0; // But still go down
+			if (funMode) {
+				if (xSpeed > V.EGG_X_SPEED * V.WIDTH * 20) {
+					xSpeed *= -0.5f;//-V.EGG_X_SPEED * V.WIDTH;										
+				} else {
+					xSpeed = 0;
+				}
+			} else {
+				xSpeed = 0;
+			}
 		}
+		// Reached left side!
 		if (getX() < 0) {
 			setX(0);
-			xSpeed *= -1;
+			xSpeed = V.EGG_X_SPEED * V.WIDTH;
 		}
 	}
 
@@ -171,8 +180,8 @@ public class Egg extends Touchable {
 	public void draw(SpriteBatch batch) {
 		if (hasStarted()) {
 			super.draw(batch);
+			// Draw triangle
 			if (getY() > V.HEIGHT) {
-
 				if (getYSpeed() > 0) {
 					batch.setColor(new Color(255, 0, 0, 255));
 					maxHeight = getY() - V.HEIGHT;
@@ -193,9 +202,7 @@ public class Egg extends Touchable {
 	 */
 	@Override
 	public void draw(SpriteBatch batch, float delta) {
-		if (hasStarted()) {
-			super.draw(batch, delta);
-		}
+		draw(batch);
 	}
 
 	/**

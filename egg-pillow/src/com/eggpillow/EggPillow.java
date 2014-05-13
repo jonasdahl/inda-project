@@ -27,7 +27,7 @@ public class EggPillow extends Game {
 	
 	FPSLogger fpslog;
 	private boolean debugMode = false;
-	
+ 	
 	/**
 	 * Sets background and starts splash screen.
 	 */

@@ -72,7 +72,7 @@ public class V {
 	public static final float TIME_BETWEEN_EGGS = 2f;
 	public static final float TIME_BETWEEN_POWERUPS = 5f;
 	
-	public final static int LIVES = 20;
+	public final static int LIVES = 10;
 	public final static int ADD_LIVES = 3;
 
 

@@ -32,22 +32,12 @@ public class SettingsScreen implements Screen {
 	private Stage stage;
 	private TextButton[] buttons;
 	
-	// TODO Question: Enum or not?
-	private final int BUTTONS_LENGTH;
-//	private final int INDEX_MUTE = 0;
-//	private final int INDEX_FUN = 1;
-//	private final int INDEX_RESET = 2;
-//	private final int INDEX_DONE = 4;
-//	private final int INDEX_MAP = 3;
-	private enum eb {
-		INDEX_MUTE(0), INDEX_FUN(1), INDEX_RESET(2), INDEX_DONE(4), INDEX_MAP(3);
-		
-		private int id;
-		
-		private eb(int id) {
-			this.id = id;
-		}
-	}
+	private final int BUTTONS_LENGTH = 5;
+	private final int INDEX_MUTE = 0;
+	private final int INDEX_FUN = 1;
+	private final int INDEX_RESET = 2;
+	private final int INDEX_DONE = 4;
+	private final int INDEX_MAP = 3;
 
 	private Table table;
 
@@ -66,7 +56,6 @@ public class SettingsScreen implements Screen {
 
 	public SettingsScreen(EggPillow g) {
 		game = g;
-		BUTTONS_LENGTH = eb.values().length;
 	}
 
 	@Override
@@ -130,21 +119,21 @@ public class SettingsScreen implements Screen {
 		TextButton buttonDone = new TextButton("Done", tbstyle);
 		TextButton buttonMap = new TextButton("Map : " + prefs.getString(PREFERENCE_MAP, V.GAME_IMAGE_PACK) , tbstyle);
 		
-		buttons[eb.INDEX_MUTE.id] = buttonMute;
-		buttons[eb.INDEX_FUN.id] = buttonFun;
-		buttons[eb.INDEX_RESET.id] = buttonResetHS;
-		buttons[eb.INDEX_DONE.id] = buttonDone;
-		buttons[eb.INDEX_MAP.id] = buttonMap;
+		buttons[INDEX_MUTE] = buttonMute;
+		buttons[INDEX_FUN] = buttonFun;
+		buttons[INDEX_RESET] = buttonResetHS;
+		buttons[INDEX_DONE] = buttonDone;
+		buttons[INDEX_MAP] = buttonMap;
 		
-		setButtonText(eb.INDEX_MUTE.id, "Sound", mute);
-		setButtonText(eb.INDEX_FUN.id, "Funmode", prefs.getBoolean(PREFERENCE_FUNMODE, false));
+		setButtonText(INDEX_MUTE, "Sound", mute);
+		setButtonText(INDEX_FUN, "Funmode", prefs.getBoolean(PREFERENCE_FUNMODE, false));
 
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				boolean muted = prefs.getBoolean(PREFERENCE_MUTED, false);
 				prefs.putBoolean(PREFERENCE_MUTED, !muted);
 				prefs.flush();
-				setButtonText(eb.INDEX_MUTE.id, "Sound", !muted);
+				setButtonText(INDEX_MUTE, "Sound", !muted);
 			}
 		});
 
@@ -160,13 +149,14 @@ public class SettingsScreen implements Screen {
 				boolean modeState = prefs.getBoolean(PREFERENCE_FUNMODE, false);
 				prefs.putBoolean(PREFERENCE_FUNMODE, !modeState);
 				prefs.flush();
-				setButtonText(eb.INDEX_FUN.id, "Funmode", !modeState);
+				setButtonText(INDEX_FUN, "Funmode", !modeState);
 			}
 		});
 		
 		buttonResetHS.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				prefs.putInteger(PREFERENCE_HIGHSCORE, 0);
+				prefs.flush();
 				message = "Highscore " + 0;
 			}
 		});

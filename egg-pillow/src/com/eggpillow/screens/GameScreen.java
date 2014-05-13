@@ -33,6 +33,7 @@ import com.eggpillow.tween.TableAccessor;
 
 /**
  * Gamescreen for EggPillow.
+ * 
  * @author Johan & Jonas
  * @version 2014-05-09
  */
@@ -64,7 +65,7 @@ public class GameScreen implements Screen {
 	private Stats stats;
 	Queue<PowerUp> removePowerups;
 	Queue<Egg> removeEggs;
-	
+
 	private PauseWindow pauseScreen;
 
 	/**
@@ -94,14 +95,15 @@ public class GameScreen implements Screen {
 			pillow.update(delta, gameSpeedDelta);
 			updatePowerups(delta, gameSpeedDelta, pillow);
 			updateEggs(delta, gameSpeedDelta);
-			
+
 			// Check for gameover
 			if (stats.getLives() <= 0) {
 				pauseGame();
+				newHighscore = updateHighscore(freedEggs);
 				gameOver = true;
 			}
 		}
-		
+
 		// Draw all sprites
 		for (PowerUp power : powerups) {
 			power.draw(batch);
@@ -181,7 +183,6 @@ public class GameScreen implements Screen {
 	 *            Game-time since last update (seconds)
 	 */
 	private void updateEggs(float delta, float gameSpeedDelta) {
-		int deadEggs = 0;
 		for (Egg egg : eggs) {
 			egg.update(gameSpeedDelta, stats.funMode());
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
@@ -193,12 +194,6 @@ public class GameScreen implements Screen {
 		}
 		while (removeEggs.size() > 3) {
 			eggs.remove(removeEggs.poll());
-		}
-
-		if (deadEggs >= stats.startLives()) {
-			newHighscore = updateHighscore(freedEggs); 
-			gameOver = true;
-			gamePaused = true;
 		}
 
 		message = stats.getLives() + "/" + stats.startLives() + " lives left";
@@ -245,10 +240,10 @@ public class GameScreen implements Screen {
 		// Setup pillow
 		if (stats.funMode()) {
 			pillow = new Pillow(touchables, -.25f, V.CLIFF_WIDTH, atlas);
-		} else {			
+		} else {
 			pillow = new Pillow(touchables, .25f, V.CLIFF_WIDTH, atlas);
 		}
-		inputHandler = new InputHandlerGame(game, this, pillow); 
+		inputHandler = new InputHandlerGame(game, this, pillow);
 		// TODO Menu-fix
 
 		// Setup cliff

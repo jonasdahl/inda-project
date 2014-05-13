@@ -32,10 +32,11 @@ public class PauseWindow {
 	private Table pillowTable;
 	private Table eggTable;
 	private Table pauseTable;
-	
+	private Table gameOverTable;
+
 	Label scoreLabel;
-	Label highScoreLabel;
-	
+	Label highscoreLabel;
+
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
 	private ShapeRenderer shapeRender;
@@ -46,7 +47,7 @@ public class PauseWindow {
 		this.font = font;
 		eggRegion = atlas.findRegion(V.EGG_REGION);
 		pillowRegion = atlas.findRegion(V.PILLOW_REGION);
-		
+
 		pillowTable = new Table();
 		LabelStyle labelstyle = new LabelStyle(font, Color.BLACK);
 		Label pillowLabel = new Label(pillowDesc, labelstyle);
@@ -54,14 +55,14 @@ public class PauseWindow {
 		pillowTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.PILLOW_WIDTH * 1.2f), V.HEIGHT / 4);
 		pillowTable.add(pillowLabel).minWidth(V.WIDTH / 2);
 		pillowTable.pack();
-		
+
 		eggTable = new Table();
 		Label eggLabel = new Label(eggDesc, labelstyle);
 		eggLabel.setWrap(true);
 		eggTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.EGG_WIDTH * 2), V.HEIGHT * 3 / 4);
 		eggTable.add(eggLabel).minWidth(V.WIDTH / 2);
 		eggTable.pack();
-		
+
 		pauseTable = new Table();
 		Label pauseLabel = new Label(pauseDesc, labelstyle);
 		pauseLabel.setWrap(true);
@@ -72,7 +73,18 @@ public class PauseWindow {
 		pauseTable.row();
 		pauseTable.add(scoreLabel).minWidth(V.WIDTH * 4 / 5);
 		pauseTable.pack();
-		
+
+		gameOverTable = new Table();
+		Label gameOverLabel = new Label("GAME OVER", labelstyle);
+		gameOverLabel.setWrap(true);
+		highscoreLabel = new Label("", labelstyle);
+		highscoreLabel.setWrap(true);
+		gameOverTable.setPosition(V.WIDTH / 5, V.HEIGHT / 2);
+		gameOverTable.add(gameOverLabel).minWidth(V.WIDTH * 4 / 5);
+		gameOverTable.row();
+		gameOverTable.add(highscoreLabel).minWidth(V.WIDTH * 4 / 5);
+		gameOverTable.pack();
+
 		shapeRender = new ShapeRenderer();
 	}
 
@@ -91,15 +103,15 @@ public class PauseWindow {
 		shapeRender.begin(ShapeType.Circle);
 		shapeRender.setColor(Color.RED);
 		// Draw pillow circle
-		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.PILLOW_WIDTH * V.WIDTH / 2, V.HEIGHT / 4 + V.PILLOW_HEIGHT * V.HEIGHT / 2,
-				V.WIDTH * V.PILLOW_WIDTH / 2 * 1.2f);
+		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.PILLOW_WIDTH * V.WIDTH / 2, V.HEIGHT / 4 + V.PILLOW_HEIGHT
+				* V.HEIGHT / 2, V.WIDTH * V.PILLOW_WIDTH / 2 * 1.2f);
 		// Draw egg circle
-		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.EGG_WIDTH * V.WIDTH / 2, V.HEIGHT * 3 / 4 + V.EGG_HEIGHT * V.HEIGHT / 2,
-				V.EGG_HEIGHT * V.HEIGHT / 2 * 1.2f);
+		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.EGG_WIDTH * V.WIDTH / 2, V.HEIGHT * 3 / 4 + V.EGG_HEIGHT
+				* V.HEIGHT / 2, V.EGG_HEIGHT * V.HEIGHT / 2 * 1.2f);
 		shapeRender.end();
 		// Draw egg and pillow
 		batch.draw(eggRegion, V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT * 3 / 4, V.WIDTH * V.EGG_WIDTH, V.HEIGHT * V.EGG_HEIGHT);
-		batch.draw(pillowRegion,  V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT / 4, V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * 0.1f);
+		batch.draw(pillowRegion, V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT / 4, V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * 0.1f);
 
 		// Instruction texts
 		pillowTable.draw(batch, 1);
@@ -118,8 +130,8 @@ public class PauseWindow {
 		shapeRender.setColor(pauseColor);
 		shapeRender.filledRect(0, 0, V.WIDTH, V.HEIGHT);
 		shapeRender.end();
-		
-		// Update score string 
+
+		// Update score string
 		scoreLabel.setText("Score : " + score);
 		pauseTable.draw(batch, 1);
 	}
@@ -140,19 +152,16 @@ public class PauseWindow {
 		shapeRender.setColor(pauseColor);
 		shapeRender.filledRect(0, 0, V.WIDTH, V.HEIGHT);
 		shapeRender.end();
-		
-		// Game over text
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
-		font.draw(batch, "Game over", V.WIDTH / 2 * 0.6f, V.HEIGHT / 2);
 
 		// Score text
-		font.setScale(V.HEIGHT / V.FONT_SMALL);
-		if (newHighScore) {
-			font.draw(batch, "Congratulations u got a new Highscore " + score, V.WIDTH / 2 * 0.4f, V.HEIGHT / 3);
-		} else {
-			font.draw(batch, "Your score: " + score, V.WIDTH / 2 * 0.6f, V.HEIGHT / 3);
+		if (highscoreLabel.getText().length() < 1) {
+			if (newHighScore) {
+				highscoreLabel.setText("Congratulations you got a new Highscore " + score);
+			} else {
+				highscoreLabel.setText("Your score: " + score);
+			}
 		}
+		gameOverTable.draw(batch, 1);
 	}
 
 	public void dispose() {
