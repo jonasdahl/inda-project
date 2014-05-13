@@ -156,8 +156,8 @@ public class Egg extends Touchable {
 		if (getX() + getWidth() >= screenWidth) {
 			setX(screenWidth - getWidth());
 			if (funMode) {
-				if (xSpeed > V.EGG_X_SPEED * V.WIDTH * 20) {
-					xSpeed *= -0.5f;//-V.EGG_X_SPEED * V.WIDTH;										
+				if (xSpeed > V.EGG_X_SPEED * V.WIDTH * 10) {
+					xSpeed *= -0.5f;// -V.EGG_X_SPEED * V.WIDTH;
 				} else {
 					xSpeed = 0;
 				}
