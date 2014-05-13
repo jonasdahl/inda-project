@@ -38,14 +38,21 @@ import com.eggpillow.tween.TableAccessor;
  * @version 2014-05-09
  */
 public class GameScreen implements Screen {
-	private InputHandlerGame inputHandler;
+	// Dispose
 	private SpriteBatch batch;
 	private Texture background;
 	private BitmapFont font;
+	private TextureAtlas atlas;
+	private PauseWindow pauseScreen;
+
+	// Gameobjects
+	private InputHandlerGame inputHandler;
 	private EggPillow game;
 	private TweenManager tweenManager;
-	private ArrayList<Touchable> touchables;
 	public static String message = "";
+	private Random random;
+	
+	// In game variables
 	private float totalDeltaPower;
 	private float randomTimePower;
 	private float totalDeltaEgg;
@@ -54,19 +61,18 @@ public class GameScreen implements Screen {
 	private boolean showInstructions = true;
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
-	private Random random;
-	private TextureAtlas atlas;
+	
 	// Sprites
+	private ArrayList<Touchable> touchables;
 	private Pillow pillow;
 	private Cliff cliff;
-	private ArrayList<Egg> eggs;
 	private Basket basket;
-	private ArrayList<PowerUp> powerups;
 	private Stats stats;
-	Queue<PowerUp> removePowerups;
-	Queue<Egg> removeEggs;
+	private ArrayList<PowerUp> powerups;
+	private Queue<PowerUp> removePowerups;
+	private ArrayList<Egg> eggs;
+	private Queue<Egg> removeEggs;
 
-	private PauseWindow pauseScreen;
 
 	/**
 	 * Constructor for GameScreen
@@ -289,10 +295,10 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO make sure everything is disposed.
 		batch.dispose();
-		pillow.getTexture().dispose();
 		background.dispose();
+		font.dispose();
+		atlas.dispose();
 		pauseScreen.dispose();
 	}
 

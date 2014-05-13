@@ -24,14 +24,14 @@ import com.eggpillow.V;
  * @version 2014-05-09
  */
 public class SettingsScreen implements Screen {
-
+	private EggPillow game;
+	// Dispose
 	private SpriteBatch batch;
 	private Texture background;
-	private EggPillow game;
-
 	private Stage stage;
+	private BitmapFont font;
+
 	private TextButton[] buttons;
-	
 	private final int BUTTONS_LENGTH = 5;
 	private final int INDEX_MUTE = 0;
 	private final int INDEX_FUN = 1;
@@ -40,19 +40,16 @@ public class SettingsScreen implements Screen {
 	private final int INDEX_MAP = 3;
 
 	private Table table;
-
-	private BitmapFont font;
 	private String message = "Hello";
-
+	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
+	
 	Preferences prefs;
-
 	public static final String PREFERENCE_NAME = "EggPillow preferences";
 	public static final String PREFERENCE_MUTED = "muted";
 	public static final String PREFERENCE_HIGHSCORE = "highscore";
 	public static final String PREFERENCE_FUNMODE = "funmode";
 	public static final String PREFERENCE_MAP = "selectedMap";
 	
-	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
 
 	public SettingsScreen(EggPillow g) {
 		game = g;
@@ -200,7 +197,6 @@ public class SettingsScreen implements Screen {
 	public void resume() {
 	}
 
-	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();

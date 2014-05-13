@@ -32,15 +32,17 @@ import com.eggpillow.tween.TableAccessor;
  * @version 2014-05-09
  */
 public class MenuScreen implements Screen {
-	private EggPillow game;
+	// Dispose
 	private SpriteBatch batch;
 	private Texture background;
 	private Stage stage;
+	private BitmapFont font;
+	private Skin skin;
+	private TextureAtlas buttonAtlas;
+	
+	private EggPillow game;
 	private ArrayList<TextButton> buttons;
 	private Table table;
-	private Skin skin;
-	private BitmapFont font;
-	private TextureAtlas buttonAtlas;
 	private TweenManager tweenManager;
 
 	private final static String BACKGROUND_IMG = "img/menu_background.png";
@@ -189,11 +191,12 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO make sure everything is disposed.
-		font.dispose();
-		stage.dispose();
 		batch.dispose();
 		background.dispose();
+		stage.dispose();
+		font.dispose();
+		skin.dispose();
+		buttonAtlas.dispose();
 	}
 
 }

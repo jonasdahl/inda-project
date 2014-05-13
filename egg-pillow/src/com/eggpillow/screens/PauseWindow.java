@@ -16,11 +16,13 @@ import com.eggpillow.V;
 /**
  * This class is used to draw different pauseScreens to gameScreen
  * 
- * TODO update game over with labels and tables
  * 
  * @author Johan version 2014-05-11
  */
 public class PauseWindow {
+	// Dispose
+	private ShapeRenderer shapeRender;
+	private BitmapFont font;
 
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
@@ -39,9 +41,7 @@ public class PauseWindow {
 
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
-	private ShapeRenderer shapeRender;
 
-	private BitmapFont font;
 
 	public PauseWindow(BitmapFont font, TextureAtlas atlas) {
 		this.font = font;

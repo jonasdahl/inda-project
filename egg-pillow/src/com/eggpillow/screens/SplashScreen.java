@@ -21,9 +21,10 @@ import com.eggpillow.tween.SpriteAccessor;
 public class SplashScreen implements Screen {
 	private final static float FADE_SPEED = 1.0f;
 	private final static float DELAY = 1.0f;
-
+	// Dispose
 	private Sprite splash;
 	private SpriteBatch batch;
+	
 	private TweenManager tweenManager;
 	private EggPillow game;
 
@@ -87,7 +88,6 @@ public class SplashScreen implements Screen {
 
 	}
 
-	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();
