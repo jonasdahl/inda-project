@@ -15,7 +15,6 @@ import com.eggpillow.screens.SplashScreen;
  *   
  *   // TODO (Prio high) Make sure everything is disposed.
  *   
- *   TODO DRAW: lifeindicator
  *   TODO DRAW:	settingsbackground
  */
 

@@ -2,7 +2,11 @@ package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.eggpillow.screens.SettingsScreen;
+import com.eggpillow.sprites.LifeIndicator;
+import com.eggpillow.sprites.ScoreBoard;
 
 /**
  * Represents important stats which will change under the game.
@@ -15,19 +19,26 @@ public class Stats {
 	private float gameSpeed;
 	private float timer;
 	private float lifeTime;
+	private int score;
 	
 	private boolean funMode = false;
+	
+	private LifeIndicator lifeindicator;
+	private ScoreBoard scoreBoard;
 	
 	/**
 	 * Stats-container 
 	 * @param lives 
 	 * @param gameSpeed
 	 */
-	public Stats(int lives, float gameSpeed) {
+	public Stats(TextureAtlas atlas, int lives, float gameSpeed) {
 		this.startLives = lives;
 		this.lives = lives;
 		this.gameSpeed = gameSpeed;
 		timer = 0;
+		
+		lifeindicator = new LifeIndicator(atlas, lives);
+		scoreBoard = new ScoreBoard(atlas);
 		
 		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
 		funMode = prefs.getBoolean(SettingsScreen.PREFERENCE_FUNMODE);
@@ -38,6 +49,11 @@ public class Stats {
 		if (getGameSpeed() != V.GAMESPEED && timer > lifeTime) {
 			changeGameSpeed(V.GAMESPEED, -1);
 		}
+	}
+	
+	public void draw(SpriteBatch batch) {
+		lifeindicator.draw(batch);
+		scoreBoard.draw(batch);
 	}
 	
 	/**
@@ -62,7 +78,7 @@ public class Stats {
 	}
 	
 	/**
-	 * @return the gamespeed
+	 * @return the game speed
 	 */
 	public float getGameSpeed() {
 		return gameSpeed;
@@ -78,25 +94,32 @@ public class Stats {
 	}
 
 	/**
-	 * @param lives the lives to set
-	 */
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
-
-	/**
 	 * Sets lives to lives - 1
 	 */
-	public void deadEgg() {
+	public void removeLives() {
 		lives -= 1;
+		lifeindicator.decreaseLives(lives);
 	}
 	
 	/**
 	 * Adds lives
+	 * 
+	 * @param newLives Amount of lives to add.
 	 */
 	public void addLives(int newLives) {
 		lives += newLives;
-		if (lives > startLives)
-			lives = startLives;
+		if (lives > startLives) {
+			lives = startLives;			
+		}
+		lifeindicator.increaseLives(lives);
+	}
+	
+	public void addScore() {
+		score++;
+		scoreBoard.increaseScore();
+	}
+	
+	public int getScore() {
+		return score;
 	}
 }

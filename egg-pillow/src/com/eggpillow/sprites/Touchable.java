@@ -110,9 +110,7 @@ public abstract class Touchable extends Sprite {
 				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED");
 				// TODO test and return (float) v;
 			}
-		} else {
-			throw new Error("HOW DID U GET HERE? THIS IS NOT SAFE"); // TODO FIX PLZ, but it's not safe to be here
-		}
+		} 
 		return -1; // No collision
 	}
 

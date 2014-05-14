@@ -17,58 +17,79 @@ game_basket
   orig: 337, 549
   offset: 0, 0
   index: -1
+result
+  rotate: false
+  xy: 301, 372
+  size: 388, 176
+  orig: 388, 176
+  offset: 0, 0
+  index: -1
 game_pillow
   rotate: false
-  xy: 301, 413
+  xy: 301, 235
   size: 315, 135
   orig: 315, 135
   offset: 0, 0
   index: -1
 game_pillow_hit
   rotate: false
-  xy: 301, 276
+  xy: 301, 98
   size: 315, 135
   orig: 315, 135
   offset: 0, 0
   index: -1
 game_egg_crashed
   rotate: false
-  xy: 301, 214
+  xy: 301, 36
   size: 273, 60
   orig: 273, 60
   offset: 0, 0
   index: -1
 game_egg
   rotate: false
-  xy: 301, 20
+  xy: 618, 178
   size: 140, 192
   orig: 140, 192
   offset: 0, 0
   index: -1
+heart
+  rotate: false
+  xy: 640, 991
+  size: 120, 108
+  orig: 120, 108
+  offset: 0, 0
+  index: -1
+heart_dark
+  rotate: false
+  xy: 640, 881
+  size: 120, 108
+  orig: 120, 108
+  offset: 0, 0
+  index: -1
 game_freeze
   rotate: false
-  xy: 443, 112
+  xy: 640, 779
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game_heart
   rotate: false
-  xy: 443, 10
+  xy: 640, 677
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game_powerup
   rotate: false
-  xy: 545, 112
+  xy: 640, 575
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game_triangle
   rotate: false
-  xy: 545, 42
+  xy: 618, 108
   size: 100, 68
   orig: 100, 68
   offset: 0, 0

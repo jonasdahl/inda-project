@@ -45,10 +45,6 @@ public class MenuScreen implements Screen {
 	private Table table;
 	private TweenManager tweenManager;
 
-	private final static String BACKGROUND_IMG = "img/menu_background.png";
-
-	private final static String BUTTON = "ui/button.pack";
-
 	/**
 	 * Constructor for MenuScreen.
 	 * 
@@ -60,7 +56,7 @@ public class MenuScreen implements Screen {
 		buttons = new ArrayList<TextButton>();
 		tweenManager = new TweenManager();
 		batch = new SpriteBatch();
-		background = new Texture(BACKGROUND_IMG);
+		background = new Texture(V.MENU_BACKGROUND_IMAGE);
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
 		Tween.registerAccessor(Table.class, new TableAccessor());
 
@@ -85,7 +81,7 @@ public class MenuScreen implements Screen {
 
 		// Start styling buttons
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal(BUTTON));
+		buttonAtlas = new TextureAtlas(Gdx.files.internal(V.MENU_BUTTON_PACK));
 		skin.addRegions(buttonAtlas);
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.getDrawable("button");

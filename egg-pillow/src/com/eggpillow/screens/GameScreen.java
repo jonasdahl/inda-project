@@ -23,12 +23,10 @@ import com.eggpillow.V;
 import com.eggpillow.sprites.Basket;
 import com.eggpillow.sprites.Cliff;
 import com.eggpillow.sprites.Egg;
-import com.eggpillow.sprites.LifeIndicator;
 import com.eggpillow.sprites.Pillow;
 import com.eggpillow.sprites.PowerFreeze;
 import com.eggpillow.sprites.PowerHeart;
 import com.eggpillow.sprites.PowerUp;
-import com.eggpillow.sprites.ScoreBoard;
 import com.eggpillow.sprites.Touchable;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
@@ -58,15 +56,12 @@ public class GameScreen implements Screen {
 	private float totalDeltaPower;
 	private float randomTimePower;
 	private float totalDeltaEgg;
-	private int freedEggs;
 	private boolean gamePaused = true;
 	private boolean showInstructions = true;
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
 	
 	// Sprites
-	private ScoreBoard scoreBoard;
-	private LifeIndicator lifeIndicator;
 	private ArrayList<Touchable> touchables;
 	private Pillow pillow;
 	private Cliff cliff;
@@ -87,7 +82,6 @@ public class GameScreen implements Screen {
 	public GameScreen(EggPillow g) {
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
-		stats = new Stats(V.LIVES, V.GAMESPEED);
 		game = g;
 		random = new Random();
 	}
@@ -109,7 +103,7 @@ public class GameScreen implements Screen {
 			// Check for gameover
 			if (stats.getLives() <= 0) {
 				pauseGame();
-				newHighscore = updateHighscore(freedEggs);
+				newHighscore = updateHighscore(stats.getScore());
 				gameOver = true;
 			}
 		}
@@ -120,30 +114,23 @@ public class GameScreen implements Screen {
 		}
 		cliff.draw(batch);
 		pillow.draw(batch);
-		scoreBoard.draw(batch);
-		lifeIndicator.draw(batch);
-
+		stats.draw(batch);
+		
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
 		basket.draw(batch);
-
-		font.setColor(1.0f, 1.0f, 0f, 1.0f); // TODO Onödigt att göra vid varje update
-		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
-		//font.draw(batch, "Score: " + freedEggs, V.WIDTH * 2.5f / 4, V.HEIGHT * 9 / 10);// TODO Varför försvinner den mörka bakgrunden om man kommenterar bort de här två raderna?
-		//font.draw(batch, message, V.WIDTH * 0.1f, V.HEIGHT * 0.9f); 
-		font.draw(batch, "", 0, 0); // TODO Remove
 		
+		batch.flush();
 		if (gamePaused) {
 			if (showInstructions) {
 				pauseScreen.drawInstructions(batch);
 			} else if (gameOver) {
-				pauseScreen.drawGameOver(batch, freedEggs, newHighscore);
+				pauseScreen.drawGameOver(batch, stats.getScore(), newHighscore);
 			} else {
-				pauseScreen.drawPause(batch, freedEggs);
+				pauseScreen.drawPause(batch, stats.getScore());
 			}
 		}
-
 		batch.end();
 	}
 
@@ -199,19 +186,17 @@ public class GameScreen implements Screen {
 		for (Egg egg : eggs) {
 			egg.update(gameSpeedDelta, stats.funMode());
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
-				stats.deadEgg();
-				lifeIndicator.decreaseLives();
+				stats.removeLives();
 			} else if (egg.hasStopped() && !removeEggs.contains(egg)) {
 				removeEggs.add(egg);
-				freedEggs++;
-				scoreBoard.increaseScore();
+				stats.addScore();
 			}
 		}
 		while (removeEggs.size() > 3) {
 			eggs.remove(removeEggs.poll());
 		}
 
-		message = stats.getLives() + "/" + stats.startLives() + " lives left";
+		//message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
 		totalDeltaEgg += gameSpeedDelta;
@@ -250,6 +235,8 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 
 		atlas = new TextureAtlas(Gdx.files.internal(V.GAME_IMAGE_PACK));
+		
+		stats = new Stats(atlas, V.LIVES, V.GAMESPEED);
 
 		touchables = new ArrayList<Touchable>();
 		// Setup pillow
@@ -259,13 +246,11 @@ public class GameScreen implements Screen {
 			pillow = new Pillow(touchables, .25f, V.CLIFF_WIDTH, atlas);
 		}
 		inputHandler = new InputHandlerGame(game, this, pillow);
-		// TODO Menu-fix
+		// TODO Menu-fix (Jonas) // fattar inte / Johan
 
 		// Setup cliff
 		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
 		basket = new Basket(V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
-		scoreBoard = new ScoreBoard(atlas);
-		lifeIndicator = new LifeIndicator(atlas, V.LIVES);
 
 		touchables.add(pillow);
 		touchables.add(cliff);
@@ -277,12 +262,11 @@ public class GameScreen implements Screen {
 
 		// Setup eggs
 		removeEggs = new LinkedList<Egg>();
-		freedEggs = 0;
 		eggs = new ArrayList<Egg>();
 
 		background = new Texture(V.GAME_BACKGROUND_IMAGE);
 		Gdx.input.setInputProcessor(inputHandler);
-		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false); // TODO Remove hårdkodning
+		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
 
 		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);

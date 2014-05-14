@@ -1,7 +1,6 @@
 package com.eggpillow.sprites;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,10 +9,10 @@ import com.eggpillow.V;
 
 /**
  * Represents the result board.
- * @author jonas
+ * @author Jonas
  * @version 2014-05-14
  * 
- * TODO Add support for score > 999
+ * TODO (Prio low)Add support for score > 999
  */
 public class ScoreBoard extends Sprite {
 	private int score;
@@ -25,8 +24,7 @@ public class ScoreBoard extends Sprite {
 	 * @param id the type of the t
 	 */
 	public ScoreBoard(TextureAtlas atlas) {
-		// super(atlas.findRegion(V.SCORE_BOARD_REGION)); TODO(Johan) fix region and uncomment
-		super(new Texture("nya/result.png")); // TODO(Johan) fix region and remove row
+		super(atlas.findRegion(V.SCORE_BOARD_REGION));
 		setSize(V.SCORE_BOARD_WIDTH * V.WIDTH, V.SCORE_BOARD_HEIGHT * V.HEIGHT);
 		setX(V.WIDTH * ( 1 - V.SCORE_BOARD_WIDTH ) - V.SCORE_BOARD_MARGIN * V.HEIGHT);
 		setY(V.HEIGHT * ( 1 - V.SCORE_BOARD_HEIGHT ) - V.SCORE_BOARD_MARGIN * V.HEIGHT);

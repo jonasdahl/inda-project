@@ -41,7 +41,6 @@ public class SettingsScreen implements Screen {
 
 	private Table table;
 	private String message = "Hello";
-	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
 	
 	Preferences prefs;
 	public static final String PREFERENCE_NAME = "EggPillow preferences";
@@ -61,7 +60,7 @@ public class SettingsScreen implements Screen {
 		EggPillow.setBackground();
 
 		batch.begin();
-		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT); // TODO add after new Settingsbackground is drawn
+		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 5);
 		batch.end();
@@ -81,7 +80,7 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		background = new Texture(BACKGROUND_IMG);
+		background = new Texture(V.SETTINGS_BACKGROUND_IMAGE);
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
 		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
 		table = new Table();
@@ -105,7 +104,7 @@ public class SettingsScreen implements Screen {
 		buttons = new TextButton[BUTTONS_LENGTH];
 		TextButtonStyle tbstyle = new TextButtonStyle();
 		Skin skin = new Skin();
-		TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("ui/settingsButton.pack"));
+		TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(V.SETTINGS_BUTTON_PACK));
         skin.addRegions(buttonAtlas);
 		tbstyle.font = font;
 		tbstyle.down = skin.getDrawable("buttonDown");

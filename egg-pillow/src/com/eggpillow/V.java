@@ -2,7 +2,7 @@ package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
 
-// TODO Finalize
+// TODO Finalize // is done? / Johan
 
 /**
  * A class containing a vast number of constants and variables.
@@ -25,6 +25,8 @@ public class V {
 	// Paths to images or texture regions
 	public final static String FONT = "font/EggPillow.fnt";
 	public final static String GAME_BACKGROUND_IMAGE = "img/game_background.png";
+	public final static String MENU_BACKGROUND_IMAGE = "img/menu_background.png";
+	public final static String SETTINGS_BACKGROUND_IMAGE = "img/menu_background.png"; // TODO change to settings background
 	public final static String EGG_REGION = "game_egg";
 	public final static String PILLOW_REGION = "game_pillow";
 	public final static String BASKET_REGION = "game_basket";
@@ -34,9 +36,13 @@ public class V {
 	public final static String POWERUP_HEART_REGION = "game_heart";
 	public final static String POWERUP_FREEZE_REGION = "game_freeze";
 	public final static String ARROW_REGION = "game_triangle";
-	public final static String SCORE_BOARD_REGION = "game_score_board";
+	public final static String SCORE_BOARD_REGION = "result";
+	public final static String HEART_SCORE_REGION = "heart";
+	public final static String HEARTDARK_SCORE_REGION = "heart_dark";
 
 	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
+	public final static String MENU_BUTTON_PACK = "ui/button.pack";
+	public final static String SETTINGS_BUTTON_PACK = "ui/settingsButton.pack";
 
 	// Sizes
 	/** In percent of screen height */
@@ -85,15 +91,15 @@ public class V {
 	// Speeds
 	/** Width in percent of screen width. */
 	public final static float EGG_X_SPEED = 0.125f;
-	public final static float GRAVITATION = 2f;
+	public final static float GRAVITATION = 1.5f;
 	public final static float GAMESPEED = 1f;
 
 	// Time
 	public static final float TIME_BETWEEN_EGGS = 2f;
-	public static final float TIME_BETWEEN_POWERUPS = 5f;
+	public static final float TIME_BETWEEN_POWERUPS = 4f;
 
 	// Stats
-	public final static int LIVES = 3;
+	public final static int LIVES = 10;
 	public final static int ADD_LIVES = 3;
 
 	/** The standard background colors of the screen. */
