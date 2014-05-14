@@ -10,7 +10,6 @@ import com.eggpillow.screens.SplashScreen;
 
 /*
  *   Problem: 
- *   TODO Konstanter i olika klasser eller alla i V?
  *   TODO (Prio low-medium) Add predictions to intersects (use speed)
  *   TODO (Prio low) Bitmap fonts don't typical scale well, especially at small sizes. It is suggested to use a separate bitmap font for each font size.
  *   

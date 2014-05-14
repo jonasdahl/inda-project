@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
  */
 public class V {
 	public static final float FONT_MEDIUM = 800f;
+	public static final float FONT_LARGE = 600f;
 
 	/** Height of the screen */
 	public static int HEIGHT;
@@ -19,7 +20,7 @@ public class V {
 	public static int WIDTH;
 
 	public static final String TITLE = "Egg Pillow";
-	public static final String VERSION = "0.1.0";
+	public static final String VERSION = "0.1.1";
 
 	// Paths to images or texture regions
 	public final static String FONT = "font/EggPillow.fnt";
@@ -33,6 +34,7 @@ public class V {
 	public final static String POWERUP_HEART_REGION = "game_heart";
 	public final static String POWERUP_FREEZE_REGION = "game_freeze";
 	public final static String ARROW_REGION = "game_triangle";
+	public final static String SCORE_BOARD_REGION = "game_score_board";
 
 	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
 
@@ -67,6 +69,18 @@ public class V {
 	public final static float ARROW_WIDTH = 0.05f;
 	/** Height in percent of screen height. */
 	public final static float ARROW_HEIGHT = 0.05f;
+	/** Width in percent of screen width. */
+	public final static float SCORE_BOARD_WIDTH = 0.2f;
+	/** Height in percent of screen height. */
+	public final static float SCORE_BOARD_HEIGHT = 0.15f;
+	/** Height in percent of screen height. */
+	public final static float SCORE_BOARD_MARGIN = 0.05f;
+	/** Width in percent of screen width. */
+	public final static float LIFE_INDICATOR_WIDTH = 0.2f;
+	/** Height in percent of screen height. */
+	public final static float LIFE_INDICATOR_HEIGHT = 0.1f;
+	/** Height in percent of screen height. */
+	public final static float LIFE_INDICATOR_MARGIN = 0.1f;
 
 	// Speeds
 	/** Width in percent of screen width. */
@@ -79,7 +93,7 @@ public class V {
 	public static final float TIME_BETWEEN_POWERUPS = 5f;
 
 	// Stats
-	public final static int LIVES = 10;
+	public final static int LIVES = 3;
 	public final static int ADD_LIVES = 3;
 
 	/** The standard background colors of the screen. */

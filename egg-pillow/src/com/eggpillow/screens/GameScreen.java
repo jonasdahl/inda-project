@@ -23,10 +23,12 @@ import com.eggpillow.V;
 import com.eggpillow.sprites.Basket;
 import com.eggpillow.sprites.Cliff;
 import com.eggpillow.sprites.Egg;
+import com.eggpillow.sprites.LifeIndicator;
 import com.eggpillow.sprites.Pillow;
 import com.eggpillow.sprites.PowerFreeze;
 import com.eggpillow.sprites.PowerHeart;
 import com.eggpillow.sprites.PowerUp;
+import com.eggpillow.sprites.ScoreBoard;
 import com.eggpillow.sprites.Touchable;
 import com.eggpillow.tween.SpriteBatchAccessor;
 import com.eggpillow.tween.TableAccessor;
@@ -63,6 +65,8 @@ public class GameScreen implements Screen {
 	private boolean newHighscore = false;
 	
 	// Sprites
+	private ScoreBoard scoreBoard;
+	private LifeIndicator lifeIndicator;
 	private ArrayList<Touchable> touchables;
 	private Pillow pillow;
 	private Cliff cliff;
@@ -116,17 +120,20 @@ public class GameScreen implements Screen {
 		}
 		cliff.draw(batch);
 		pillow.draw(batch);
+		scoreBoard.draw(batch);
+		lifeIndicator.draw(batch);
 
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
 		basket.draw(batch);
 
-		font.setColor(1.0f, 1.0f, 0f, 1.0f);
+		font.setColor(1.0f, 1.0f, 0f, 1.0f); // TODO Onödigt att göra vid varje update
 		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
-		font.draw(batch, message, V.WIDTH * 0.1f, V.HEIGHT * 0.9f);
-		font.draw(batch, "Score: " + freedEggs, V.WIDTH * 2.5f / 4, V.HEIGHT * 9 / 10);
-
+		//font.draw(batch, "Score: " + freedEggs, V.WIDTH * 2.5f / 4, V.HEIGHT * 9 / 10);// TODO Varför försvinner den mörka bakgrunden om man kommenterar bort de här två raderna?
+		//font.draw(batch, message, V.WIDTH * 0.1f, V.HEIGHT * 0.9f); 
+		font.draw(batch, "", 0, 0); // TODO Remove
+		
 		if (gamePaused) {
 			if (showInstructions) {
 				pauseScreen.drawInstructions(batch);
@@ -193,9 +200,11 @@ public class GameScreen implements Screen {
 			egg.update(gameSpeedDelta, stats.funMode());
 			if (egg.isDead() && !egg.wasDeadLastTime()) {
 				stats.deadEgg();
+				lifeIndicator.decreaseLives();
 			} else if (egg.hasStopped() && !removeEggs.contains(egg)) {
 				removeEggs.add(egg);
 				freedEggs++;
+				scoreBoard.increaseScore();
 			}
 		}
 		while (removeEggs.size() > 3) {
@@ -255,6 +264,8 @@ public class GameScreen implements Screen {
 		// Setup cliff
 		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
 		basket = new Basket(V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
+		scoreBoard = new ScoreBoard(atlas);
+		lifeIndicator = new LifeIndicator(atlas, V.LIVES);
 
 		touchables.add(pillow);
 		touchables.add(cliff);
@@ -271,7 +282,7 @@ public class GameScreen implements Screen {
 
 		background = new Texture(V.GAME_BACKGROUND_IMAGE);
 		Gdx.input.setInputProcessor(inputHandler);
-		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
+		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false); // TODO Remove hårdkodning
 
 		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
