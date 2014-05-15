@@ -207,7 +207,7 @@ public class Egg extends Touchable {
 	}
 
 	/**
-	 * Draw the egg to the batch if it has started.
+	 * Calls draw(SpriteBatch batch).
 	 */
 	@Override
 	public void draw(SpriteBatch batch, float delta) {

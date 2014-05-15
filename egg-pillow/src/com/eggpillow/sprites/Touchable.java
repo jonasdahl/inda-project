@@ -57,7 +57,7 @@ public abstract class Touchable extends Sprite {
 	 * Checks if this object intersects with t.
 	 * 
 	 * @param t
-	 * @return angel. Negative angle if no intersections.
+	 * @return angel in radians. Negative angle if no intersections. Returns k*pi/4 if t is a square.
 	 */
 	public float intersects(Touchable t) {
 		// Calculate Degree v

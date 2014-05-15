@@ -38,10 +38,16 @@ public class ScoreBoard extends Sprite {
 		font.setScale(V.HEIGHT * V.FONT_LARGE);
 	}
 
+	/**
+	 * Increase the score with 1;
+	 */
 	public void increaseScore() {
 		score++;
 	}
-
+	
+	/**
+	 * Draw scoreboard and the current score.
+	 */
 	@Override
 	public void draw(SpriteBatch batch) {
 		super.draw(batch);
