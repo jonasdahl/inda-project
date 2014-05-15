@@ -36,13 +36,7 @@ public class SettingsScreen implements Screen {
 	private String message = "Hello";
 	
 	Preferences prefs;
-	public static final String PREFERENCE_NAME = "EggPillow preferences";
-	public static final String PREFERENCE_MUTED = "muted";
-	public static final String PREFERENCE_HIGHSCORE = "highscore";
-	public static final String PREFERENCE_FUNMODE = "funmode";
-	public static final String PREFERENCE_MAP = "selectedMap";
 	
-
 	public SettingsScreen(EggPillow g) {
 		game = g;
 	}
@@ -79,10 +73,10 @@ public class SettingsScreen implements Screen {
 		table = new Table();
 		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		
-		prefs = Gdx.app.getPreferences(PREFERENCE_NAME);
-		boolean funmode = prefs.getBoolean(PREFERENCE_FUNMODE, false);
-		boolean mute = prefs.getBoolean(PREFERENCE_MUTED, false);
-		message = "Highscore " + prefs.getInteger(PREFERENCE_HIGHSCORE, 0);
+		prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+		boolean funmode = prefs.getBoolean(V.PREFERENCE_FUNMODE, false);
+		boolean mute = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+		message = "Highscore " + prefs.getInteger(V.PREFERENCE_HIGHSCORE, 0);
 
 		stage = new Stage() {
 			@Override
@@ -94,6 +88,7 @@ public class SettingsScreen implements Screen {
 				return false;
 			}
 		};
+		stage.addActor(table);
 		Skin skin = new Skin();
 		TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(V.SETTINGS_BUTTON_PACK));
 		skin.addRegions(buttonAtlas);
@@ -120,9 +115,13 @@ public class SettingsScreen implements Screen {
 		
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				boolean muted = prefs.getBoolean(PREFERENCE_MUTED, false);
-				prefs.putBoolean(PREFERENCE_MUTED, !muted);
+				boolean muted = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+				prefs.putBoolean(V.PREFERENCE_MUTED, !muted);
 				prefs.flush();
+				if (muted)
+					game.playBackgroundMusic();
+				else 
+					game.stopBackgroundMusic();
 			}
 		});
 
@@ -135,30 +134,29 @@ public class SettingsScreen implements Screen {
 
 		buttonFun.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				boolean modeState = prefs.getBoolean(PREFERENCE_FUNMODE, false);
-				prefs.putBoolean(PREFERENCE_FUNMODE, !modeState);
+				boolean modeState = prefs.getBoolean(V.PREFERENCE_FUNMODE, false);
+				prefs.putBoolean(V.PREFERENCE_FUNMODE, !modeState);
 				prefs.flush();
 			}
 		});
 		
 		buttonResetHS.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				prefs.putInteger(PREFERENCE_HIGHSCORE, 0);
+				prefs.putInteger(V.PREFERENCE_HIGHSCORE, 0);
 				prefs.flush();
 				message = "Highscore " + 0;
 			}
 		});
 
 		
-		table.row().pad(5).width(V.WIDTH / 2).height(V.HEIGHT/10);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT/5);
 		table.add(buttonMute);
-		table.row().pad(5).width(V.WIDTH / 2).height(V.HEIGHT/10);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT/5);
 		table.add(buttonFun);
-		table.row().pad(5).width(V.WIDTH / 2).height(V.HEIGHT/10);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT/5);
 		table.add(buttonResetHS);
-		table.row();
-		table.add(buttonDone).width(V.HEIGHT / 4).height(V.HEIGHT / 4).align(Align.bottom | Align.right);
-		stage.addActor(table);
+		buttonDone.setBounds(V.HEIGHT / 24, V.HEIGHT - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
+		stage.addActor(buttonDone);
 
 		Gdx.input.setInputProcessor(stage);
 	}

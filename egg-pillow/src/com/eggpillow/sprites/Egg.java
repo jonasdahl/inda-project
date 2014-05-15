@@ -85,6 +85,7 @@ public class Egg extends Touchable {
 					if (Math.PI <= angle && angle <= Math.PI * 2) {
 						if (ySpeed < 0) {
 							ySpeed *= -1;
+							game.bounce(t);
 						}
 						ySpeed += t.getYSpeed();
 						ySpeed *= 1 - softnessY;
@@ -92,6 +93,7 @@ public class Egg extends Touchable {
 					} else if (0 < angle && angle < Math.PI) {
 						if (ySpeed > 0) {
 							ySpeed *= -1;
+							game.bounce(t);
 						}
 						ySpeed += t.getYSpeed();
 						ySpeed *= 1 - softnessY;
@@ -103,6 +105,7 @@ public class Egg extends Touchable {
 					if (Math.PI <= angle && angle <= Math.PI * 2) {
 						if (ySpeed < 0) {
 							ySpeed *= -1;
+							game.bounce(t);
 						}
 						ySpeed += t.getYSpeed() * Math.abs(Math.sin(angle));
 						ySpeed *= 1 - softnessY;
@@ -110,6 +113,7 @@ public class Egg extends Touchable {
 					} else if (0 < angle && angle < Math.PI) {
 						if (ySpeed > 0) {
 							ySpeed *= -1;
+							game.bounce(t);
 						}
 						ySpeed += t.getYSpeed() * Math.abs(Math.sin(angle));
 						ySpeed *= 1 - softnessY;
@@ -122,6 +126,7 @@ public class Egg extends Touchable {
 					if (Math.PI / 3 > angle || angle > Math.PI * 5 / 3) {
 						if (xSpeed > 0) {
 							xSpeed *= -1;
+							game.bounce(t);
 						}
 						xSpeed += t.getXSpeed() * Math.abs(Math.cos(angle));
 						xSpeed *= 1 - softnessX;
@@ -129,6 +134,7 @@ public class Egg extends Touchable {
 					} else if (Math.PI * 2 / 3 < angle && angle < Math.PI * 4 / 3) {
 						if (xSpeed < 0) {
 							xSpeed *= -1;
+							game.bounce(t);
 						}
 						xSpeed += t.getXSpeed() * Math.abs(Math.cos(angle));
 						xSpeed *= 1 - softnessX;

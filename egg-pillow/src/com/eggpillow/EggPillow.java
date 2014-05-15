@@ -2,7 +2,10 @@ package com.eggpillow;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,15 +25,17 @@ import com.eggpillow.screens.SplashScreen;
  * @version 2014-05-10
  */
 public class EggPillow extends Game {
-	
 	FPSLogger fpslog;
 	private boolean debugMode = false;
+	private Music backgroundSound;
+	public Preferences prefs; // TODO private
  	
 	/**
 	 * Sets background and starts splash screen.
 	 */
 	@Override
 	public void create() {
+		prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
 		Texture.setEnforcePotImages(false); // TODO Keep everywhere or just in one place?
 		setBackground();
 		V.initV(); // Initialize V's values
@@ -43,6 +48,8 @@ public class EggPillow extends Game {
 		if (debugMode) {
 			fpslog = new FPSLogger();			
 		}
+		
+		backgroundSound = Gdx.audio.newMusic(Gdx.files.internal(V.BACKGROUND_SOUND));
 	}
 
 	/**
@@ -93,5 +100,36 @@ public class EggPillow extends Game {
 	@Override
 	public void resume() {
 		super.resume();
+	}
+	
+	public void playBackgroundMusic() {
+		backgroundSound.setLooping(true);
+		playAudio(backgroundSound);
+	}
+	
+	public void stopBackgroundMusic() {
+		stopAudio(backgroundSound);
+	}
+	
+	public void playAudio(Music m) {
+		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
+			return;
+		}
+		m.play();
+	}
+	
+	public void playAudio(Sound m) {
+		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
+			return;
+		}
+		m.play();
+	}
+	
+	public void stopAudio(Music m) {
+		m.stop();
+	}
+	
+	public void stopAudio(Sound m) {
+		m.stop();
 	}
 }

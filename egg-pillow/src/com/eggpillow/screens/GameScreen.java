@@ -11,6 +11,8 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -59,6 +61,9 @@ public class GameScreen implements Screen {
 	private boolean showInstructions = true;
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
+	private boolean started = false;
+	private Sound bounce;
+	private Music gameMusic;
 	
 	// Sprites
 	private ArrayList<Touchable> touchables;
@@ -199,11 +204,10 @@ public class GameScreen implements Screen {
 
 		// Start eggs that should start
 		totalDeltaEgg += gameSpeedDelta;
-		if (totalDeltaEgg > V.TIME_BETWEEN_EGGS) {
+		if (totalDeltaEgg > V.TIME_BETWEEN_EGGS + 20 / (stats.getScore() + 10)) {
 			Egg newEgg = new Egg(this, V.EGG_WIDTH, V.EGG_HEIGHT, atlas);
 			newEgg.start();
 			eggs.add(newEgg);
-			// }
 			totalDeltaEgg = 0;
 		}
 	}
@@ -216,9 +220,9 @@ public class GameScreen implements Screen {
 	 * @return The new highscore.
 	 */
 	private boolean updateHighscore(int score) {
-		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
-		if (score > prefs.getInteger(SettingsScreen.PREFERENCE_HIGHSCORE, -1)) {
-			prefs.putInteger(SettingsScreen.PREFERENCE_HIGHSCORE, score);
+		Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+		if (score > prefs.getInteger(V.PREFERENCE_HIGHSCORE, -1)) {
+			prefs.putInteger(V.PREFERENCE_HIGHSCORE, score);
 			prefs.flush();
 			return true;
 		}
@@ -231,6 +235,10 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		bounce = Gdx.audio.newSound(Gdx.files.internal(V.BOUNCE_SOUND));
+		gameMusic = Gdx.audio.newMusic(Gdx.files.internal(V.GAME_SOUND));
+		gameMusic.setLooping(true);
+		game.stopBackgroundMusic();
 		batch = new SpriteBatch();
 
 		atlas = new TextureAtlas(Gdx.files.internal(V.GAME_IMAGE_PACK));
@@ -242,7 +250,7 @@ public class GameScreen implements Screen {
 		if (stats.funMode()) {
 			pillow = new Pillow(touchables, -.25f, V.CLIFF_WIDTH, atlas);
 		} else {
-			pillow = new Pillow(touchables, .25f, V.CLIFF_WIDTH, atlas);
+			pillow = new Pillow(touchables, .1f, V.CLIFF_WIDTH, atlas);
 		}
 		inputHandler = new InputHandlerGame(game, this, pillow);
 
@@ -264,31 +272,35 @@ public class GameScreen implements Screen {
 
 		background = new Texture(V.GAME_BACKGROUND_IMAGE);
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
+		font.setScale(V.HEIGHT * V.FONT_MEDIUM);
 		Gdx.input.setInputProcessor(inputHandler);
 
 		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		pauseScreen = new PauseWindow(font, this);
+		pauseScreen = new PauseWindow(font, this, game);
 		pauseScreen.setAsInputListener();
 	}
 	
 	public void end() {
+		game.stopAudio(gameMusic);
 		game.setScreen(new MenuScreen(game));
 	}
 
 	@Override
 	public void hide() {
+		game.stopAudio(gameMusic);
 	}
 
 	@Override
 	public void pause() {
+		game.stopAudio(gameMusic);
 	}
 
 	@Override
 	public void resume() {
-
+		game.playAudio(gameMusic);
 	}
 
 	@Override
@@ -298,14 +310,25 @@ public class GameScreen implements Screen {
 		font.dispose();
 		atlas.dispose();
 		pauseScreen.dispose();
+		bounce.dispose();
+		gameMusic.dispose();
 	}
 
 	/**
 	 * Pauses game.
 	 */
 	public void pauseGame() {
+		game.stopAudio(gameMusic);
 		gamePaused = true;
 		pauseScreen.setAsInputListener();
+	}
+	
+	/**
+	 * Returns true if game is started.
+	 * @return true if game is started, false otherwise.
+	 */
+	public boolean isStarted() {
+		return started;
 	}
 
 	/**
@@ -313,6 +336,8 @@ public class GameScreen implements Screen {
 	 * show.
 	 */
 	public void unPauseGame() {
+		started = true;
+		game.playAudio(gameMusic);
 		Gdx.input.setInputProcessor(inputHandler);
 		if (showInstructions) {
 			showInstructions = false;
@@ -345,5 +370,14 @@ public class GameScreen implements Screen {
 	 */
 	public ArrayList<Touchable> getTouchables() {
 		return touchables;
+	}
+	
+	/**
+	 * Plays bounce sound if t is pillow.
+	 * @param t to compare with
+	 */
+	public void bounce(Touchable t) {
+		if (t instanceof Pillow) // TODO Ugly
+			game.playAudio(bounce);
 	}
 }

@@ -116,14 +116,18 @@ public class MenuScreen implements Screen {
 		mutestyle.checked = skin.getDrawable(V.MENU_MUTED_REGION);
 		ImageButton buttonMute = new ImageButton(mutestyle);
 		buttonMute.setChecked(
-				Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME).getBoolean(SettingsScreen.PREFERENCE_MUTED,
+				Gdx.app.getPreferences(V.PREFERENCE_NAME).getBoolean(V.PREFERENCE_MUTED,
 				false));
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
-				boolean muted = prefs.getBoolean(SettingsScreen.PREFERENCE_MUTED, false);
-				prefs.putBoolean(SettingsScreen.PREFERENCE_MUTED, !muted);
+				Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+				boolean muted = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+				prefs.putBoolean(V.PREFERENCE_MUTED, !muted);
 				prefs.flush();
+				if (muted)
+					game.playBackgroundMusic();
+				else 
+					game.stopBackgroundMusic();
 			}
 		});
 
@@ -131,11 +135,13 @@ public class MenuScreen implements Screen {
 		// table.pad(10);
 		// table.add(title);
 		for (Button button : buttons) {
-			table.row().pad(10);
-			table.add(button).width(V.WIDTH / 2).height(V.HEIGHT / 6);
+			table.row().pad(5);
+			table.add(button).width(V.WIDTH / 2.5f).height(V.HEIGHT / 5);
 		}
-		table.row();
-		table.add(buttonMute).width(V.HEIGHT / 8).height(V.HEIGHT / 8).align(Align.right | Align.bottom);
+		//table.row();
+		//table.add(buttonMute).width(V.HEIGHT / 8).height(V.HEIGHT / 8).align(Align.right | Align.bottom);
+		buttonMute.setBounds(V.WIDTH - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
+		stage.addActor(buttonMute);
 	}
 
 	@Override
@@ -165,8 +171,8 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void show() {
-		// Make menu fade in smooth, yep, both table and the rest
 		Gdx.input.setInputProcessor(stage);
+		game.playBackgroundMusic();
 	}
 
 	@Override

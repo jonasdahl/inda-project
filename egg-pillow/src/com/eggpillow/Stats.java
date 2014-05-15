@@ -40,8 +40,8 @@ public class Stats {
 		lifeindicator = new LifeIndicator(atlas, lives);
 		scoreBoard = new ScoreBoard(atlas);
 		
-		Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
-		funMode = prefs.getBoolean(SettingsScreen.PREFERENCE_FUNMODE);
+		Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+		funMode = prefs.getBoolean(V.PREFERENCE_FUNMODE);
 	}
 	
 	public void update(float delta) {

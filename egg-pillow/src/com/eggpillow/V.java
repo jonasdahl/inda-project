@@ -9,16 +9,21 @@ import com.badlogic.gdx.Gdx;
  * @version 2014-05-09
  */
 public class V {
-	public static final float FONT_MEDIUM = 800f;
-	public static final float FONT_LARGE = 600f;
+	public static final float FONT_MEDIUM = 1/800f;
+	public static final float FONT_LARGE = 1/600f;
 
 	/** Height of the screen */
 	public static int HEIGHT;
 	/** Width of the screen */
 	public static int WIDTH;
 
-	public static final String TITLE = "Egg Pillow";
-	public static final String VERSION = "0.1.1";
+	public static final String TITLE = "Egg Pillow ";
+	public static final String VERSION = "1.0.0";
+	public static final String PREFERENCE_NAME = "EggPillow preferences";
+	public static final String PREFERENCE_MUTED = "muted";
+	public static final String PREFERENCE_HIGHSCORE = "highscore";
+	public static final String PREFERENCE_FUNMODE = "funmode";
+	public static final String PREFERENCE_MAP = "selectedMap";
 
 	public final static String FONT = "font/EggPillow.fnt";
 	// Paths to images or texture regions
@@ -27,6 +32,11 @@ public class V {
 	public final static String MENU_BACKGROUND_IMAGE = "backgrounds/menu_background.png";
 	public final static String SETTINGS_BACKGROUND_IMAGE = "backgrounds/settings_background.png"; // TODO change to settings background
 	public final static String SPLASH_BACKGROUND = "backgrounds/splash.png";
+	
+	// Sounds
+	public final static String BACKGROUND_SOUND = "audio/background.mp3";
+	public final static String GAME_SOUND = "audio/game.mp3";
+	public final static String BOUNCE_SOUND = "audio/bounce.mp3";
 	
 	//gameImg
 	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
@@ -42,6 +52,7 @@ public class V {
 	public final static String SCORE_BOARD_REGION = "result";
 	public final static String HEART_SCORE_REGION = "heart";
 	public final static String HEARTDARK_SCORE_REGION = "heart_dark";
+	public final static String MAIN_MENU_REGION = "main_menu"; // TODO (img) Add to pause atlas
 	
 	// Pause
 	public final static String PAUS_PACK = "pauseScreen/pausePack.pack";
@@ -114,7 +125,7 @@ public class V {
 
 	// Speeds
 	/** Width in percent of screen width. */
-	public final static float EGG_X_SPEED = 0.125f;
+	public final static float EGG_X_SPEED = 0.175f;
 	public final static float GRAVITATION = 1.5f;
 	public final static float GAMESPEED = 1f;
 
@@ -123,7 +134,7 @@ public class V {
 	public static final float TIME_BETWEEN_POWERUPS = 4f;
 
 	// Stats
-	public final static int LIVES = 10;
+	public final static int LIVES = 12;
 	public final static int ADD_LIVES = 3;
 
 	/** The standard background colors of the screen. */
