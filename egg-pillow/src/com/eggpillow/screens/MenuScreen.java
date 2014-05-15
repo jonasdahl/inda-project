@@ -2,13 +2,9 @@ package com.eggpillow.screens;
 
 import java.util.ArrayList;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,18 +12,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 import com.eggpillow.V;
-import com.eggpillow.tween.SpriteBatchAccessor;
-import com.eggpillow.tween.TableAccessor;
 
 /**
  * Menuscreen for EggPillow. Showed at the start and used to redirect the player to different gamemodes and settings.
+ * 
  * @author Jonas
  * @version 2014-05-09
  */
@@ -39,11 +36,10 @@ public class MenuScreen implements Screen {
 	private BitmapFont font;
 	private Skin skin;
 	private TextureAtlas buttonAtlas;
-	
+
 	private EggPillow game;
-	private ArrayList<TextButton> buttons;
+	private ArrayList<Button> buttons;
 	private Table table;
-	private TweenManager tweenManager;
 
 	/**
 	 * Constructor for MenuScreen.
@@ -53,12 +49,9 @@ public class MenuScreen implements Screen {
 	 */
 	public MenuScreen(EggPillow g) {
 		game = g;
-		buttons = new ArrayList<TextButton>();
-		tweenManager = new TweenManager();
+		buttons = new ArrayList<Button>();
 		batch = new SpriteBatch();
 		background = new Texture(V.MENU_BACKGROUND_IMAGE);
-		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
-		Tween.registerAccessor(Table.class, new TableAccessor());
 
 		// Create a table with the menu
 		table = new Table();
@@ -66,7 +59,7 @@ public class MenuScreen implements Screen {
 		stage = new Stage() {
 			@Override
 			public boolean keyDown(int keycode) {
-				if (keycode == Keys.BACK) {
+				if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 					game.exit();
 				}
 				return false;
@@ -83,14 +76,11 @@ public class MenuScreen implements Screen {
 		skin = new Skin();
 		buttonAtlas = new TextureAtlas(Gdx.files.internal(V.MENU_BUTTON_PACK));
 		skin.addRegions(buttonAtlas);
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("button");
-		textButtonStyle.down = skin.getDrawable("button");
-		textButtonStyle.checked = skin.getDrawable("button");
-		textButtonStyle.font = font;
 
 		// Add play button
-		TextButton buttonStart = new TextButton("Play", textButtonStyle);
+		ImageButtonStyle playstyle = new ImageButtonStyle();
+		playstyle.up = skin.getDrawable(V.MENU_PLAY_REGION);
+		ImageButton buttonStart = new ImageButton(playstyle);
 		buttonStart.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				fadeAwayTo(new GameScreen(game));
@@ -99,7 +89,9 @@ public class MenuScreen implements Screen {
 		buttons.add(buttonStart);
 
 		// Add settings button
-		TextButton buttonSettings = new TextButton("Settings", textButtonStyle);
+		ImageButtonStyle settingsstyle = new ImageButtonStyle();
+		settingsstyle.up = skin.getDrawable(V.MENU_SETTINGS_REGION);
+		ImageButton buttonSettings = new ImageButton(settingsstyle);
 		buttonSettings.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				fadeAwayTo(new SettingsScreen(game));
@@ -108,7 +100,9 @@ public class MenuScreen implements Screen {
 		buttons.add(buttonSettings);
 
 		// Add exit button
-		TextButton buttonExit = new TextButton("Exit", textButtonStyle);
+		ImageButtonStyle exitstyle = new ImageButtonStyle();
+		exitstyle.up = skin.getDrawable(V.MENU_EXIT_REGION);
+		ImageButton buttonExit = new ImageButton(exitstyle);
 		buttonExit.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.exit();
@@ -116,18 +110,36 @@ public class MenuScreen implements Screen {
 		});
 		buttons.add(buttonExit);
 
+		// Add mute button
+		ImageButtonStyle mutestyle = new ImageButtonStyle();
+		mutestyle.up = skin.getDrawable(V.MENU_UNMUTED_REGION);
+		mutestyle.checked = skin.getDrawable(V.MENU_MUTED_REGION);
+		ImageButton buttonMute = new ImageButton(mutestyle);
+		buttonMute.setChecked(
+				Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME).getBoolean(SettingsScreen.PREFERENCE_MUTED,
+				false));
+		buttonMute.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
+				boolean muted = prefs.getBoolean(SettingsScreen.PREFERENCE_MUTED, false);
+				prefs.putBoolean(SettingsScreen.PREFERENCE_MUTED, !muted);
+				prefs.flush();
+			}
+		});
+
 		// Actually add to table
 		// table.pad(10);
 		// table.add(title);
-		for (TextButton button : buttons) {
+		for (Button button : buttons) {
 			table.row().pad(10);
-			table.add(button).width(V.WIDTH/2).height(V.HEIGHT/6);
+			table.add(button).width(V.WIDTH / 2).height(V.HEIGHT / 6);
 		}
+		table.row();
+		table.add(buttonMute).width(V.HEIGHT / 8).height(V.HEIGHT / 8).align(Align.right | Align.bottom);
 	}
 
 	@Override
 	public void render(float delta) {
-		tweenManager.update(delta);
 		Texture.setEnforcePotImages(false);
 		EggPillow.setBackground();
 
@@ -143,13 +155,7 @@ public class MenuScreen implements Screen {
 	 * Fades table and menu away.
 	 */
 	public void fadeAwayTo(final Screen screen) {
-		Tween.set(table, TableAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(batch, TableAccessor.ALPHA, .25f).target(0).setCallback(new TweenCallback() {
-			@Override
-			public void onEvent(int arg0, BaseTween<?> arg1) {
-				game.setScreen(screen);
-			}
-		}).start(tweenManager);
+		game.setScreen(screen);
 	}
 
 	@Override
@@ -160,14 +166,7 @@ public class MenuScreen implements Screen {
 	@Override
 	public void show() {
 		// Make menu fade in smooth, yep, both table and the rest
-		Tween.set(batch, SpriteBatchAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(batch, SpriteBatchAccessor.ALPHA, .25f).target(1).start(tweenManager);
-
 		Gdx.input.setInputProcessor(stage);
-
-		// Show table - in a faded way ;)
-		Tween.set(table, TableAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(table, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 	}
 
 	@Override

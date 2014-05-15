@@ -1,0 +1,40 @@
+
+pausePack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+resume
+  rotate: false
+  xy: 1, 150
+  size: 648, 189
+  orig: 648, 189
+  offset: 0, 0
+  index: -1
+game_pillow
+  rotate: false
+  xy: 1, 13
+  size: 315, 135
+  orig: 315, 135
+  offset: 0, 0
+  index: -1
+sound_muted_button
+  rotate: false
+  xy: 651, 171
+  size: 170, 168
+  orig: 170, 168
+  offset: 0, 0
+  index: -1
+game_egg
+  rotate: false
+  xy: 823, 147
+  size: 140, 192
+  orig: 140, 192
+  offset: 0, 0
+  index: -1
+sound_unmuted_button
+  rotate: false
+  xy: 651, 1
+  size: 170, 168
+  orig: 170, 168
+  offset: 0, 0
+  index: -1

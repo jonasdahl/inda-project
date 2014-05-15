@@ -2,6 +2,7 @@ package com.eggpillow.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,9 +33,9 @@ public class PauseWindow {
 	private ShapeRenderer shapeRender;
 	private BitmapFont font;
 	private Stage buttonStage;
-	
+
 	private GameScreen gameScreen;
-	
+
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
 
@@ -50,14 +51,15 @@ public class PauseWindow {
 	private Label scoreLabel;
 	private Label highscoreLabel;
 
-
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
-	public PauseWindow(BitmapFont font, TextureAtlas atlas, GameScreen g) {
+	public PauseWindow(BitmapFont font, GameScreen g) {
 		this.gameScreen = g;
 		this.font = font;
-		eggRegion = atlas.findRegion(V.EGG_REGION);
-		pillowRegion = atlas.findRegion(V.PILLOW_REGION);
+		
+		TextureAtlas pauseAtlas = new TextureAtlas(V.PAUS_PACK);
+		eggRegion = pauseAtlas.findRegion(V.PAUS_EGG_REGION);
+		pillowRegion = pauseAtlas.findRegion(V.PAUSE_PILLOW_REGION);
 
 		pillowTable = new Table();
 		LabelStyle labelstyle = new LabelStyle(font, Color.BLACK);
@@ -106,18 +108,23 @@ public class PauseWindow {
 			}
 		};
 		Table imageTable = new Table();
-		TextureAtlas buttonAtlas = new TextureAtlas(V.BUTTON_PACK);
 		Skin skin = new Skin();
-		skin.addRegions(buttonAtlas);
+		skin.addRegions(pauseAtlas);
+
 		ImageButtonStyle muteStyle = new ImageButtonStyle();
 		muteStyle.up = skin.getDrawable(V.MUTE_REGION);
+		muteStyle.checked = skin.getDrawable(V.MUTE_CROSSED_REGION);
 		ImageButton muteButton = new ImageButton(muteStyle);
+		muteButton.setChecked(Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME).getBoolean(
+				SettingsScreen.PREFERENCE_MUTED));
 		muteButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				// TODO mutesound
+				Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
+				prefs.putBoolean(SettingsScreen.PREFERENCE_MUTED, false);
+				prefs.flush();
 			}
 		});
-		
+
 		ImageButtonStyle resumeStyle = new ImageButtonStyle();
 		resumeStyle.up = skin.getDrawable(V.RESUME_REGION);
 		ImageButton resumeButton = new ImageButton(resumeStyle);
@@ -131,13 +138,13 @@ public class PauseWindow {
 		});
 		imageTable.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		imageTable.add(muteButton).align(Align.right | Align.bottom).width(V.HEIGHT / 4).height(V.HEIGHT / 4);
-		imageTable.add(resumeButton).width(V.WIDTH / 2).height(V.HEIGHT / 4);
+		imageTable.add(resumeButton).width(V.WIDTH / 2).height(V.HEIGHT / 4).align(Align.left);
 		imageTable.pack();
 		buttonStage.addActor(imageTable);
 
 		shapeRender = new ShapeRenderer();
 	}
-	
+
 	public void setAsInputListener() {
 		Gdx.input.setInputProcessor(buttonStage);
 	}

@@ -1,0 +1,40 @@
+
+menuPack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+exit_button
+  rotate: false
+  xy: 1, 554
+  size: 648, 190
+  orig: 648, 190
+  offset: 0, 0
+  index: -1
+play_button
+  rotate: false
+  xy: 1, 362
+  size: 648, 190
+  orig: 648, 190
+  offset: 0, 0
+  index: -1
+settings_button
+  rotate: false
+  xy: 1, 171
+  size: 648, 189
+  orig: 648, 189
+  offset: 0, 0
+  index: -1
+sound_muted_button
+  rotate: false
+  xy: 651, 576
+  size: 170, 168
+  orig: 170, 168
+  offset: 0, 0
+  index: -1
+sound_unmuted_button
+  rotate: false
+  xy: 1, 1
+  size: 170, 168
+  orig: 170, 168
+  offset: 0, 0
+  index: -1

@@ -56,7 +56,7 @@ public class SplashScreen implements Screen {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
-		Texture texture = new Texture("img/splash.png"); // The texture of the splash
+		Texture texture = new Texture(V.SPLASH_BACKGROUND); // The texture of the splash
 		splash = new Sprite(texture); // The splash is wrapped in a Sprite
 		splash.setSize(V.WIDTH, V.HEIGHT);
 

@@ -246,7 +246,6 @@ public class GameScreen implements Screen {
 			pillow = new Pillow(touchables, .25f, V.CLIFF_WIDTH, atlas);
 		}
 		inputHandler = new InputHandlerGame(game, this, pillow);
-		// TODO Menu-fix (Jonas) // fattar inte / Johan
 
 		// Setup cliff
 		cliff = new Cliff(V.CLIFF_HEIGHT, atlas);
@@ -272,7 +271,7 @@ public class GameScreen implements Screen {
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		pauseScreen = new PauseWindow(font, atlas, this);
+		pauseScreen = new PauseWindow(font, this);
 		pauseScreen.setAsInputListener();
 	}
 	

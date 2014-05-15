@@ -2,8 +2,6 @@ package com.eggpillow;
 
 import com.badlogic.gdx.Gdx;
 
-// TODO Finalize // is done? / Johan
-
 /**
  * A class containing a vast number of constants and variables.
  * 
@@ -22,11 +20,16 @@ public class V {
 	public static final String TITLE = "Egg Pillow";
 	public static final String VERSION = "0.1.1";
 
-	// Paths to images or texture regions
 	public final static String FONT = "font/EggPillow.fnt";
-	public final static String GAME_BACKGROUND_IMAGE = "img/game_background.png";
-	public final static String MENU_BACKGROUND_IMAGE = "img/menu_background.png";
-	public final static String SETTINGS_BACKGROUND_IMAGE = "img/menu_background.png"; // TODO change to settings background
+	// Paths to images or texture regions
+	// Backgrounds
+	public final static String GAME_BACKGROUND_IMAGE = "backgrounds/game_background.png";
+	public final static String MENU_BACKGROUND_IMAGE = "backgrounds/menu_background.png";
+	public final static String SETTINGS_BACKGROUND_IMAGE = "backgrounds/settings_background.png"; // TODO change to settings background
+	public final static String SPLASH_BACKGROUND = "backgrounds/splash.png";
+	
+	//gameImg
+	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
 	public final static String EGG_REGION = "game_egg";
 	public final static String PILLOW_REGION = "game_pillow";
 	public final static String BASKET_REGION = "game_basket";
@@ -40,15 +43,30 @@ public class V {
 	public final static String HEART_SCORE_REGION = "heart";
 	public final static String HEARTDARK_SCORE_REGION = "heart_dark";
 	
-	public final static String BUTTON_PACK = "settingsScreen/buttonPack.pack"; // TODO
-	public final static String MUTE_REGION = "back_button"; // TODO 
-	public final static String MUTE_CROSSED_REGION = "back_button"; // TODO
-	public final static String RESUME_REGION = "fun_mode_off_button"; // TODO
-	public final static String RESUMECHECKED_REGION = "fun_mode_on_button"; // TODO
+	// Pause
+	public final static String PAUS_PACK = "pauseScreen/pausePack.pack";
+	public final static String MUTE_REGION = "sound_unmuted_button"; 
+	public final static String MUTE_CROSSED_REGION = "sound_muted_button";
+	public final static String RESUME_REGION = "resume";
+	public final static String PAUS_EGG_REGION = "game_egg";
+	public final static String PAUSE_PILLOW_REGION = "game_pillow";
 	
-	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
-	public final static String MENU_BUTTON_PACK = "ui/button.pack";
-	public final static String SETTINGS_BUTTON_PACK = "ui/settingsButton.pack";
+	// Settings
+	public final static String SETTINGS_BUTTON_PACK = "settingsScreen/buttonPack.pack";
+	public final static String SETTINGS_MUTE_ON_REGION = "sound_effects_on_button";
+	public final static String SETTINGS_MUTE_OFF_REGION = "sound_effects_off_button";
+	public final static String SETTINGS_FUN_ON_REGION = "fun_mode_on_button";
+	public final static String SETTINGS_FUN_OFF_REGION = "fun_mode_off_button";
+	public final static String SETTINGS_RESET_REGION = "reset_highscore_button";
+	public final static String SETTINGS_BACK_REGION = "back_button";
+	
+	// Menu
+	public final static String MENU_BUTTON_PACK = "menuScreen/menuPack.pack";
+	public final static String MENU_PLAY_REGION = "play_button";
+	public final static String MENU_SETTINGS_REGION = "settings_button";
+	public final static String MENU_EXIT_REGION = "exit_button";
+	public final static String MENU_MUTED_REGION = "sound_muted_button";
+	public final static String MENU_UNMUTED_REGION = "sound_unmuted_button";
 
 	// Sizes
 	/** In percent of screen height */

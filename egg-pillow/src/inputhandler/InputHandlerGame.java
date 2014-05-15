@@ -6,7 +6,6 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.Point;
 import com.eggpillow.V;
 import com.eggpillow.screens.GameScreen;
-import com.eggpillow.screens.MenuScreen;
 import com.eggpillow.sprites.Pillow;
 
 /**

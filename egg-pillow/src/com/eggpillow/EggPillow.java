@@ -14,9 +14,7 @@ import com.eggpillow.screens.SplashScreen;
  *   TODO (Prio low) Bitmap fonts don't typical scale well, especially at small sizes. It is suggested to use a separate bitmap font for each font size.
  *   
  *   // TODO (Prio high) Make sure everything is disposed.
- *   
- *   TODO DRAW:	settingsbackground
- */
+ */   
 
 /**
  * The main class that initiates and starts the game.
