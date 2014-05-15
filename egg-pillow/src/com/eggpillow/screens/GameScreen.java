@@ -265,14 +265,15 @@ public class GameScreen implements Screen {
 		eggs = new ArrayList<Egg>();
 
 		background = new Texture(V.GAME_BACKGROUND_IMAGE);
-		Gdx.input.setInputProcessor(inputHandler);
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
+		Gdx.input.setInputProcessor(inputHandler);
 
 		Tween.set(batch, TableAccessor.ALPHA).target(0).start(tweenManager);
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
 		pauseScreen = new PauseWindow(font, atlas, this);
+		pauseScreen.setAsInputListener();
 	}
 	
 	public void end() {

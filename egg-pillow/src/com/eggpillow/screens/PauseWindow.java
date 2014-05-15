@@ -110,19 +110,16 @@ public class PauseWindow {
 		Skin skin = new Skin();
 		skin.addRegions(buttonAtlas);
 		ImageButtonStyle muteStyle = new ImageButtonStyle();
-		muteStyle.checked = skin.getDrawable(V.MUTE_REGION);
-		muteStyle.checkedOver = skin.getDrawable(V.MUTE_REGION);
+		muteStyle.up = skin.getDrawable(V.MUTE_REGION);
 		ImageButton muteButton = new ImageButton(muteStyle);
 		muteButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				// TODO mutesound
 			}
 		});
-		imageTable.add(muteButton).align(Align.right | Align.bottom);
 		
 		ImageButtonStyle resumeStyle = new ImageButtonStyle();
-		resumeStyle.checked = skin.getDrawable(V.RESUME_REGION);
-		resumeStyle.checkedOver = skin.getDrawable(V.RESUMECHECKED_REGION);
+		resumeStyle.up = skin.getDrawable(V.RESUME_REGION);
 		ImageButton resumeButton = new ImageButton(resumeStyle);
 		resumeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -132,11 +129,11 @@ public class PauseWindow {
 				}
 			}
 		});
-		
+		imageTable.setBounds(0, 0, V.WIDTH, V.HEIGHT);
+		imageTable.add(muteButton).align(Align.right | Align.bottom).width(V.HEIGHT / 4).height(V.HEIGHT / 4);
+		imageTable.add(resumeButton).width(V.WIDTH / 2).height(V.HEIGHT / 4);
 		imageTable.pack();
 		buttonStage.addActor(imageTable);
-		buttonStage.addActor(resumeButton);
-		// TODO add buttonStage as listener
 
 		shapeRender = new ShapeRenderer();
 	}
@@ -173,7 +170,7 @@ public class PauseWindow {
 		// Instruction texts
 		pillowTable.draw(batch, 1);
 		eggTable.draw(batch, 1);
-		
+		batch.flush();
 		buttonStage.draw();
 	}
 
@@ -193,7 +190,7 @@ public class PauseWindow {
 		// Update score string
 		scoreLabel.setText("Score : " + score);
 		pauseTable.draw(batch, 1);
-		
+		batch.flush();
 		buttonStage.draw();
 	}
 
@@ -223,6 +220,8 @@ public class PauseWindow {
 			}
 		}
 		gameOverTable.draw(batch, 1);
+		batch.flush();
+		buttonStage.draw();
 	}
 
 	public void dispose() {
