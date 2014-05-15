@@ -78,7 +78,7 @@ public class LifeIndicator extends Sprite {
 	 *            Currentlives
 	 */
 	public void decreaseLives(int lives) {
-		while (drawnLives > lives && hearts.size() - drawnLives < lives && hearts.size() - drawnLives >= 0) {
+		while (drawnLives > lives) {
 			hearts.get(hearts.size() - drawnLives).setRegion(darkHeartRegion);
 			drawnLives--;
 		}
@@ -91,7 +91,7 @@ public class LifeIndicator extends Sprite {
 	 *            Currentlives
 	 */
 	public void increaseLives(int lives) {
-		while (drawnLives < lives && hearts.size() - drawnLives < lives && hearts.size() - drawnLives >= 0) {
+		while (drawnLives < lives) {
 			drawnLives++;
 			hearts.get(hearts.size() - drawnLives).setRegion(lightHeartRegion);
 		}
