@@ -1,5 +1,7 @@
 package com.eggpillow.sprites;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,6 +28,8 @@ public class Egg extends Touchable {
 	private TextureRegion arrow_region;
 
 	private float maxHeight;
+	
+	private Random random;
 
 	/**
 	 * Constructor for class Egg.
@@ -40,6 +44,7 @@ public class Egg extends Touchable {
 	public Egg(GameScreen gameScreen, float width, float height, TextureAtlas tAtlas) {
 		super(tAtlas.findRegion(V.EGG_REGION), ids.ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
+		random = new Random();
 
 		arrow_region = tAtlas.findRegion(V.ARROW_REGION);
 		game = gameScreen;
@@ -168,7 +173,7 @@ public class Egg extends Touchable {
 		// Reached left side!
 		if (getX() < 0) {
 			setX(0);
-			xSpeed = V.EGG_X_SPEED * V.WIDTH;
+			xSpeed = V.EGG_X_SPEED * V.WIDTH * (random.nextFloat() + 0.5f);
 		}
 	}
 
