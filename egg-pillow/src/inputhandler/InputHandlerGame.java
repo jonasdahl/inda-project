@@ -41,11 +41,6 @@ public class InputHandlerGame implements InputProcessor {
 		if (keycode == Keys.MENU) {
 			gameScreen.pauseGame();
 		} else if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
-			if (gameScreen.isPaused()) {
-				// Seems like user want's to quit, nah?
-				gameScreen.dispose();
-				game.setScreen(new MenuScreen(game));
-			}
 			gameScreen.pauseGame();
 		}
 		return false;

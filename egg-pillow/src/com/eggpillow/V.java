@@ -40,11 +40,11 @@ public class V {
 	public final static String HEART_SCORE_REGION = "heart";
 	public final static String HEARTDARK_SCORE_REGION = "heart_dark";
 	
-	public final static String BUTTON_PACK = ""; // TODO
-	public final static String MUTE_REGION = ""; // TODO 
-	public final static String MUTE_CROSSED_REGION = ""; // TODO
-	public final static String RESUME_REGION = ""; // TODO
-	public final static String RESUMECHECKED_REGION = ""; // TODO
+	public final static String BUTTON_PACK = "settingsScreen/buttonPack.pack"; // TODO
+	public final static String MUTE_REGION = "back_button"; // TODO 
+	public final static String MUTE_CROSSED_REGION = "back_button"; // TODO
+	public final static String RESUME_REGION = "fun_mode_off_button"; // TODO
+	public final static String RESUMECHECKED_REGION = "fun_mode_on_button"; // TODO
 	
 	public final static String GAME_IMAGE_PACK = "gameImg/EggPillow.pack";
 	public final static String MENU_BUTTON_PACK = "ui/button.pack";
