@@ -1,4 +1,4 @@
-package inputhandler;
+package com.eggpillow.inputhandler;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;

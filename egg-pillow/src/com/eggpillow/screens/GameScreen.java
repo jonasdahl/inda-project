@@ -1,7 +1,5 @@
 package com.eggpillow.screens;
 
-import inputhandler.InputHandlerGame;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -20,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.eggpillow.EggPillow;
 import com.eggpillow.Stats;
 import com.eggpillow.V;
+import com.eggpillow.inputhandler.InputHandlerGame;
 import com.eggpillow.sprites.Basket;
 import com.eggpillow.sprites.Cliff;
 import com.eggpillow.sprites.Egg;
