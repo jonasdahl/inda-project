@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.eggpillow.screens.SettingsScreen;
 import com.eggpillow.sprites.LifeIndicator;
 import com.eggpillow.sprites.ScoreBoard;
 

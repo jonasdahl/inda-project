@@ -30,7 +30,7 @@ public class V {
 	// Backgrounds
 	public final static String GAME_BACKGROUND_IMAGE = "backgrounds/game_background.png";
 	public final static String MENU_BACKGROUND_IMAGE = "backgrounds/menu_background.png";
-	public final static String SETTINGS_BACKGROUND_IMAGE = "backgrounds/settings_background.png"; // TODO change to settings background
+	public final static String SETTINGS_BACKGROUND_IMAGE = "backgrounds/settings_background.png";
 	public final static String SPLASH_BACKGROUND = "backgrounds/splash.png";
 	
 	// Sounds
@@ -52,7 +52,7 @@ public class V {
 	public final static String SCORE_BOARD_REGION = "result";
 	public final static String HEART_SCORE_REGION = "heart";
 	public final static String HEARTDARK_SCORE_REGION = "heart_dark";
-	public final static String MAIN_MENU_REGION = "main_menu"; // TODO (img) Add to pause atlas
+	public final static String MAIN_MENU_REGION = "main_menu";
 	
 	// Pause
 	public final static String PAUS_PACK = "pauseScreen/pausePack.pack";

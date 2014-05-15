@@ -118,14 +118,13 @@ public class GameScreen implements Screen {
 		}
 		cliff.draw(batch);
 		pillow.draw(batch);
-		stats.draw(batch);
 		
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
 		basket.draw(batch);
+		stats.draw(batch);
 		
-		batch.flush();
 		if (gamePaused) {
 			if (showInstructions) {
 				pauseScreen.drawInstructions(batch);

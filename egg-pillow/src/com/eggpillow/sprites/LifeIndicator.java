@@ -78,8 +78,8 @@ public class LifeIndicator extends Sprite {
 	 *            Currentlives
 	 */
 	public void decreaseLives(int lives) {
-		while (drawnLives > lives) { // TODO 19:07 15/5 Fick fel här E/AndroidRuntime(14062): java.lang.IndexOutOfBoundsException: Invalid index 10, size is 10
-			if (drawnLives <= hearts.size() || drawnLives >= 0) {
+		while (drawnLives > lives) {
+			if (drawnLives <= hearts.size() || drawnLives > 0) {
 				hearts.get(hearts.size() - drawnLives).setRegion(darkHeartRegion);
 				drawnLives--;
 			}

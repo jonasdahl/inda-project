@@ -107,8 +107,7 @@ public abstract class Touchable extends Sprite {
 			 */
 		} else if (ID == ids.SQUARE && t.ID == ids.ELLIPSE) {
 			if (insideSquare(t.getCircleEdge((float)v))) {
-				throw new Error("THIS WILL PROBABLY WORK BUT NEEDS TO BE TESTED");
-				// TODO test and return (float) v;
+				return (float) v;
 			}
 		} 
 		return -1; // No collision

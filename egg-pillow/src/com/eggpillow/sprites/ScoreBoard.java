@@ -31,7 +31,7 @@ public class ScoreBoard extends Sprite {
 		
 		font = new BitmapFont(Gdx.files.internal("font/EggPillow.fnt"), false);
 		font.setColor(1.0f, 1.0f, 0f, .7f);
-		font.setScale(V.HEIGHT / V.FONT_LARGE);
+		font.setScale(V.HEIGHT * V.FONT_LARGE);
 	}
 	
 	public void increaseScore() {
@@ -46,7 +46,6 @@ public class ScoreBoard extends Sprite {
 		int tens = (score - ones) % 100 / 10;
 		int hundreds = (score - ones - tens * 10) % 1000 / 100;
 		float startTop = getHeight() * .675f;
-
 		font.draw(batch, "" + ones, getX() + getWidth() * 0.725f, getY() + startTop);
 		font.draw(batch, "" + tens, getX() + getWidth() * 0.425f, getY() + startTop);
 		font.draw(batch, "" + hundreds, getX() + getWidth() * 0.125f, getY() + startTop);

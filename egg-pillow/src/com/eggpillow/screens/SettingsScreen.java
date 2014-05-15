@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 import com.eggpillow.V;
@@ -94,7 +93,7 @@ public class SettingsScreen implements Screen {
 		skin.addRegions(buttonAtlas);
 		
 		ImageButtonStyle mutestyle = new ImageButtonStyle();
-		mutestyle.up = skin.getDrawable(V.SETTINGS_MUTE_ON_REGION);  // TODO 
+		mutestyle.up = skin.getDrawable(V.SETTINGS_MUTE_ON_REGION);  
 		mutestyle.checked = skin.getDrawable(V.SETTINGS_MUTE_OFF_REGION);
 		ImageButton buttonMute = new ImageButton(mutestyle);
 		buttonMute.setChecked(mute);
