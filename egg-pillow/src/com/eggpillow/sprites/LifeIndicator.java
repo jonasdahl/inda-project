@@ -96,7 +96,7 @@ public class LifeIndicator extends Sprite {
 		while (drawnLives < lives) {
 			if (drawnLives < hearts.size() && drawnLives >= 0) {
 				drawnLives++;
-				hearts.get(hearts.size() - drawnLives).setRegion(lightHeartRegion);				
+				hearts.get(hearts.size() - drawnLives).setRegion(lightHeartRegion);
 			}
 		}
 	}

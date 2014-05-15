@@ -6,6 +6,7 @@ import com.eggpillow.Point;
 
 /**
  * Represents a sprite in the game with properties to make it able to collide with other touchables
+ * 
  * @author Johan & Jonas
  * @version 2014-05-09
  */
@@ -16,30 +17,36 @@ public abstract class Touchable extends Sprite {
 	protected float ySpeed;
 
 	protected final ids ID;
+
 	protected enum ids {
 		SQUARE, ELLIPSE
 	}
 
 	/**
 	 * Creates a new touchable.
-	 * @param aRegion the atlasRegion to use
-	 * @param id SQUARE or ELLIPSE
+	 * 
+	 * @param aRegion
+	 *            the atlasRegion to use
+	 * @param id
+	 *            SQUARE or ELLIPSE
 	 */
 	public Touchable(AtlasRegion aRegion, ids id) {
 		super(aRegion);
 		ID = id;
 	}
 
-	/** 
-	 * Returns x speed in percent of screen width per second. 
+	/**
+	 * Returns x speed in percent of screen width per second.
+	 * 
 	 * @return x speed in percent of screen width per second
 	 */
 	public float getXSpeed() {
 		return xSpeed;
 	}
 
-	/** 
-	 * Returns y speed in percent of screen width per second. 
+	/**
+	 * Returns y speed in percent of screen width per second.
+	 * 
 	 * @return y speed in percent of screen width per second
 	 */
 	public float getYSpeed() {
@@ -48,6 +55,7 @@ public abstract class Touchable extends Sprite {
 
 	/**
 	 * Checks if this object intersects with t.
+	 * 
 	 * @param t
 	 * @return angel. Negative angle if no intersections.
 	 */
@@ -68,7 +76,7 @@ public abstract class Touchable extends Sprite {
 		}
 		if (ID == ids.ELLIPSE && t.ID == ids.SQUARE) {
 			if (t.insideSquare(getCircleEdge((float) v))) {
-				return (float)v;
+				return (float) v;
 			}
 		} else if (ID == ids.SQUARE && t.ID == ids.SQUARE) {
 			int vX = 0;
@@ -102,20 +110,21 @@ public abstract class Touchable extends Sprite {
 			 * 
 			 * 90 0 90 270 0 270
 			 * 
-			 * 45 360 90 0 + 90 / 2 135 180 90 (180 + 90) / 2 225 180 270 (180 +
-			 * 270) /2 315 360 270 (270 + 360) / 2
+			 * 45 360 90 0 + 90 / 2 135 180 90 (180 + 90) / 2 225 180 270 (180 + 270) /2 315 360 270 (270 + 360) / 2
 			 */
 		} else if (ID == ids.SQUARE && t.ID == ids.ELLIPSE) {
-			if (insideSquare(t.getCircleEdge((float)v))) {
+			if (insideSquare(t.getCircleEdge((float) v))) {
 				return (float) v;
 			}
-		} 
+		}
 		return -1; // No collision
 	}
 
 	/**
 	 * Get a point on the edge.
-	 * @param v (radians) the angel from the positive x-axis
+	 * 
+	 * @param v
+	 *            (radians) the angel from the positive x-axis
 	 * @return the point on the edge if we go in the direction of v
 	 */
 	public Point getCircleEdge(float v) {
@@ -128,7 +137,9 @@ public abstract class Touchable extends Sprite {
 
 	/**
 	 * Checks if the point p is inside this square.
-	 * @param p the point (x, y)
+	 * 
+	 * @param p
+	 *            the point (x, y)
 	 * @return true if p is inside this square. else if not.
 	 */
 	public boolean insideSquare(Point p) {
@@ -140,22 +151,25 @@ public abstract class Touchable extends Sprite {
 
 	/**
 	 * Returns y center.
+	 * 
 	 * @return y center.
 	 */
 	public float getCenterX() {
 		return getX() + getWidth() / 2;
 	}
-	
+
 	/**
 	 * Returns x center.
+	 * 
 	 * @return x center.
 	 */
 	public float getCenterY() {
 		return getY() + getHeight() / 2;
 	}
-	
+
 	/**
 	 * Returns y softness.
+	 * 
 	 * @return y softness.
 	 */
 	public float getYSoftness() {
@@ -164,6 +178,7 @@ public abstract class Touchable extends Sprite {
 
 	/**
 	 * Returns x softness.
+	 * 
 	 * @return x softness.
 	 */
 	public float getXSoftness() {

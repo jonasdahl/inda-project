@@ -16,39 +16,40 @@ import com.eggpillow.screens.SplashScreen;
  *   TODO (Prio low-medium) Add predictions to intersects (use speed)
  *   TODO (Prio low) Bitmap fonts don't typical scale well, especially at small sizes. It is suggested to use a separate bitmap font for each font size.
  *   
- *   // TODO (Prio high) Make sure everything is disposed.
- */   
+ *   TODO Make sure everything is disposed.
+ */
 
 /**
  * The main class that initiates and starts the game.
+ * 
  * @author Johan & Jonas
- * @version 2014-05-10
+ * @version 2014-05-15
  */
 public class EggPillow extends Game {
 	FPSLogger fpslog;
 	private boolean debugMode = false;
 	private Music backgroundSound;
 	public Preferences prefs; // TODO private
- 	
+
 	/**
 	 * Sets background and starts splash screen.
 	 */
 	@Override
 	public void create() {
 		prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
-		Texture.setEnforcePotImages(false); // TODO Keep everywhere or just in one place?
+		Texture.setEnforcePotImages(false);
 		setBackground();
 		V.initV(); // Initialize V's values
-		
+
 		// Start splash screen
 		setScreen(new SplashScreen(this));
 
 		Gdx.input.setCatchBackKey(true);
-		
+
 		if (debugMode) {
-			fpslog = new FPSLogger();			
+			fpslog = new FPSLogger();
 		}
-		
+
 		backgroundSound = Gdx.audio.newMusic(Gdx.files.internal(V.BACKGROUND_SOUND));
 	}
 
@@ -59,7 +60,7 @@ public class EggPillow extends Game {
 		Gdx.gl.glClearColor(V.BG_R, V.BG_G, V.BG_B, V.BG_O);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
-	
+
 	/**
 	 * Dispose current screen and set the screen to newScreen
 	 */
@@ -83,7 +84,7 @@ public class EggPillow extends Game {
 	public void render() {
 		super.render();
 		if (debugMode) {
-			fpslog.log();			
+			fpslog.log();
 		}
 	}
 
@@ -101,34 +102,34 @@ public class EggPillow extends Game {
 	public void resume() {
 		super.resume();
 	}
-	
+
 	public void playBackgroundMusic() {
 		backgroundSound.setLooping(true);
 		playAudio(backgroundSound);
 	}
-	
+
 	public void stopBackgroundMusic() {
 		stopAudio(backgroundSound);
 	}
-	
+
 	public void playAudio(Music m) {
 		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
 			return;
 		}
 		m.play();
 	}
-	
+
 	public void playAudio(Sound m) {
 		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
 			return;
 		}
 		m.play();
 	}
-	
+
 	public void stopAudio(Music m) {
 		m.stop();
 	}
-	
+
 	public void stopAudio(Sound m) {
 		m.stop();
 	}

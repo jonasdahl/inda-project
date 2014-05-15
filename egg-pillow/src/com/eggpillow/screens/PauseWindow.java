@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 
 /**
@@ -27,7 +26,7 @@ import com.eggpillow.V;
  * 
  * 
  * @author Johan
- * @version 2014-05-11
+ * @version 2014-05-15
  */
 public class PauseWindow {
 	// Dispose
@@ -37,7 +36,6 @@ public class PauseWindow {
 	private ImageButton resumeButton;
 	private Skin skin;
 
-	private EggPillow game;
 	private GameScreen gameScreen;
 
 	private AtlasRegion eggRegion;
@@ -55,10 +53,9 @@ public class PauseWindow {
 
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
-	public PauseWindow(BitmapFont font, GameScreen g, EggPillow game) {
-		this.gameScreen = g;
+	public PauseWindow(BitmapFont font, GameScreen g) {
 		this.font = font;
-		this.game = game;
+		gameScreen = g;
 		font.setScale(V.HEIGHT * V.FONT_MEDIUM);
 		TextureAtlas pauseAtlas = new TextureAtlas(V.PAUS_PACK);
 		eggRegion = pauseAtlas.findRegion(V.PAUS_EGG_REGION);

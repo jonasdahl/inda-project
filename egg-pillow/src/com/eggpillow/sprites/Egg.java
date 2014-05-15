@@ -28,7 +28,7 @@ public class Egg extends Touchable {
 	private TextureRegion arrow_region;
 
 	private float maxHeight;
-	
+
 	private static Random random = new Random();
 
 	/**
@@ -183,8 +183,7 @@ public class Egg extends Touchable {
 	}
 
 	/**
-	 * Draw the egg to the batch if it has started. Draw a triangle under the
-	 * egg if egg is above screenheight.
+	 * Draw the egg to the batch if it has started. Draw a triangle under the egg if egg is above screenheight.
 	 */
 	@Override
 	public void draw(SpriteBatch batch) {

@@ -36,7 +36,7 @@ import com.eggpillow.tween.TableAccessor;
  * Gamescreen for EggPillow.
  * 
  * @author Johan & Jonas
- * @version 2014-05-09
+ * @version 2014-05-15
  */
 public class GameScreen implements Screen {
 	// Dispose
@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
 	private TweenManager tweenManager;
 	public static String message = "";
 	private Random random;
-	
+
 	// In game variables
 	private float totalDeltaPower;
 	private float randomTimePower;
@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
 	private boolean started = false;
 	private Sound bounce;
 	private Music gameMusic;
-	
+
 	// Sprites
 	private ArrayList<Touchable> touchables;
 	private Pillow pillow;
@@ -75,7 +75,6 @@ public class GameScreen implements Screen {
 	private Queue<PowerUp> removePowerups;
 	private ArrayList<Egg> eggs;
 	private Queue<Egg> removeEggs;
-
 
 	/**
 	 * Constructor for GameScreen
@@ -118,13 +117,13 @@ public class GameScreen implements Screen {
 		}
 		cliff.draw(batch);
 		pillow.draw(batch);
-		
+
 		for (Egg egg : eggs) {
 			egg.draw(batch);
 		}
 		basket.draw(batch);
 		stats.draw(batch);
-		
+
 		if (gamePaused) {
 			if (showInstructions) {
 				pauseScreen.drawInstructions(batch);
@@ -199,7 +198,7 @@ public class GameScreen implements Screen {
 			eggs.remove(removeEggs.poll());
 		}
 
-		//message = stats.getLives() + "/" + stats.startLives() + " lives left";
+		// message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
 		totalDeltaEgg += gameSpeedDelta;
@@ -241,7 +240,7 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 
 		atlas = new TextureAtlas(Gdx.files.internal(V.GAME_IMAGE_PACK));
-		
+
 		stats = new Stats(atlas, V.LIVES, V.GAMESPEED);
 
 		touchables = new ArrayList<Touchable>();
@@ -278,10 +277,10 @@ public class GameScreen implements Screen {
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		pauseScreen = new PauseWindow(font, this, game);
+		pauseScreen = new PauseWindow(font, this);
 		pauseScreen.setAsInputListener();
 	}
-	
+
 	public void end() {
 		game.stopAudio(gameMusic);
 		game.setScreen(new MenuScreen(game));
@@ -321,9 +320,10 @@ public class GameScreen implements Screen {
 		gamePaused = true;
 		pauseScreen.setAsInputListener();
 	}
-	
+
 	/**
 	 * Returns true if game is started.
+	 * 
 	 * @return true if game is started, false otherwise.
 	 */
 	public boolean isStarted() {
@@ -331,8 +331,7 @@ public class GameScreen implements Screen {
 	}
 
 	/**
-	 * Unpauses game if it is possible, ie when no instructions are actively
-	 * show.
+	 * Unpauses game if it is possible, ie when no instructions are actively show.
 	 */
 	public void unPauseGame() {
 		started = true;
@@ -370,13 +369,15 @@ public class GameScreen implements Screen {
 	public ArrayList<Touchable> getTouchables() {
 		return touchables;
 	}
-	
+
 	/**
 	 * Plays bounce sound if t is pillow.
-	 * @param t to compare with
+	 * 
+	 * @param t
+	 *            to compare with
 	 */
 	public void bounce(Touchable t) {
-		if (t instanceof Pillow) // TODO Ugly
+		if (t instanceof Pillow) // TODO improve
 			game.playAudio(bounce);
 	}
 }

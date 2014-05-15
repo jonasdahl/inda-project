@@ -6,7 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * An accessor for Tween enginge that makes values changeable.
- * @author jonas
+ * 
+ * @author Jonas
  * @version 2014-05-09
  */
 public class TableAccessor implements TweenAccessor<Table> {

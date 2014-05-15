@@ -9,8 +9,9 @@ import com.eggpillow.sprites.ScoreBoard;
 
 /**
  * Represents important stats which will change under the game.
+ * 
  * @author Johan & Jonas
- * @version 2014-05-09
+ * @version 2014-05-15
  */
 public class Stats {
 	private int startLives;
@@ -19,15 +20,16 @@ public class Stats {
 	private float timer;
 	private float lifeTime;
 	private int score;
-	
+
 	private boolean funMode = false;
-	
+
 	private LifeIndicator lifeindicator;
 	private ScoreBoard scoreBoard;
-	
+
 	/**
-	 * Stats-container 
-	 * @param lives 
+	 * Stats-container
+	 * 
+	 * @param lives
 	 * @param gameSpeed
 	 */
 	public Stats(TextureAtlas atlas, int lives, float gameSpeed) {
@@ -35,26 +37,26 @@ public class Stats {
 		this.lives = lives;
 		this.gameSpeed = gameSpeed;
 		timer = 0;
-		
+
 		lifeindicator = new LifeIndicator(atlas, lives);
 		scoreBoard = new ScoreBoard(atlas);
-		
+
 		Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
 		funMode = prefs.getBoolean(V.PREFERENCE_FUNMODE);
 	}
-	
+
 	public void update(float delta) {
 		timer += delta;
 		if (getGameSpeed() != V.GAMESPEED && timer > lifeTime) {
 			changeGameSpeed(V.GAMESPEED, -1);
 		}
 	}
-	
+
 	public void draw(SpriteBatch batch) {
 		lifeindicator.draw(batch);
 		scoreBoard.draw(batch);
 	}
-	
+
 	/**
 	 * @return true if funmode is on.
 	 */
@@ -68,24 +70,26 @@ public class Stats {
 	public int startLives() {
 		return startLives;
 	}
-	
+
 	/**
 	 * @return the lives
 	 */
 	public int getLives() {
 		return lives;
 	}
-	
+
 	/**
 	 * @return the game speed
 	 */
 	public float getGameSpeed() {
 		return gameSpeed;
 	}
-	
+
 	/**
 	 * Set the game speed
-	 * @param speed new gamespeed
+	 * 
+	 * @param speed
+	 *            new gamespeed
 	 */
 	public void changeGameSpeed(float speed, int time) {
 		gameSpeed = V.GAMESPEED * speed;
@@ -99,25 +103,26 @@ public class Stats {
 		lives -= 1;
 		lifeindicator.decreaseLives(lives);
 	}
-	
+
 	/**
 	 * Adds lives
 	 * 
-	 * @param newLives Amount of lives to add.
+	 * @param newLives
+	 *            Amount of lives to add.
 	 */
 	public void addLives(int newLives) {
 		lives += newLives;
 		if (lives > startLives) {
-			lives = startLives;			
+			lives = startLives;
 		}
 		lifeindicator.increaseLives(lives);
 	}
-	
+
 	public void addScore() {
 		score++;
 		scoreBoard.increaseScore();
 	}
-	
+
 	public int getScore() {
 		return score;
 	}

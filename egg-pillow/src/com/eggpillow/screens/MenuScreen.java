@@ -25,7 +25,7 @@ import com.eggpillow.V;
  * Menuscreen for EggPillow. Showed at the start and used to redirect the player to different gamemodes and settings.
  * 
  * @author Jonas
- * @version 2014-05-09
+ * @version 2014-05-15
  */
 public class MenuScreen implements Screen {
 	// Dispose
@@ -69,7 +69,7 @@ public class MenuScreen implements Screen {
 
 		// Font is fun!
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
-		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
+		font.setScale(V.HEIGHT * V.FONT_MEDIUM);
 
 		// Start styling buttons
 		skin = new Skin();
@@ -114,9 +114,7 @@ public class MenuScreen implements Screen {
 		mutestyle.up = skin.getDrawable(V.MENU_UNMUTED_REGION);
 		mutestyle.checked = skin.getDrawable(V.MENU_MUTED_REGION);
 		ImageButton buttonMute = new ImageButton(mutestyle);
-		buttonMute.setChecked(
-				Gdx.app.getPreferences(V.PREFERENCE_NAME).getBoolean(V.PREFERENCE_MUTED,
-				false));
+		buttonMute.setChecked(Gdx.app.getPreferences(V.PREFERENCE_NAME).getBoolean(V.PREFERENCE_MUTED, false));
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
@@ -125,27 +123,21 @@ public class MenuScreen implements Screen {
 				prefs.flush();
 				if (muted)
 					game.playBackgroundMusic();
-				else 
+				else
 					game.stopBackgroundMusic();
 			}
 		});
 
-		// Actually add to table
-		// table.pad(10);
-		// table.add(title);
 		for (Button button : buttons) {
 			table.row().pad(5);
 			table.add(button).width(V.WIDTH / 2.5f).height(V.HEIGHT / 5);
 		}
-		//table.row();
-		//table.add(buttonMute).width(V.HEIGHT / 8).height(V.HEIGHT / 8).align(Align.right | Align.bottom);
 		buttonMute.setBounds(V.WIDTH - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
 		stage.addActor(buttonMute);
 	}
 
 	@Override
 	public void render(float delta) {
-		Texture.setEnforcePotImages(false);
 		EggPillow.setBackground();
 
 		batch.begin();

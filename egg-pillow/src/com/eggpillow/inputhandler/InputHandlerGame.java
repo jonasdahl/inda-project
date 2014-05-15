@@ -10,19 +10,23 @@ import com.eggpillow.sprites.Pillow;
 
 /**
  * Handles input on game screen.
+ * 
  * @author Johan & Jonas
- * @version 2014-05-09
+ * @version 2014-05-14
  */
 public class InputHandlerGame implements InputProcessor {
 	private Point nextPillowPosition;
 	GameScreen gameScreen;
 	EggPillow game;
 	Pillow pillow;
-	
+
 	/**
 	 * Creates a new input handler for a game.
-	 * @param g a reference to the main game object
-	 * @param gs a reference to the game screen
+	 * 
+	 * @param g
+	 *            a reference to the main game object
+	 * @param gs
+	 *            a reference to the game screen
 	 */
 	public InputHandlerGame(EggPillow g, GameScreen gs, Pillow p) {
 		gameScreen = gs;
@@ -32,8 +36,7 @@ public class InputHandlerGame implements InputProcessor {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * Pauses the game.
+	 * {@inheritDoc} Pauses the game.
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
@@ -56,13 +59,12 @@ public class InputHandlerGame implements InputProcessor {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * Updates lastPosition and handles pause.
+	 * {@inheritDoc} Updates lastPosition and handles pause.
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (pillow.inside(screenX, screenY, V.PILLOW_WIDTH / 2, V.PILLOW_HEIGHT / 2)) {
-			nextPillowPosition = new Point(screenX, V.HEIGHT- screenY);
+			nextPillowPosition = new Point(screenX, V.HEIGHT - screenY);
 		}
 		return false;
 	}
@@ -73,8 +75,7 @@ public class InputHandlerGame implements InputProcessor {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * Updates lastPosition.
+	 * {@inheritDoc} Updates lastPosition.
 	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
@@ -91,17 +92,19 @@ public class InputHandlerGame implements InputProcessor {
 	public boolean scrolled(int amount) {
 		return false;
 	}
-	
+
 	/**
 	 * Returns the last known position of the mouse/finger.
 	 */
 	public Point getLocation() {
 		return nextPillowPosition;
 	}
-	
+
 	/**
 	 * Sends commands to Pillows and stuff.
-	 * @param delta time since last update seconds
+	 * 
+	 * @param delta
+	 *            time since last update seconds
 	 */
 	public void update(float delta) {
 		pillow.setLocation(nextPillowPosition);
