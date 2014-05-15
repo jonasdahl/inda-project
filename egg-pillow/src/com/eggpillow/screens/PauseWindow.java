@@ -1,5 +1,7 @@
 package com.eggpillow.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,10 +9,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.V;
 
 /**
@@ -23,7 +31,10 @@ public class PauseWindow {
 	// Dispose
 	private ShapeRenderer shapeRender;
 	private BitmapFont font;
-
+	private Stage buttonStage;
+	
+	private GameScreen gameScreen;
+	
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
 
@@ -36,14 +47,14 @@ public class PauseWindow {
 	private Table pauseTable;
 	private Table gameOverTable;
 
-	Label scoreLabel;
-	Label highscoreLabel;
+	private Label scoreLabel;
+	private Label highscoreLabel;
+
 
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
-
-
-	public PauseWindow(BitmapFont font, TextureAtlas atlas) {
+	public PauseWindow(BitmapFont font, TextureAtlas atlas, GameScreen g) {
+		this.gameScreen = g;
 		this.font = font;
 		eggRegion = atlas.findRegion(V.EGG_REGION);
 		pillowRegion = atlas.findRegion(V.PILLOW_REGION);
@@ -85,7 +96,53 @@ public class PauseWindow {
 		gameOverTable.add(highscoreLabel).minWidth(V.WIDTH * 4 / 5);
 		gameOverTable.pack();
 
+		buttonStage = new Stage() {
+			@Override
+			public boolean keyDown(int keycode) {
+				if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
+					gameScreen.end();
+				}
+				return false;
+			}
+		};
+		Table imageTable = new Table();
+		TextureAtlas buttonAtlas = new TextureAtlas(V.BUTTON_PACK);
+		Skin skin = new Skin();
+		skin.addRegions(buttonAtlas);
+		ImageButtonStyle muteStyle = new ImageButtonStyle();
+		muteStyle.checked = skin.getDrawable(V.MUTE_REGION);
+		muteStyle.checkedOver = skin.getDrawable(V.MUTE_REGION);
+		ImageButton muteButton = new ImageButton(muteStyle);
+		muteButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				// TODO mutesound
+			}
+		});
+		imageTable.add(muteButton).align(Align.right | Align.bottom);
+		
+		ImageButtonStyle resumeStyle = new ImageButtonStyle();
+		resumeStyle.checked = skin.getDrawable(V.RESUME_REGION);
+		resumeStyle.checkedOver = skin.getDrawable(V.RESUMECHECKED_REGION);
+		ImageButton resumeButton = new ImageButton(resumeStyle);
+		resumeButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				gameScreen.unPauseGame();
+				if (gameScreen.gameIsOver()) {
+					gameScreen.end();
+				}
+			}
+		});
+		
+		imageTable.pack();
+		buttonStage.addActor(imageTable);
+		buttonStage.addActor(resumeButton);
+		// TODO add buttonStage as listener
+
 		shapeRender = new ShapeRenderer();
+	}
+	
+	public void setAsInputListener() {
+		Gdx.input.setInputProcessor(buttonStage);
 	}
 
 	/**
@@ -116,6 +173,8 @@ public class PauseWindow {
 		// Instruction texts
 		pillowTable.draw(batch, 1);
 		eggTable.draw(batch, 1);
+		
+		buttonStage.draw();
 	}
 
 	/**
@@ -134,6 +193,8 @@ public class PauseWindow {
 		// Update score string
 		scoreLabel.setText("Score : " + score);
 		pauseTable.draw(batch, 1);
+		
+		buttonStage.draw();
 	}
 
 	/**
@@ -167,6 +228,7 @@ public class PauseWindow {
 	public void dispose() {
 		shapeRender.dispose();
 		font.dispose();
+		buttonStage.dispose();
 	}
 
 }

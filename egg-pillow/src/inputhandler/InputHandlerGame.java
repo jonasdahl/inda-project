@@ -70,13 +70,6 @@ public class InputHandlerGame implements InputProcessor {
 		if (pillow.inside(screenX, screenY, V.PILLOW_WIDTH / 2, V.PILLOW_HEIGHT / 2)) {
 			nextPillowPosition = new Point(screenX, V.HEIGHT- screenY);
 		}
-		if (gameScreen.isPaused()) {
-			gameScreen.unPauseGame();
-			if (gameScreen.gameIsOver()) {
-				gameScreen.dispose();
-				game.setScreen(new MenuScreen(game));
-			}
-		}
 		return false;
 	}
 
