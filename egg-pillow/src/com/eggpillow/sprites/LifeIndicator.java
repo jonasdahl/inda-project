@@ -79,8 +79,10 @@ public class LifeIndicator extends Sprite {
 	 */
 	public void decreaseLives(int lives) {
 		while (drawnLives > lives) {
-			hearts.get(hearts.size() - drawnLives).setRegion(darkHeartRegion);
-			drawnLives--;
+			if (drawnLives <= hearts.size() || drawnLives >= 0) {
+				hearts.get(hearts.size() - drawnLives).setRegion(darkHeartRegion);
+				drawnLives--;
+			}
 		}
 	}
 
@@ -92,8 +94,10 @@ public class LifeIndicator extends Sprite {
 	 */
 	public void increaseLives(int lives) {
 		while (drawnLives < lives) {
-			drawnLives++;
-			hearts.get(hearts.size() - drawnLives).setRegion(lightHeartRegion);
+			if (drawnLives < hearts.size() && drawnLives >= 0) {
+				drawnLives++;
+				hearts.get(hearts.size() - drawnLives).setRegion(lightHeartRegion);				
+			}
 		}
 	}
 
