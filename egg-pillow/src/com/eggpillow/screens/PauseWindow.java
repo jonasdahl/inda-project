@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 
 /**
@@ -33,29 +34,31 @@ public class PauseWindow {
 	private ShapeRenderer shapeRender;
 	private BitmapFont font;
 	private Stage buttonStage;
-
+	private ImageButton resumeButton;
+	private Skin skin;
+	
+	private EggPillow game;
 	private GameScreen gameScreen;
 
 	private AtlasRegion eggRegion;
 	private AtlasRegion pillowRegion;
 
-	private String pillowDesc = "Here is your Pillow use it to save the eggs.";
-	private String eggDesc = "Here is an egg.";
-	private String pauseDesc = "Touch the screen to resume your game";
+	private String pillowDesc = "Here is your pillow. Use it to save the eggs.";
+	private String eggDesc = "Here is an example egg.";
 
 	private Table pillowTable;
 	private Table eggTable;
 	private Table pauseTable;
 	private Table gameOverTable;
 
-	private Label scoreLabel;
 	private Label highscoreLabel;
 
 	private Color pauseColor = new Color(0, 0, 0, 0.5f);
 
-	public PauseWindow(BitmapFont font, GameScreen g) {
+	public PauseWindow(BitmapFont font, GameScreen g, EggPillow game) {
 		this.gameScreen = g;
 		this.font = font;
+		this.game = game;
 		
 		TextureAtlas pauseAtlas = new TextureAtlas(V.PAUS_PACK);
 		eggRegion = pauseAtlas.findRegion(V.PAUS_EGG_REGION);
@@ -65,7 +68,7 @@ public class PauseWindow {
 		LabelStyle labelstyle = new LabelStyle(font, Color.BLACK);
 		Label pillowLabel = new Label(pillowDesc, labelstyle);
 		pillowLabel.setWrap(true);
-		pillowTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.PILLOW_WIDTH * 1.2f), V.HEIGHT / 4);
+		pillowTable.setPosition(V.WIDTH * (V.CLIFF_WIDTH + V.PILLOW_WIDTH * 1.2f), V.HEIGHT * 0.1f);
 		pillowTable.add(pillowLabel).minWidth(V.WIDTH / 2);
 		pillowTable.pack();
 
@@ -77,14 +80,8 @@ public class PauseWindow {
 		eggTable.pack();
 
 		pauseTable = new Table();
-		Label pauseLabel = new Label(pauseDesc, labelstyle);
-		pauseLabel.setWrap(true);
-		scoreLabel = new Label("Score : 000", labelstyle);
-		scoreLabel.setWrap(true);
 		pauseTable.setPosition(V.WIDTH / 5, V.HEIGHT / 2);
-		pauseTable.add(pauseLabel).minWidth(V.WIDTH * 4 / 5).align(Align.left);
 		pauseTable.row();
-		pauseTable.add(scoreLabel).minWidth(V.WIDTH * 4 / 5);
 		pauseTable.pack();
 
 		gameOverTable = new Table();
@@ -107,40 +104,49 @@ public class PauseWindow {
 				return false;
 			}
 		};
-		Table imageTable = new Table();
-		Skin skin = new Skin();
+		skin = new Skin();
 		skin.addRegions(pauseAtlas);
+		skin.addRegions(new TextureAtlas(V.MENU_BUTTON_PACK));
 
 		ImageButtonStyle muteStyle = new ImageButtonStyle();
 		muteStyle.up = skin.getDrawable(V.MUTE_REGION);
 		muteStyle.checked = skin.getDrawable(V.MUTE_CROSSED_REGION);
 		ImageButton muteButton = new ImageButton(muteStyle);
-		muteButton.setChecked(Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME).getBoolean(
-				SettingsScreen.PREFERENCE_MUTED));
+		muteButton.setChecked(Gdx.app.getPreferences(V.PREFERENCE_NAME).getBoolean(
+				V.PREFERENCE_MUTED));
 		muteButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Preferences prefs = Gdx.app.getPreferences(SettingsScreen.PREFERENCE_NAME);
-				prefs.putBoolean(SettingsScreen.PREFERENCE_MUTED, false);
+				Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+				boolean muted = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+				prefs.putBoolean(V.PREFERENCE_MUTED, !muted);
 				prefs.flush();
 			}
 		});
 
-		ImageButtonStyle resumeStyle = new ImageButtonStyle();
-		resumeStyle.up = skin.getDrawable(V.RESUME_REGION);
-		ImageButton resumeButton = new ImageButton(resumeStyle);
+		final ImageButtonStyle resumeStyle = new ImageButtonStyle();
+		if (gameScreen.isStarted())
+			resumeStyle.up = skin.getDrawable(V.RESUME_REGION);
+//		else if (gameScreen.gameIsOver())
+//			resumeStyle.up = skin.getDrawable(V.MAIN_MENU_REGION); TODO (img) Remove comments when added to atlas (add main_menu.png to pause atlas)
+		else
+			resumeStyle.up = skin.getDrawable(V.MENU_PLAY_REGION);
+		resumeButton = new ImageButton(resumeStyle);
 		resumeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				gameScreen.unPauseGame();
+				resumeStyle.up = skin.getDrawable(V.RESUME_REGION);
 				if (gameScreen.gameIsOver()) {
 					gameScreen.end();
 				}
 			}
 		});
-		imageTable.setBounds(0, 0, V.WIDTH, V.HEIGHT);
-		imageTable.add(muteButton).align(Align.right | Align.bottom).width(V.HEIGHT / 4).height(V.HEIGHT / 4);
-		imageTable.add(resumeButton).width(V.WIDTH / 2).height(V.HEIGHT / 4).align(Align.left);
-		imageTable.pack();
-		buttonStage.addActor(imageTable);
+		//imageTable.add(muteButton).align(Align.right | Align.bottom).width(V.HEIGHT / 4).height(V.HEIGHT / 4);
+		muteButton.setBounds(V.WIDTH - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
+		float width = V.WIDTH / 2.5f;
+		float height = V.HEIGHT / 5f;
+		resumeButton.setBounds(V.WIDTH / 2 - width / 2, V.HEIGHT / 2 - height / 2, width, height);
+		buttonStage.addActor(muteButton);
+		buttonStage.addActor(resumeButton);
 
 		shapeRender = new ShapeRenderer();
 	}
@@ -164,7 +170,7 @@ public class PauseWindow {
 		shapeRender.begin(ShapeType.Circle);
 		shapeRender.setColor(Color.RED);
 		// Draw pillow circle
-		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.PILLOW_WIDTH * V.WIDTH / 2, V.HEIGHT / 4 + V.PILLOW_HEIGHT
+		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.PILLOW_WIDTH * V.WIDTH / 2, V.HEIGHT / 10 + V.PILLOW_HEIGHT
 				* V.HEIGHT / 2, V.WIDTH * V.PILLOW_WIDTH / 2 * 1.2f);
 		// Draw egg circle
 		shapeRender.circle(V.CLIFF_WIDTH * V.WIDTH + V.EGG_WIDTH * V.WIDTH / 2, V.HEIGHT * 3 / 4 + V.EGG_HEIGHT
@@ -172,7 +178,7 @@ public class PauseWindow {
 		shapeRender.end();
 		// Draw egg and pillow
 		batch.draw(eggRegion, V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT * 3 / 4, V.WIDTH * V.EGG_WIDTH, V.HEIGHT * V.EGG_HEIGHT);
-		batch.draw(pillowRegion, V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT / 4, V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * 0.1f);
+		batch.draw(pillowRegion, V.WIDTH * V.CLIFF_WIDTH, V.HEIGHT / 10, V.WIDTH * V.PILLOW_WIDTH, V.HEIGHT * 0.1f);
 
 		// Instruction texts
 		pillowTable.draw(batch, 1);
@@ -195,7 +201,6 @@ public class PauseWindow {
 		shapeRender.end();
 
 		// Update score string
-		scoreLabel.setText("Score : " + score);
 		pauseTable.draw(batch, 1);
 		batch.flush();
 		buttonStage.draw();
@@ -217,6 +222,8 @@ public class PauseWindow {
 		shapeRender.setColor(pauseColor);
 		shapeRender.filledRect(0, 0, V.WIDTH, V.HEIGHT);
 		shapeRender.end();
+		
+		//resumeButton.getStyle().up = skin.getDrawable(V.MAIN_MENU_REGION); TODO (img) Uncomment when done
 
 		// Score text
 		if (highscoreLabel.getText().length() < 1) {
