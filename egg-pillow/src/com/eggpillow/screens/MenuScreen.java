@@ -137,7 +137,7 @@ public class MenuScreen implements Screen {
 	}
 	
 	/**
-	 * Draws menubackground and buttons.
+	 * Draws menu background and buttons.
 	 */
 	@Override
 	public void render(float delta) {

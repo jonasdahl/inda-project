@@ -33,6 +33,7 @@ public class SettingsScreen implements Screen {
 	private BitmapFont font;
 
 	private Table table;
+	/** Used for displaying the highscore*/
 	private String message = "Hello";
 
 	Preferences prefs;
