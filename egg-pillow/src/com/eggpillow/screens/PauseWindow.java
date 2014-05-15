@@ -146,6 +146,9 @@ public class PauseWindow {
 		shapeRender = new ShapeRenderer();
 	}
 
+	/**
+	 * Set pauseWindow as input listener. // TODO improve
+	 */
 	public void setAsInputListener() {
 		Gdx.input.setInputProcessor(buttonStage);
 	}

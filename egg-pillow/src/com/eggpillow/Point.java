@@ -60,7 +60,11 @@ public class Point {
 	public void setY(float y) {
 		this.y = y;
 	}
-
+	
+	/**
+	 * Return a string of this point's coordinate on the form "(x, y)"
+	 * @return String with coordinates (x, y)
+	 */
 	public String toString() {
 		return "(" + x + ", " + y + ")";
 	}

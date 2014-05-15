@@ -50,7 +50,6 @@ public class GameScreen implements Screen {
 	private InputHandlerGame inputHandler;
 	private EggPillow game;
 	private TweenManager tweenManager;
-	public static String message = "";
 	private Random random;
 
 	// In game variables
@@ -62,6 +61,8 @@ public class GameScreen implements Screen {
 	private boolean gameOver = false;
 	private boolean newHighscore = false;
 	private boolean started = false;
+	
+	// Sound
 	private Sound bounce;
 	private Music gameMusic;
 
@@ -88,7 +89,10 @@ public class GameScreen implements Screen {
 		game = g;
 		random = new Random();
 	}
-
+	
+	/**
+	 * Updates and draws all sprites. 
+	 */
 	@Override
 	public void render(float delta) {
 		batch.begin();
@@ -197,8 +201,6 @@ public class GameScreen implements Screen {
 		while (removeEggs.size() > 3) {
 			eggs.remove(removeEggs.poll());
 		}
-
-		// message = stats.getLives() + "/" + stats.startLives() + " lives left";
 
 		// Start eggs that should start
 		totalDeltaEgg += gameSpeedDelta;

@@ -41,6 +41,9 @@ public class SettingsScreen implements Screen {
 		game = g;
 	}
 
+	/**
+	 * Draw settings background and buttons.
+	 */
 	@Override
 	public void render(float delta) {
 		EggPillow.setBackground();

@@ -135,21 +135,24 @@ public class MenuScreen implements Screen {
 		buttonMute.setBounds(V.WIDTH - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
 		stage.addActor(buttonMute);
 	}
-
+	
+	/**
+	 * Draws menubackground and buttons.
+	 */
 	@Override
 	public void render(float delta) {
 		EggPillow.setBackground();
 
 		batch.begin();
 		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		batch.end();
 		stage.act(delta);
 		stage.draw();
 	}
 
 	/**
-	 * Fades table and menu away.
+	 * TODO Fades table and menu away.
+	 * Changes screen to next screen.
 	 */
 	public void fadeAwayTo(final Screen screen) {
 		game.setScreen(screen);

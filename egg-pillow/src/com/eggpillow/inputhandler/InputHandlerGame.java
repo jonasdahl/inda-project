@@ -36,7 +36,7 @@ public class InputHandlerGame implements InputProcessor {
 	}
 
 	/**
-	 * {@inheritDoc} Pauses the game.
+	 * {@inheritDoc}. Pauses the game.
 	 */
 	@Override
 	public boolean keyDown(int keycode) {
@@ -95,6 +95,7 @@ public class InputHandlerGame implements InputProcessor {
 
 	/**
 	 * Returns the last known position of the mouse/finger.
+	 * @return Position of the mouse/finger.
 	 */
 	public Point getLocation() {
 		return nextPillowPosition;

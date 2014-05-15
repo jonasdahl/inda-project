@@ -27,7 +27,7 @@ public class Stats {
 	private ScoreBoard scoreBoard;
 
 	/**
-	 * Stats-container
+	 * Stats-container.
 	 * 
 	 * @param lives
 	 * @param gameSpeed
@@ -52,6 +52,12 @@ public class Stats {
 		}
 	}
 
+	/**
+	 * Draw lifeindicator and scoreboard to the batch.
+	 * 
+	 * @param batch
+	 *            The batch to draw to.
+	 */
 	public void draw(SpriteBatch batch) {
 		lifeindicator.draw(batch);
 		scoreBoard.draw(batch);
@@ -65,21 +71,21 @@ public class Stats {
 	}
 
 	/**
-	 * @return the lives
+	 * @return the maximum lives.
 	 */
 	public int startLives() {
 		return startLives;
 	}
 
 	/**
-	 * @return the lives
+	 * @return the lives.
 	 */
 	public int getLives() {
 		return lives;
 	}
 
 	/**
-	 * @return the game speed
+	 * @return the current game speed.
 	 */
 	public float getGameSpeed() {
 		return gameSpeed;
@@ -90,6 +96,8 @@ public class Stats {
 	 * 
 	 * @param speed
 	 *            new gamespeed
+	 * @param time
+	 *            time until gamespeed goes back to normal.
 	 */
 	public void changeGameSpeed(float speed, int time) {
 		gameSpeed = V.GAMESPEED * speed;
@@ -117,12 +125,18 @@ public class Stats {
 		}
 		lifeindicator.increaseLives(lives);
 	}
-
+	
+	/**
+	 * Increase the score with 1.
+	 */
 	public void addScore() {
 		score++;
 		scoreBoard.increaseScore();
 	}
 
+	/**
+	 * @return The score.
+	 */
 	public int getScore() {
 		return score;
 	}

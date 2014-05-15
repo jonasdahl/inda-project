@@ -103,34 +103,56 @@ public class EggPillow extends Game {
 		super.resume();
 	}
 
+	/**
+	 * Starts the background music. Will loop.
+	 */
 	public void playBackgroundMusic() {
 		backgroundSound.setLooping(true);
 		playAudio(backgroundSound);
 	}
 
+	/**
+	 * Stops the background music
+	 */
 	public void stopBackgroundMusic() {
 		stopAudio(backgroundSound);
 	}
-
+	
+	/**
+	 * Play music m.
+	 * @param m Music to be played
+	 */
 	public void playAudio(Music m) {
 		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
 			return;
 		}
 		m.play();
 	}
-
-	public void playAudio(Sound m) {
-		if (m == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
+	
+	/**
+	 * Play sound s.
+	 * @param The sound to be played.
+	 */
+	public void playAudio(Sound s) {
+		if (s == null || prefs.getBoolean(V.PREFERENCE_MUTED, true)) {
 			return;
 		}
-		m.play();
+		s.play();
 	}
-
+	
+	/**
+	 * Stop music m.
+	 * @param m Music to stop playing.
+	 */
 	public void stopAudio(Music m) {
 		m.stop();
 	}
 
-	public void stopAudio(Sound m) {
-		m.stop();
+	/**
+	 * Stop sound s.
+	 * @param Sound to stop playing.
+	 */
+	public void stopAudio(Sound s) {
+		s.stop();
 	}
 }
