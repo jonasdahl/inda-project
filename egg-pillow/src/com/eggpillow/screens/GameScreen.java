@@ -272,7 +272,11 @@ public class GameScreen implements Screen {
 		Tween.to(batch, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
 
 		showInstructions = true;
-		pauseScreen = new PauseWindow(font, atlas);
+		pauseScreen = new PauseWindow(font, atlas, this);
+	}
+	
+	public void end() {
+		game.setScreen(new MenuScreen(game));
 	}
 
 	@Override
@@ -302,6 +306,7 @@ public class GameScreen implements Screen {
 	 */
 	public void pauseGame() {
 		gamePaused = true;
+		pauseScreen.setAsInputListener();
 	}
 
 	/**
@@ -309,6 +314,7 @@ public class GameScreen implements Screen {
 	 * show.
 	 */
 	public void unPauseGame() {
+		Gdx.input.setInputProcessor(inputHandler);
 		if (showInstructions) {
 			showInstructions = false;
 		}
