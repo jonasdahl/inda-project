@@ -29,7 +29,7 @@ public class Egg extends Touchable {
 
 	private float maxHeight;
 	
-	private Random random;
+	private static Random random = new Random();
 
 	/**
 	 * Constructor for class Egg.
@@ -44,7 +44,6 @@ public class Egg extends Touchable {
 	public Egg(GameScreen gameScreen, float width, float height, TextureAtlas tAtlas) {
 		super(tAtlas.findRegion(V.EGG_REGION), ids.ELLIPSE);
 		setSize(V.WIDTH * width, V.HEIGHT * height);
-		random = new Random();
 
 		arrow_region = tAtlas.findRegion(V.ARROW_REGION);
 		game = gameScreen;
