@@ -10,58 +10,50 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 
+/**
+ * Settings screen for EggPillow. Contains all settings.
+ * 
+ * @author Johan
+ * @version 2014-05-15
+ */
 public class SettingsScreen implements Screen {
-
+	private EggPillow game;
+	// Dispose
 	private SpriteBatch batch;
 	private Texture background;
-	private EggPillow game;
-
 	private Stage stage;
-	private TextButton[] buttons;
-	private final int INDEX_MUTE = 0;
-	private final int INDEX_FUN = 1;
-	private final int INDEX_RESET = 2;
-	private final int INDEX_DONE = 3;
-	private final int BUTTONS_LENGTH = 4;
+	private BitmapFont font;
 
 	private Table table;
-
-	private BitmapFont font;
+	/** Used for displaying the highscore*/
 	private String message = "Hello";
 
 	Preferences prefs;
-
-	public static final String PREFERENCE_NAME = "EggPillow preferences";
-	public static final String PREFERENCE_MUTED = "muted";
-	public static final String PREFERENCE_HIGHSCORE = "highscore";
-	public static final String PREFERENCE_FUNMODE = "funmode";
-	
-	private final static String BACKGROUND_IMG = "img/settings_background.png"; // TODO make a settingsbackground or just keep it the same as menu/background
 
 	public SettingsScreen(EggPillow g) {
 		game = g;
 	}
 
+	/**
+	 * Draw settings background and buttons.
+	 */
 	@Override
 	public void render(float delta) {
-		Texture.setEnforcePotImages(false);
 		EggPillow.setBackground();
 
 		batch.begin();
-		//batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
+		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 5);
+		font.draw(batch, message, V.WIDTH / 20, V.HEIGHT / 8);
 		batch.end();
-
-		//Table.drawDebug(stage); // TODO remove
 
 		stage.act(delta);
 		stage.draw();
@@ -73,21 +65,21 @@ public class SettingsScreen implements Screen {
 	}
 
 	/**
-	 * A mess of buttons and styles. TODO sort
+	 * Create buttons and styles for settings.
 	 */
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
-		background = new Texture(BACKGROUND_IMG);
+		background = new Texture(V.SETTINGS_BACKGROUND_IMAGE);
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
-		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
+		font.setScale(V.HEIGHT * V.FONT_MEDIUM);
 		table = new Table();
 		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
-		
-		prefs = Gdx.app.getPreferences(PREFERENCE_NAME);
-		
-		boolean mute = prefs.getBoolean(PREFERENCE_MUTED, false);
-		message = "Highscore " + prefs.getInteger(PREFERENCE_HIGHSCORE, -1);
+
+		prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+		boolean funmode = prefs.getBoolean(V.PREFERENCE_FUNMODE, false);
+		boolean mute = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+		message = "Highscore " + prefs.getInteger(V.PREFERENCE_HIGHSCORE, 0);
 
 		stage = new Stage() {
 			@Override
@@ -99,37 +91,44 @@ public class SettingsScreen implements Screen {
 				return false;
 			}
 		};
-		buttons = new TextButton[BUTTONS_LENGTH];
-		TextButtonStyle tbstyle = new TextButtonStyle();
+		stage.addActor(table);
 		Skin skin = new Skin();
-		TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal("ui/settingsButton.pack"));
-        skin.addRegions(buttonAtlas);
-		tbstyle.font = font;
-		tbstyle.down = skin.getDrawable("buttonDown");
-		tbstyle.up = skin.getDrawable("ButtonUp");
-		TextButton buttonMute = new TextButton("", tbstyle);
-		TextButton buttonFun = new TextButton("Fun", tbstyle );
-		TextButton buttonResetHS = new TextButton("Reset highscore", tbstyle);
-		TextButton buttonDone = new TextButton("Done", tbstyle);
-		
-		buttons[INDEX_MUTE] = buttonMute;
-		buttons[INDEX_FUN] = buttonFun;
-		buttons[INDEX_RESET] = buttonResetHS;
-		buttons[INDEX_DONE] = buttonDone;
-		
-		setButtonText(INDEX_MUTE, "Sound", mute);
-		setButtonText(INDEX_FUN, "Funmode", prefs.getBoolean(PREFERENCE_FUNMODE));
+		TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(V.SETTINGS_BUTTON_PACK));
+		skin.addRegions(buttonAtlas);
+
+		ImageButtonStyle mutestyle = new ImageButtonStyle();
+		mutestyle.up = skin.getDrawable(V.SETTINGS_MUTE_ON_REGION);
+		mutestyle.checked = skin.getDrawable(V.SETTINGS_MUTE_OFF_REGION);
+		ImageButton buttonMute = new ImageButton(mutestyle);
+		buttonMute.setChecked(mute);
+
+		ImageButtonStyle backstyle = new ImageButtonStyle();
+		backstyle.up = skin.getDrawable(V.SETTINGS_BACK_REGION);
+		ImageButton buttonBack = new ImageButton(backstyle);
+
+		ImageButtonStyle resetstyle = new ImageButtonStyle();
+		resetstyle.up = skin.getDrawable(V.SETTINGS_RESET_REGION);
+		ImageButton buttonResetHighscore = new ImageButton(resetstyle);
+
+		ImageButtonStyle funstyle = new ImageButtonStyle();
+		funstyle.up = skin.getDrawable(V.SETTINGS_FUN_ON_REGION);
+		funstyle.checked = skin.getDrawable(V.SETTINGS_FUN_OFF_REGION);
+		ImageButton buttonFun = new ImageButton(funstyle);
+		buttonFun.setChecked(!funmode);
 
 		buttonMute.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				boolean muted = prefs.getBoolean(PREFERENCE_MUTED, false);
-				prefs.putBoolean(PREFERENCE_MUTED, !muted);
+				boolean muted = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+				prefs.putBoolean(V.PREFERENCE_MUTED, !muted);
 				prefs.flush();
-				setButtonText(INDEX_MUTE, "Sound", !muted);
+				if (muted)
+					game.playBackgroundMusic();
+				else
+					game.stopBackgroundMusic();
 			}
 		});
 
-		buttonDone.addListener(new ChangeListener() {
+		buttonBack.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				dispose();
 				game.setScreen(new MenuScreen(game));
@@ -138,40 +137,30 @@ public class SettingsScreen implements Screen {
 
 		buttonFun.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				boolean modeState = prefs.getBoolean(PREFERENCE_FUNMODE, false);
-				prefs.putBoolean(PREFERENCE_FUNMODE, !modeState);
+				boolean modeState = prefs.getBoolean(V.PREFERENCE_FUNMODE, false);
+				prefs.putBoolean(V.PREFERENCE_FUNMODE, !modeState);
 				prefs.flush();
-				setButtonText(INDEX_FUN, "Funmode", !modeState);
 			}
 		});
-		
-		buttonResetHS.addListener(new ChangeListener() {
+
+		buttonResetHighscore.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				prefs.putInteger(PREFERENCE_HIGHSCORE, 0);
+				prefs.putInteger(V.PREFERENCE_HIGHSCORE, 0);
+				prefs.flush();
 				message = "Highscore " + 0;
 			}
 		});
 
-		
-		for (TextButton t : buttons) {
-			table.row().pad(5).width(V.WIDTH / 2).height(V.HEIGHT/10);
-			table.add(t);
-		}
-		table.debug(); // TODO remove
-		stage.addActor(table);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT / 5);
+		table.add(buttonMute);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT / 5);
+		table.add(buttonFun);
+		table.row().pad(5).width(V.WIDTH / 1.5f).height(V.HEIGHT / 5);
+		table.add(buttonResetHighscore);
+		buttonBack.setBounds(V.HEIGHT / 24, V.HEIGHT - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
+		stage.addActor(buttonBack);
 
 		Gdx.input.setInputProcessor(stage);
-	}
-	
-	/**
-	 * Set the text on buttons[index] to text + on/off
-	 */
-	private void setButtonText(int index, String text, boolean on) {
-		if (on) {
-			buttons[index].setText(text + " : " + "on");
-		} else {
-			buttons[index].setText(text + " : " + "off");
-		}
 	}
 
 	@Override
@@ -186,7 +175,6 @@ public class SettingsScreen implements Screen {
 	public void resume() {
 	}
 
-	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();

@@ -2,13 +2,9 @@ package com.eggpillow.screens;
 
 import java.util.ArrayList;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,31 +12,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.eggpillow.EggPillow;
 import com.eggpillow.V;
-import com.eggpillow.tween.SpriteBatchAccessor;
-import com.eggpillow.tween.TableAccessor;
 
+/**
+ * Menuscreen for EggPillow. Showed at the start and used to redirect the player to different gamemodes and settings.
+ * 
+ * @author Jonas
+ * @version 2014-05-15
+ */
 public class MenuScreen implements Screen {
-	private EggPillow game;
+	// Dispose
 	private SpriteBatch batch;
 	private Texture background;
 	private Stage stage;
-	private ArrayList<TextButton> buttons;
-	private Table table;
-	private Skin skin;
 	private BitmapFont font;
+	private Skin skin;
 	private TextureAtlas buttonAtlas;
-	private TweenManager tweenManager;
 
-	private final static String BACKGROUND_IMG = "img/menu_background.png";
-
-	private final static String BUTTON = "ui/button.pack";
+	private EggPillow game;
+	private ArrayList<Button> buttons;
+	private Table table;
 
 	/**
 	 * Constructor for MenuScreen.
@@ -49,22 +47,18 @@ public class MenuScreen implements Screen {
 	 *            the main class for reference (for changing screens)
 	 */
 	public MenuScreen(EggPillow g) {
-		// TODO €ndra knapparnas storlek
 		game = g;
-		buttons = new ArrayList<TextButton>();
-		tweenManager = new TweenManager();
+		buttons = new ArrayList<Button>();
 		batch = new SpriteBatch();
-		background = new Texture(BACKGROUND_IMG);
-		Tween.registerAccessor(SpriteBatch.class, new SpriteBatchAccessor());
-		Tween.registerAccessor(Table.class, new TableAccessor());
+		background = new Texture(V.MENU_BACKGROUND_IMAGE);
 
 		// Create a table with the menu
 		table = new Table();
-		table.setBounds(0, 0, V.WIDTH, V.HEIGHT); // TODO
+		table.setBounds(0, 0, V.WIDTH, V.HEIGHT);
 		stage = new Stage() {
 			@Override
 			public boolean keyDown(int keycode) {
-				if (keycode == Keys.BACK) {
+				if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 					game.exit();
 				}
 				return false;
@@ -75,20 +69,17 @@ public class MenuScreen implements Screen {
 
 		// Font is fun!
 		font = new BitmapFont(Gdx.files.internal(V.FONT), false);
-		font.setScale(V.HEIGHT / V.FONT_MEDIUM);
+		font.setScale(V.HEIGHT * V.FONT_MEDIUM);
 
 		// Start styling buttons
 		skin = new Skin();
-		buttonAtlas = new TextureAtlas(Gdx.files.internal(BUTTON));
+		buttonAtlas = new TextureAtlas(Gdx.files.internal(V.MENU_BUTTON_PACK));
 		skin.addRegions(buttonAtlas);
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("button");
-		textButtonStyle.down = skin.getDrawable("button");
-		textButtonStyle.checked = skin.getDrawable("button");
-		textButtonStyle.font = font;
 
 		// Add play button
-		TextButton buttonStart = new TextButton("Play", textButtonStyle);
+		ImageButtonStyle playstyle = new ImageButtonStyle();
+		playstyle.up = skin.getDrawable(V.MENU_PLAY_REGION);
+		ImageButton buttonStart = new ImageButton(playstyle);
 		buttonStart.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				fadeAwayTo(new GameScreen(game));
@@ -97,7 +88,9 @@ public class MenuScreen implements Screen {
 		buttons.add(buttonStart);
 
 		// Add settings button
-		TextButton buttonSettings = new TextButton("Settings", textButtonStyle);
+		ImageButtonStyle settingsstyle = new ImageButtonStyle();
+		settingsstyle.up = skin.getDrawable(V.MENU_SETTINGS_REGION);
+		ImageButton buttonSettings = new ImageButton(settingsstyle);
 		buttonSettings.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				fadeAwayTo(new SettingsScreen(game));
@@ -106,7 +99,9 @@ public class MenuScreen implements Screen {
 		buttons.add(buttonSettings);
 
 		// Add exit button
-		TextButton buttonExit = new TextButton("Exit", textButtonStyle);
+		ImageButtonStyle exitstyle = new ImageButtonStyle();
+		exitstyle.up = skin.getDrawable(V.MENU_EXIT_REGION);
+		ImageButton buttonExit = new ImageButton(exitstyle);
 		buttonExit.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.exit();
@@ -114,40 +109,53 @@ public class MenuScreen implements Screen {
 		});
 		buttons.add(buttonExit);
 
-		// Actually add to table
-		// table.pad(10);
-		// table.add(title);
-		for (TextButton button : buttons) {
-			table.row().pad(10);
-			table.add(button).width(V.WIDTH/2).height(V.HEIGHT/6);
-		}
-	}
+		// Add mute button
+		ImageButtonStyle mutestyle = new ImageButtonStyle();
+		mutestyle.up = skin.getDrawable(V.MENU_UNMUTED_REGION);
+		mutestyle.checked = skin.getDrawable(V.MENU_MUTED_REGION);
+		ImageButton buttonMute = new ImageButton(mutestyle);
+		buttonMute.setChecked(Gdx.app.getPreferences(V.PREFERENCE_NAME).getBoolean(V.PREFERENCE_MUTED, false));
+		buttonMute.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				Preferences prefs = Gdx.app.getPreferences(V.PREFERENCE_NAME);
+				boolean muted = prefs.getBoolean(V.PREFERENCE_MUTED, false);
+				prefs.putBoolean(V.PREFERENCE_MUTED, !muted);
+				prefs.flush();
+				if (muted)
+					game.playBackgroundMusic();
+				else
+					game.stopBackgroundMusic();
+			}
+		});
 
+		for (Button button : buttons) {
+			table.row().pad(5);
+			table.add(button).width(V.WIDTH / 2.5f).height(V.HEIGHT / 5);
+		}
+		buttonMute.setBounds(V.WIDTH - V.HEIGHT / 6 - V.HEIGHT / 24, V.HEIGHT / 24, V.HEIGHT / 6, V.HEIGHT / 6);
+		stage.addActor(buttonMute);
+	}
+	
+	/**
+	 * Draws menu background and buttons.
+	 */
 	@Override
 	public void render(float delta) {
-		tweenManager.update(delta);
-		Texture.setEnforcePotImages(false);
 		EggPillow.setBackground();
 
 		batch.begin();
 		batch.draw(background, 0, 0, V.WIDTH, V.HEIGHT);
-		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		batch.end();
 		stage.act(delta);
 		stage.draw();
 	}
 
 	/**
-	 * Fades table and menu away.
+	 * TODO Fades table and menu away.
+	 * Changes screen to next screen.
 	 */
 	public void fadeAwayTo(final Screen screen) {
-		Tween.set(table, TableAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(batch, TableAccessor.ALPHA, .25f).target(0).setCallback(new TweenCallback() {
-			@Override
-			public void onEvent(int arg0, BaseTween<?> arg1) {
-				game.setScreen(screen);
-			}
-		}).start(tweenManager);
+		game.setScreen(screen);
 	}
 
 	@Override
@@ -157,15 +165,8 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void show() {
-		// Make menu fade in smooth, yep, both table and the rest
-		Tween.set(batch, SpriteBatchAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(batch, SpriteBatchAccessor.ALPHA, .25f).target(1).start(tweenManager);
-
 		Gdx.input.setInputProcessor(stage);
-
-		// Show table - in a faded way ;)
-		Tween.set(table, TableAccessor.ALPHA).target(0).start(tweenManager);
-		Tween.to(table, TableAccessor.ALPHA, .25f).target(1).start(tweenManager);
+		game.playBackgroundMusic();
 	}
 
 	@Override
@@ -185,11 +186,12 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO make sure everything is disposed.
-		font.dispose();
-		stage.dispose();
 		batch.dispose();
 		background.dispose();
+		stage.dispose();
+		font.dispose();
+		skin.dispose();
+		buttonAtlas.dispose();
 	}
 
 }

@@ -13,12 +13,19 @@ import com.eggpillow.EggPillow;
 import com.eggpillow.V;
 import com.eggpillow.tween.SpriteAccessor;
 
+/**
+ * Splashscreen will show the appname and/or logo when the user starts the app.
+ * 
+ * @author Johan & Jonas
+ * @version 2014-05-09
+ */
 public class SplashScreen implements Screen {
 	private final static float FADE_SPEED = 1.0f;
 	private final static float DELAY = 1.0f;
-
+	// Dispose
 	private Sprite splash;
 	private SpriteBatch batch;
+
 	private TweenManager tweenManager;
 	private EggPillow game;
 
@@ -42,16 +49,14 @@ public class SplashScreen implements Screen {
 	}
 
 	/**
-	 * Initialises splash screen and the splash animation. Starts menu screen
-	 * when the animation is done.
+	 * Initialises splash screen and the splash animation. Starts menu screen when the animation is done.
 	 */
 	@Override
 	public void show() {
 		batch = new SpriteBatch(); // Where we're going to paint the splash
 		tweenManager = new TweenManager();
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
-		Texture texture = new Texture("img/splash.png"); // The texture of the
-															// splash
+		Texture texture = new Texture(V.SPLASH_BACKGROUND); // The texture of the splash
 		splash = new Sprite(texture); // The splash is wrapped in a Sprite
 		splash.setSize(V.WIDTH, V.HEIGHT);
 
@@ -61,9 +66,7 @@ public class SplashScreen implements Screen {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				game.setScreen(new MenuScreen(game));
-				// TODO Chrashes somewhere here if user taps screen on
-				// splashscreen // Johan kan inte reprodusera denna bug
-				// :(
+				// TODO Chrashes somewhere here if user taps screen on splashscreen // Johan kan inte reprodusera
 			}
 		}).start(tweenManager);
 	}
@@ -82,7 +85,6 @@ public class SplashScreen implements Screen {
 
 	}
 
-	// TODO make sure everything is disposed.
 	@Override
 	public void dispose() {
 		batch.dispose();
