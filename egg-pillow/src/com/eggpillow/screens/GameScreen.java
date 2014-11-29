@@ -290,11 +290,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
+		pauseGame();
 		game.stopAudio(gameMusic);
 	}
 
 	@Override
 	public void pause() {
+		pauseGame();
 		game.stopAudio(gameMusic);
 	}
 
